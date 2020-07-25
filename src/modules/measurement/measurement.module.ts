@@ -4,9 +4,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import Measurement from '~/modules/measurement/measurement.entity';
 import { DefaultAdminModule, DefaultAdminSite } from 'nestjs-admin';
 import { MeasurementController } from '~/modules/measurement/measurement.controller';
+import { SensorModule } from '~modules/sensor/sensor.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Measurement]), DefaultAdminModule],
+  imports: [
+    TypeOrmModule.forFeature([Measurement]),
+    DefaultAdminModule,
+    SensorModule,
+  ],
   providers: [MeasurementService],
   exports: [MeasurementService, TypeOrmModule],
   controllers: [MeasurementController],

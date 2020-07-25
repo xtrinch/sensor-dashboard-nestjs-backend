@@ -4,11 +4,16 @@ import {
   Column,
   OneToMany,
   BaseEntity,
+  Generated,
 } from 'typeorm';
 import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
 import Measurement from '~modules/measurement/measurement.entity';
 
 export type SensorId = string;
+
+export interface SensorWhereInterface {
+  sensorAccessToken?: string;
+}
 
 @Entity()
 export class Sensor extends BaseEntity {
@@ -22,6 +27,7 @@ export class Sensor extends BaseEntity {
   public location: string;
 
   @Column()
+  @Generated('uuid')
   public sensorAccessToken: string;
 
   @Column()

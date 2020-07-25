@@ -1,6 +1,6 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Sensor } from './sensor.entity';
+import { Sensor, SensorWhereInterface } from './sensor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from '~modules/utils/pagination.query.dto';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
@@ -12,9 +12,25 @@ export class SensorService {
     private sensorRepository: Repository<Sensor>,
   ) {}
 
-  async findAll(pagination: PaginationQueryDto): Promise<Pagination<Sensor>> {
-    const results = await paginate<Sensor>(this.sensorRepository, pagination);
+  async findAll(
+    where: SensorWhereInterface,
+    pagination: PaginationQueryDto,
+  ): Promise<Pagination<Sensor>> {
+    const results = await paginate<Sensor>(this.sensorRepository, {
+      ...pagination,
+      ...where,
+    });
 
     return results;
+  }
+
+  async find(where: SensorWhereInterface): Promise<Sensor> {
+    const result = await this.sensorRepository.findOne(where);
+
+    if (!result) {
+      throw new NotFoundException('Sensor not found');
+    }
+
+    return result;
   }
 }

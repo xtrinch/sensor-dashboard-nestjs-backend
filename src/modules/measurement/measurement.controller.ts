@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Post, Body } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, UseGuards } from '@nestjs/common';
 import { MeasurementService } from '~/modules/measurement/measurement.service';
 import { MeasurementDto } from '~modules/measurement/dto/measurement.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -6,6 +6,7 @@ import { PaginationQueryDto } from '~modules/utils/pagination.query.dto';
 import { PaginationDto } from '~modules/utils/pagination.dto';
 import Measurement from '~modules/measurement/measurement.entity';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
+import { SensorGuard } from '~modules/sensor/sensor.guard';
 
 @Controller('measurements')
 export class MeasurementController {
@@ -23,6 +24,7 @@ export class MeasurementController {
     );
   }
 
+  @UseGuards(SensorGuard)
   @Post()
   public async create(
     @Body() data: MeasurementCreateDto,

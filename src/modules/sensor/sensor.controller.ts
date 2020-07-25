@@ -14,7 +14,7 @@ export class SensorController {
   public async findAll(
     @Query() pagination: PaginationQueryDto,
   ): Promise<Pagination<SensorDto>> {
-    const items = await this.sensorService.findAll(pagination);
+    const items = await this.sensorService.findAll({}, pagination);
 
     return PaginationDto.fromPagination<Sensor, SensorDto>(
       items,
