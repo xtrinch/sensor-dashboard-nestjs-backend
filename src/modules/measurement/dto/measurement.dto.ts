@@ -7,6 +7,7 @@ export class MeasurementDto {
   public measurement: number;
   public measurementType: MeasurementTypeEnum;
   public sensor?: SensorDto;
+  public createdAt: Date;
 
   public static fromMeasurement(measurement: Measurement): MeasurementDto {
     return {
@@ -16,6 +17,7 @@ export class MeasurementDto {
       sensor: measurement.sensor
         ? SensorDto.fromSensor(measurement.sensor)
         : undefined,
+      createdAt: measurement.createdAt,
     };
   }
 }

@@ -3,11 +3,11 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  BaseEntity,
   Generated,
 } from 'typeorm';
 import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
 import Measurement from '~modules/measurement/measurement.entity';
+import { AbstractEntity } from '~utils/abstract.entity';
 
 export type SensorId = string;
 
@@ -16,7 +16,7 @@ export interface SensorWhereInterface {
 }
 
 @Entity()
-export class Sensor extends BaseEntity {
+export class Sensor extends AbstractEntity {
   @PrimaryGeneratedColumn()
   public id: string;
 
@@ -33,8 +33,12 @@ export class Sensor extends BaseEntity {
   @Column()
   public boardType: SensorBoardTypesEnum;
 
-  @OneToMany((type) => Measurement, (measurement) => measurement.sensor)
+  @OneToMany(() => Measurement, (measurement) => measurement.sensor)
   public measurements: Measurement[];
+
+  public toString(): string {
+    return this.name;
+  }
 }
 
 export default Sensor;

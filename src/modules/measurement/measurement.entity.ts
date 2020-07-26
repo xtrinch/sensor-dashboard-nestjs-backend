@@ -1,17 +1,12 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  BaseEntity,
-} from 'typeorm';
-import Sensor, { SensorId } from '~/modules/sensor/sensor.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import Sensor from '~/modules/sensor/sensor.entity';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { AbstractEntity } from '~utils/abstract.entity';
 
 export type MeasurementId = string;
 
 @Entity()
-export class Measurement extends BaseEntity {
+export class Measurement extends AbstractEntity {
   @PrimaryGeneratedColumn()
   public id: MeasurementId;
 
@@ -21,8 +16,12 @@ export class Measurement extends BaseEntity {
   @Column()
   public measurementType: MeasurementTypeEnum;
 
-  @ManyToOne((type) => Sensor, (sensor) => sensor.measurements)
+  @ManyToOne(() => Sensor, (sensor) => sensor.measurements)
   sensor: Sensor;
+
+  public toString(): string {
+    return this.measurementType;
+  }
 }
 
 export default Measurement;

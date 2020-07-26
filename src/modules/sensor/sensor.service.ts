@@ -1,8 +1,8 @@
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Sensor, SensorWhereInterface } from './sensor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PaginationQueryDto } from '~modules/utils/pagination.query.dto';
+import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()

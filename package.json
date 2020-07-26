@@ -27,6 +27,7 @@
     "@nestjs/typeorm": "^7.1.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
+    "date-fns": "^2.15.0",
     "nestjs-admin": "^0.4.0",
     "nestjs-typeorm-paginate": "^2.1.1",
     "pg": "^8.3.0",

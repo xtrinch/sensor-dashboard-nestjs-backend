@@ -8,7 +8,7 @@ import { SensorService } from '~modules/sensor/sensor.service';
 import Sensor from '~modules/sensor/sensor.entity';
 import { Http2ServerRequest } from 'http2';
 
-interface SensorRequest extends Http2ServerRequest {
+export interface SensorRequest extends Http2ServerRequest {
   sensor: Sensor;
 }
 
