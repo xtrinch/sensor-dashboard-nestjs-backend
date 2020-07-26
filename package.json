@@ -10,15 +10,15 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
+    "start:dev": "env-cmd -f .env.local nest start --watch",
+    "start:debug": "env-cmd -f .env.local nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test": "env-cmd -f .env.test jest",
+    "test:watch": "env-cmd -f .env.test jest --watch",
+    "test:cov": "env-cmd -f .env.test jest --coverage",
+    "test:debug": "env-cmd -f .env.test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "env-cmd -f .env.test jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
@@ -28,6 +28,7 @@
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "date-fns": "^2.15.0",
+    "env-cmd": "^10.1.0",
     "nestjs-admin": "^0.4.0",
     "nestjs-typeorm-paginate": "^2.1.1",
     "pg": "^8.3.0",
@@ -35,7 +36,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
-    "typeorm": "^0.2.25"
+    "typeorm": "^0.2.25",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

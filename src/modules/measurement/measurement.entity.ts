@@ -17,7 +17,7 @@ export class Measurement extends AbstractEntity {
   public measurementType: MeasurementTypeEnum;
 
   @ManyToOne(() => Sensor, (sensor) => sensor.measurements)
-  sensor: Sensor;
+  public sensor: Sensor;
 
   public toString(): string {
     return this.measurementType;

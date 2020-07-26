@@ -15,5 +15,6 @@
       "~*": ["./*"]
     },
     "baseUrl": "src",
+    "allowJs": true
   }
 }

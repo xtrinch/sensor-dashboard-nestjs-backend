@@ -4,6 +4,7 @@ import { Sensor, SensorWhereInterface } from './sensor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
 
 @Injectable()
 export class SensorService {
@@ -12,7 +13,7 @@ export class SensorService {
     private sensorRepository: Repository<Sensor>,
   ) {}
 
-  async findAll(
+  public async findAll(
     where: SensorWhereInterface,
     pagination: PaginationQueryDto,
   ): Promise<Pagination<Sensor>> {
@@ -24,7 +25,7 @@ export class SensorService {
     return results;
   }
 
-  async find(where: SensorWhereInterface): Promise<Sensor> {
+  public async find(where: SensorWhereInterface): Promise<Sensor> {
     const result = await this.sensorRepository.findOne(where);
 
     if (!result) {
@@ -32,5 +33,16 @@ export class SensorService {
     }
 
     return result;
+  }
+
+  public async create(data: SensorCreateDto): Promise<Sensor> {
+    const sensor = new Sensor();
+    sensor.boardType = data.boardType;
+    sensor.location = data.location;
+    sensor.name = data.name;
+
+    await Sensor.save(sensor);
+
+    return sensor;
   }
 }

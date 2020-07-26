@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SensorModule } from '~/modules/sensor/sensor.module';
 import { DefaultAdminModule } from 'nestjs-admin';
@@ -13,7 +12,7 @@ import { MeasurementModule } from '~/modules/measurement/measurement.module';
     DefaultAdminModule,
     TypeOrmModule.forRoot(),
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [AppService],
 })
 export class AppModule {}
