@@ -52,3 +52,12 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Production setup
+ 
+ ```bash
+ $ docker-compose up -d
+```
+
+Will spin up a postgres container, node container and a separate postgres container for tests.
+ 
