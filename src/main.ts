@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import 'reflect-metadata';
 import { ValidationPipe, BadRequestException } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,15 @@ async function bootstrap() {
       },
     }),
   );
+
+  const options = new DocumentBuilder()
+    .setTitle('Sensor dashboard backend')
+    .setDescription('Sensor dashboard backend API description')
+    .setVersion('1.0')
+    .addTag('sensors')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
 }

@@ -568,6 +568,11 @@
     tslib "2.0.0"
     uuid "8.2.0"
 
+"@nestjs/mapped-types@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-0.0.5.tgz#0c3462de4125eea0e85e3a520f0de4e7e8dcfa40"
+  integrity sha512-QjZCSMHHy8IW4UUTS49QJQ0NrA8MHv6XevNrPLJwh4n3lN7wY9aSRwd1+cBIUDBXEHRKngcYdPtC4oG0fimw+A==
+
 "@nestjs/passport@^6.1.0":
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-6.2.0.tgz#de5bf9b20912d26e15a99c7478b2760e7c3ebc79"
@@ -592,6 +597,15 @@
     "@angular-devkit/core" "9.1.7"
     "@angular-devkit/schematics" "9.1.7"
     fs-extra "9.0.0"
+
+"@nestjs/swagger@^4.5.12":
+  version "4.5.12"
+  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-4.5.12.tgz#e8aa65fbb0033007ece1d494b002f47ff472c20b"
+  integrity sha512-MVJ9JbCiIo5g6V3tjDPNHjoCjVO1J351dHkMj7/yjIHQi5CCB3AzZoA/BQEipUSjsX34ungfZIxRXt2Im4FF7A==
+  dependencies:
+    "@nestjs/mapped-types" "0.0.5"
+    lodash "4.17.15"
+    path-to-regexp "3.2.0"
 
 "@nestjs/testing@^7.0.0":
   version "7.3.2"
@@ -4623,6 +4637,11 @@ lodash.toarray@^4.4.0:
   resolved "https://registry.yarnpkg.com/lodash.toarray/-/lodash.toarray-4.4.0.tgz#24c4bfcd6b2fba38bfd0594db1179d8e9b656561"
   integrity sha1-JMS/zWsvuji/0FlNsRedjptlZWE=
 
+lodash@4.17.15:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
 lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19:
   version "4.17.19"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
@@ -6744,6 +6763,18 @@ supports-hyperlinks@^2.0.0:
   dependencies:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
+
+swagger-ui-dist@^3.18.1:
+  version "3.30.2"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-3.30.2.tgz#f3171c81d23709e834506d13bf9bba7ac4883abf"
+  integrity sha512-hAu/ig5N8i0trXXbrC7rwbXV4DhpEAsZhYXDs1305OjmDgjGC0thINbb0197idy3Pp+B6w7u426SUM43GAP7qw==
+
+swagger-ui-express@^4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/swagger-ui-express/-/swagger-ui-express-4.1.4.tgz#8b814ad998b850a1cf90e71808d6d0a8a8daf742"
+  integrity sha512-Ea96ecpC+Iq9GUqkeD/LFR32xSs8gYqmTW1gXCuKg81c26WV6ZC2FsBSPVExQP6WkyUuz5HEiR0sEv/HCC343g==
+  dependencies:
+    swagger-ui-dist "^3.18.1"
 
 symbol-observable@1.2.0:
   version "1.2.0"
