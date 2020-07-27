@@ -5,7 +5,6 @@ services:
     container_name: main
     build:
       context: .
-      target: production
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -13,10 +12,11 @@ services:
       - 3000:${SERVER_PORT}
     command: yarn run start
     env_file:
-      - .env.prod
+      - .env
     networks:
       - webnet
     depends_on:
+      - postgrestest
       - postgres
   postgres:
     container_name: postgres
@@ -32,8 +32,17 @@ services:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
-    env_file:
-      - .env.prod
+  postgrestest:
+    container_name: postgrestest
+    image: postgres:12
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - 5434:5432
 networks:
   webnet:
 volumes:
