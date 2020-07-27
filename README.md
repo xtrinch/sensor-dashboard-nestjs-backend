@@ -8,7 +8,10 @@ Simple NestJS backend for a dashboard displaying graphs of environmental sensor 
 
 ```bash
 $ yarn install
+$ cp .env.local.example .env.local
+$ cp .env.test.example .env.test
 ```
+Fill out database credentials in .env files.
 
 ## Endpoints
 
