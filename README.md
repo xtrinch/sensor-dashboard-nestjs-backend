@@ -1,3 +1,5 @@
+# Sensor dashboard backend
+
 [travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
 [travis-url]: https://travis-ci.org/nestjs/nest
 [linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
@@ -22,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Simple NestJS backend for a dashboard displaying graphs of environmental sensor data.
 
 ## Installation
 
