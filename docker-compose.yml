@@ -10,7 +10,7 @@ services:
       - /usr/src/app/node_modules
       - /usr/src/app/dist
     ports:
-      - 3000:${SERVER_PORT}
+      - ${SERVER_PORT}:3000
     command: yarn run start
     env_file:
       - .env
@@ -43,7 +43,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - 5434:5432
+      - 5433:5432
 networks:
   webnet:
 volumes:
