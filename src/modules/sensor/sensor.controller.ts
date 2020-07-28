@@ -28,6 +28,6 @@ export class SensorController {
   @Post()
   public async create(@Body() data: SensorCreateDto): Promise<SensorDetailsDto> {
     const sensor = await this.sensorService.create(data);
-    return SensorDto.fromSensor(sensor);
+    return SensorDetailsDto.fromSensor(sensor);
   }
 }

@@ -7,6 +7,7 @@ import {
 import { SensorService } from '~modules/sensor/sensor.service';
 import Sensor from '~modules/sensor/sensor.entity';
 import { Http2ServerRequest } from 'http2';
+import validator from 'validator';
 
 export interface SensorRequest extends Http2ServerRequest {
   sensor: Sensor;
@@ -21,8 +22,13 @@ export class SensorGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: SensorRequest = context.switchToHttp().getRequest();
+    const authorization = request.headers.authorization;
+    if (!validator.isUUID(authorization)) {
+      return false;
+    }
+    
     request.sensor = await this.sensorService.find({
-      sensorAccessToken: request.headers.authorization,
+      sensorAccessToken: authorization,
     });
 
     return true;
