@@ -14,6 +14,7 @@ import Measurement from '~modules/measurement/measurement.entity';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { SensorGuard, SensorRequest } from '~modules/sensor/sensor.guard';
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
+import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.list.create.dto';
 
 @Controller('measurements')
 export class MeasurementController {
@@ -44,7 +45,7 @@ export class MeasurementController {
   @UseGuards(SensorGuard)
   @Post('/multi')
   public async createMultiple(
-    @Body() data: MeasurementCreateDto[],
+    @Body() data: MeasurementListCreateDto,
     @Request() request: SensorRequest,
   ): Promise<MeasurementDto[]> {
     const measurementList = await this.measurementService.createMultiple(

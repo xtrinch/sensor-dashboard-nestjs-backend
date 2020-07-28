@@ -65,7 +65,7 @@ describe('MeasurementService', () => {
     await validateOrReject(data);
     const measurements = await measurementService.createMultiple(
       fixture.sensorRequest,
-      [data],
+      { measurements: [data] },
     );
     expect(measurements[0]).toBeDefined();
   });

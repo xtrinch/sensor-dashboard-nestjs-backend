@@ -26,7 +26,7 @@ export class SensorGuard implements CanActivate {
     if (!validator.isUUID(authorization)) {
       return false;
     }
-    
+
     request.sensor = await this.sensorService.find({
       sensorAccessToken: authorization,
     });

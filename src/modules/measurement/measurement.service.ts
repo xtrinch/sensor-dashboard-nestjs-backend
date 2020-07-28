@@ -7,6 +7,7 @@ import { SensorRequest } from '~modules/sensor/sensor.guard';
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
 import { DateRange } from '~utils/date.range';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
+import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.list.create.dto';
 
 @Injectable()
 export class MeasurementService {
@@ -43,11 +44,11 @@ export class MeasurementService {
 
   public async createMultiple(
     request: SensorRequest,
-    data: MeasurementCreateDto[],
+    data: MeasurementListCreateDto,
   ): Promise<Measurement[]> {
     const measurements: Measurement[] = [];
 
-    for (const measurementData of data) {
+    for (const measurementData of data.measurements) {
       const measurement = new Measurement();
       measurement.measurement = measurementData.measurement;
       measurement.measurementType = measurementData.measurementType;

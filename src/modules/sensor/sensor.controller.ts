@@ -26,7 +26,9 @@ export class SensorController {
 
   @UseGuards(AdminGuard)
   @Post()
-  public async create(@Body() data: SensorCreateDto): Promise<SensorDetailsDto> {
+  public async create(
+    @Body() data: SensorCreateDto,
+  ): Promise<SensorDetailsDto> {
     const sensor = await this.sensorService.create(data);
     return SensorDetailsDto.fromSensor(sensor);
   }
