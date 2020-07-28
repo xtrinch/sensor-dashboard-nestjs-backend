@@ -5,6 +5,7 @@ import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import { PaginationDto } from '~utils/pagination.dto';
 import { SensorDto } from '~modules/sensor/dto/sensor.dto';
 import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
+import { SensorDetailsDto } from '~modules/sensor/dto/sensor.details.dto';
 import { AdminGuard } from '~utils/admin.guard';
 
 @Controller('sensors')
@@ -25,7 +26,7 @@ export class SensorController {
 
   @UseGuards(AdminGuard)
   @Post()
-  public async create(@Body() data: SensorCreateDto): Promise<SensorDto> {
+  public async create(@Body() data: SensorCreateDto): Promise<SensorDetailsDto> {
     const sensor = await this.sensorService.create(data);
     return SensorDto.fromSensor(sensor);
   }
