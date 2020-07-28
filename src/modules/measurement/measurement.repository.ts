@@ -51,6 +51,7 @@ export class MeasurementRepository extends Repository<Measurement> {
           : ''
       }
       GROUP BY "measurementType", "aggregate"
+      ORDER BY "aggregate" DESC
     `,
       where.measurementType ? [where.measurementType] : [],
     );
