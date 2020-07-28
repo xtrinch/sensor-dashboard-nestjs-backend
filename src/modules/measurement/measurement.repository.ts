@@ -29,7 +29,7 @@ export class MeasurementRepository extends Repository<Measurement> {
         aggregate = `date_part('month', "createdAt")`;
         break;
       default:
-        timeFormat = 'YYYY-MM-DD hh:mm';
+        timeFormat = 'YYYY-MM-DD HH24:MM';
         aggregate = `"createdAt"`;
         break;
     }
