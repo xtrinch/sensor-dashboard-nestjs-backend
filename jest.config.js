@@ -11,4 +11,5 @@ module.exports = {
     "node_modules", 
     "src"
   ],
+  testTimeout: 30000
 };

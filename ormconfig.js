@@ -9,4 +9,5 @@ module.exports = {
   synchronize: process.env.DB_SYNCHRONIZE,
   autoLoadEntities: true,
   logging: process.env.DB_LOGGING,
+  keepConnectionAlive: process.env.DB_KEEP_CONNECTION_ALIVE, 
 }

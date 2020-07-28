@@ -2,27 +2,27 @@ import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
 import { SensorService } from '~modules/sensor/sensor.service';
 import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { SensorBoardTypesEnum } from '~modules/sensor/enum/sensor-board-types.enum';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import Sensor from '~modules/sensor/sensor.entity';
-import { getConnection } from 'typeorm';
+import { getConnection, createConnection } from 'typeorm';
+
 
 describe('SensorService', () => {
   let sensorService: SensorService;
+  let module: TestingModule = null;
 
   beforeAll(async () => {
-    const module = await Test.createTestingModule({
+    //await createConnection();
+    
+    module = await Test.createTestingModule({
       providers: [SensorService],
       imports: [TypeOrmModule.forFeature([Sensor]), TypeOrmModule.forRoot()],
     }).compile();
 
     sensorService = module.get<SensorService>(SensorService);
   }, 10000);
-
-  afterAll(async () => {
-    await getConnection().close();
-  });
 
   it('should create a sensor', async () => {
     const data = plainToClass(SensorCreateDto, {
@@ -46,5 +46,10 @@ describe('SensorService', () => {
     );
 
     expect(sensors.items.length).not.toBe(0);
+  });
+
+  afterAll(async () => {
+    //await getConnection().close();
+    //await module.close();
   });
 });

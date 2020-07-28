@@ -9,20 +9,24 @@ import {
 } from '~modules/measurement/measurement.fixture';
 import { v4 } from 'uuid';
 import { SensorModule } from '~modules/sensor/sensor.module';
-import { Test } from '@nestjs/testing';
+import { Test, TestingModuleBuilder, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import Measurement from '~modules/measurement/measurement.entity';
-import { getConnection } from 'typeorm';
+import { getConnection, createConnection } from 'typeorm';
+
 
 describe('MeasurementService', () => {
   let measurementService: MeasurementService;
   let fixture: MeasurementFixtureInterface;
+  let module: TestingModule = null;
 
   beforeAll(async () => {
+    //await createConnection();
+    
     const seed = v4();
 
-    const module = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       providers: [MeasurementService],
       imports: [
         TypeOrmModule.forRoot(),
@@ -35,11 +39,8 @@ describe('MeasurementService', () => {
       MeasurementService,
     );
     fixture = await MeasurementFixture(module, { seed });
+    
   }, 10000);
-
-  afterAll(async () => {
-    await getConnection().close();
-  });
 
   it('should create a measurement', async () => {
     const data = plainToClass(MeasurementCreateDto, {
@@ -77,5 +78,10 @@ describe('MeasurementService', () => {
     });
 
     expect(measurements.items.length).not.toBe(0);
+  });
+
+  afterAll(async () => {
+    //await getConnection().close();
+    //await module.close();
   });
 });
