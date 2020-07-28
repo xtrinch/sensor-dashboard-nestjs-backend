@@ -3,7 +3,7 @@ import { DateRange } from '~utils/date.range';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 
 export class MeasurementQueryDto {
-  @IsNotEmpty()
+  @IsOptional()
   @Matches(DateRange.regex)
   public readonly createdAtRange: string;
 
