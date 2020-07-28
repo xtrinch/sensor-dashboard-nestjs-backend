@@ -6,9 +6,9 @@ import { Pagination } from 'nestjs-typeorm-paginate';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 
 export interface MeasurementWhereInterface {
-  from: Date;
-  to: Date;
-  measurementType: MeasurementTypeEnum;
+  from?: Date;
+  to?: Date;
+  measurementType?: MeasurementTypeEnum;
   groupBy?: RangeGroupByEnum;
 }
 
@@ -42,13 +42,17 @@ export class MeasurementRepository extends Repository<Measurement> {
         ROUND(AVG("measurement"::numeric)::numeric, 2) as "measurement",
         to_char(MIN("createdAt"), '${timeFormat}') as "createdAt"
       FROM "measurement"
-      WHERE "measurementType" = $1
-      AND "createdAt" BETWEEN 
+      ${where.measurementType ? `WHERE "measurementType" = $1` : ''}
+      ${
+        where.from && where.to
+          ? `AND "createdAt" BETWEEN 
       '${format(where.from, 'yyyy-MM-dd HH:mm:ss')}'
-      AND '${format(where.to, 'yyyy-MM-dd HH:mm:ss')}'
+      AND '${format(where.to, 'yyyy-MM-dd HH:mm:ss')}'`
+          : ''
+      }
       GROUP BY "measurementType", "aggregate"
     `,
-      [where.measurementType],
+      where.measurementType ? [where.measurementType] : [],
     );
 
     return {

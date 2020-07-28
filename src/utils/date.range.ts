@@ -16,9 +16,9 @@ export interface DateRegexInterface {
 }
 
 export interface DateRangeInterface {
-  from: Date;
-  to: Date;
-  groupBy: RangeGroupByEnum;
+  from?: Date;
+  to?: Date;
+  groupBy?: RangeGroupByEnum;
 }
 
 export enum RangeGroupByEnum {
@@ -31,6 +31,9 @@ export class DateRange {
 
   public static parse(input: string): DateRangeInterface {
     const match = this.regex.exec(input);
+    if (!match) {
+      return {};
+    }
     const { month, day, year } = match.groups;
 
     const ranges: DateRegexInterface = {

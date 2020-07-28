@@ -15,7 +15,6 @@ import { MeasurementRepository } from '~modules/measurement/measurement.reposito
 import Measurement from '~modules/measurement/measurement.entity';
 import { getConnection, createConnection } from 'typeorm';
 
-
 describe('MeasurementService', () => {
   let measurementService: MeasurementService;
   let fixture: MeasurementFixtureInterface;
@@ -23,7 +22,7 @@ describe('MeasurementService', () => {
 
   beforeAll(async () => {
     //await createConnection();
-    
+
     const seed = v4();
 
     module = await Test.createTestingModule({
@@ -39,7 +38,6 @@ describe('MeasurementService', () => {
       MeasurementService,
     );
     fixture = await MeasurementFixture(module, { seed });
-    
   }, 10000);
 
   it('should create a measurement', async () => {

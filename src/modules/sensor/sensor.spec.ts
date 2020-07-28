@@ -8,14 +8,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import Sensor from '~modules/sensor/sensor.entity';
 import { getConnection, createConnection } from 'typeorm';
 
-
 describe('SensorService', () => {
   let sensorService: SensorService;
   let module: TestingModule = null;
 
   beforeAll(async () => {
     //await createConnection();
-    
+
     module = await Test.createTestingModule({
       providers: [SensorService],
       imports: [TypeOrmModule.forFeature([Sensor]), TypeOrmModule.forRoot()],
