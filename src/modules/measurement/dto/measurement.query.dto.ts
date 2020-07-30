@@ -5,9 +5,9 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 export class MeasurementQueryDto {
   @IsOptional()
   @Matches(DateRange.regex)
-  public readonly createdAtRange: string;
+  public readonly createdAtRange?: string;
 
   @IsOptional()
   @IsEnum(MeasurementTypeEnum)
-  public readonly measurementType: MeasurementTypeEnum;
+  public readonly measurementType?: MeasurementTypeEnum;
 }

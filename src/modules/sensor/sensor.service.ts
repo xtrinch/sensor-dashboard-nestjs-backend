@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Sensor, SensorWhereInterface } from './sensor.entity';
+import { Sensor, SensorWhereInterface, SensorId } from './sensor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
+import { SensorUpdateDto } from '~modules/sensor/dto/sensor.update.dto';
 
 @Injectable()
 export class SensorService {
@@ -40,6 +41,24 @@ export class SensorService {
     sensor.boardType = data.boardType;
     sensor.location = data.location;
     sensor.name = data.name;
+
+    await Sensor.save(sensor);
+
+    return sensor;
+  }
+
+  public async update(id: SensorId, data: SensorUpdateDto): Promise<Sensor> {
+    const sensor = await this.sensorRepository.findOneOrFail({ id });
+
+    if (data.location) {
+      sensor.location = data.location;
+    }
+    if (data.measurementTypes) {
+      sensor.measurementTypes = data.measurementTypes;
+    }
+    if (data.name) {
+      sensor.name = data.name;
+    }
 
     await Sensor.save(sensor);
 

@@ -42,10 +42,12 @@ export class MeasurementRepository extends Repository<Measurement> {
         ROUND(AVG("measurement"::numeric)::numeric, 2) as "measurement",
         to_char(MIN("createdAt"), '${timeFormat}') as "createdAt"
       FROM "measurement"
-      ${where.measurementType ? `WHERE "measurementType" = $1` : ''}
+      ${where.measurementType || (where.from && where.to) ? ' WHERE ' : ''}
+      ${where.measurementType ? `"measurementType" = $1` : ''}
+      ${where.measurementType && where.from && where.to ? ' AND ' : ''}
       ${
         where.from && where.to
-          ? `AND "createdAt" BETWEEN 
+          ? `"createdAt" BETWEEN 
       '${format(where.from, 'yyyy-MM-dd HH:mm:ss')}'
       AND '${format(where.to, 'yyyy-MM-dd HH:mm:ss')}'`
           : ''

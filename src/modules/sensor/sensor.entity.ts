@@ -8,6 +8,7 @@ import {
 import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
 import Measurement from '~modules/measurement/measurement.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
+import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 
 export type SensorId = string;
 
@@ -35,6 +36,9 @@ export class Sensor extends AbstractEntity {
 
   @OneToMany(() => Measurement, (measurement) => measurement.sensor)
   public measurements: Measurement[];
+
+  @Column('text', { array: true, default: () => 'array[]::text[]' })
+  public measurementTypes: MeasurementTypeEnum[];
 
   public toString(): string {
     return this.name;

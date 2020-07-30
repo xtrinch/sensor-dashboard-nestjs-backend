@@ -78,6 +78,20 @@ describe('MeasurementService', () => {
     expect(measurements.items.length).not.toBe(0);
   });
 
+  it('should list measurements only with range supplied', async () => {
+    const measurements = await measurementService.findAll({
+      createdAtRange: `${new Date().getFullYear()}`,
+    });
+
+    expect(measurements.items.length).not.toBe(0);
+  });
+
+  it('should list measurements without query params', async () => {
+    const measurements = await measurementService.findAll({});
+
+    expect(measurements.items.length).not.toBe(0);
+  });
+
   afterAll(async () => {
     //await getConnection().close();
     //await module.close();
