@@ -41,6 +41,7 @@ export class SensorService {
     sensor.boardType = data.boardType;
     sensor.location = data.location;
     sensor.name = data.name;
+    sensor.measurementTypes = data.measurementTypes;
 
     await Sensor.save(sensor);
 

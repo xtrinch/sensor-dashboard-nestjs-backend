@@ -44,6 +44,8 @@ describe('SensorService', () => {
     await validateOrReject(data);
     const sensor = await sensorService.create(data);
     expect(sensor).toBeDefined();
+    expect(sensor.measurementTypes).toEqual([MeasurementTypeEnum.GAS]);
+    expect(sensor.sensorAccessToken).toBeDefined();
   });
 
   it('should update a sensor', async () => {
