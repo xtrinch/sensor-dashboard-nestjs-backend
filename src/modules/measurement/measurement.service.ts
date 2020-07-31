@@ -18,11 +18,11 @@ export class MeasurementService {
 
   public async findAll(
     query: MeasurementQueryDto,
-  ): Promise<Pagination<Measurement>> {
+  ): Promise<{ [key: string]: Measurement[] }> {
     const range = DateRange.parse(query.createdAtRange);
     const results = await this.measurementRepository.groupBy({
       ...range,
-      measurementType: query.measurementType,
+      measurementTypes: query.measurementTypes,
     });
 
     return results;

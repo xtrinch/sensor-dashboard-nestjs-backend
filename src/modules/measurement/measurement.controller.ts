@@ -15,6 +15,7 @@ import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.creat
 import { SensorGuard, SensorRequest } from '~modules/sensor/sensor.guard';
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
 import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.list.create.dto';
+import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 
 @Controller('measurements')
 export class MeasurementController {
@@ -23,13 +24,12 @@ export class MeasurementController {
   @Get()
   public async findAll(
     @Query() query: MeasurementQueryDto,
-  ): Promise<PaginationDto<MeasurementDto>> {
+  ): Promise<{ [key: string]: MeasurementDto[] }> {
     const items = await this.measurementService.findAll(query);
-
-    return PaginationDto.fromPagination<Measurement, MeasurementDto>(
-      items,
-      MeasurementDto.fromMeasurement,
+    Object.keys(items).map((key) =>
+      items[key].map(MeasurementDto.fromMeasurement),
     );
+    return items;
   }
 
   @UseGuards(SensorGuard)

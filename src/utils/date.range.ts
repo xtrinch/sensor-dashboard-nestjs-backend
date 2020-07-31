@@ -10,7 +10,7 @@ import {
 } from 'date-fns';
 
 export interface DateRegexInterface {
-  year: number;
+  year?: number;
   month?: number;
   day?: number;
 }
@@ -30,17 +30,7 @@ export class DateRange {
   public static regex = /^(?<year>[0-9]{4})(\/((?<month>[0-9]{1,2}(\/(?<day>[0-9]{1,2}))?)))?$/;
 
   public static parse(input: string): DateRangeInterface {
-    const match = this.regex.exec(input);
-    if (!match) {
-      return {};
-    }
-    const { month, day, year } = match.groups;
-
-    const ranges: DateRegexInterface = {
-      year: year ? parseInt(year, 10) : undefined,
-      month: month ? parseInt(month, 10) : undefined,
-      day: day ? parseInt(day, 10) : undefined,
-    };
+    const ranges = this.getYMD(input);
 
     const groupBy = this.getGroupBy(ranges);
     const { from, to } = this.getFromTo(ranges);
@@ -50,6 +40,23 @@ export class DateRange {
       from,
       to,
     };
+  }
+
+  public static getYMD(input: string): DateRegexInterface {
+    const match = this.regex.exec(input);
+    if (!match) {
+      return {};
+    }
+
+    const { month, day, year } = match.groups;
+
+    const ranges: DateRegexInterface = {
+      year: year ? parseInt(year, 10) : undefined,
+      month: month ? parseInt(month, 10) : undefined,
+      day: day ? parseInt(day, 10) : undefined,
+    };
+
+    return ranges;
   }
 
   public static getGroupBy(range: DateRegexInterface): RangeGroupByEnum | null {

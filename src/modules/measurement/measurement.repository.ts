@@ -8,7 +8,7 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 export interface MeasurementWhereInterface {
   from?: Date;
   to?: Date;
-  measurementType?: MeasurementTypeEnum;
+  measurementTypes?: MeasurementTypeEnum[];
   groupBy?: RangeGroupByEnum;
 }
 
@@ -16,20 +16,20 @@ export interface MeasurementWhereInterface {
 export class MeasurementRepository extends Repository<Measurement> {
   public async groupBy(
     where: MeasurementWhereInterface,
-  ): Promise<Pagination<Measurement>> {
+  ): Promise<{ [key: string]: Measurement[] }> {
     let aggregate, timeFormat;
 
     switch (where.groupBy) {
       case RangeGroupByEnum.DAY:
         aggregate = `date_part('day', "createdAt")`;
-        timeFormat = 'YYYY-MM-DD';
+        timeFormat = 'YYYY/MM/DD';
         break;
       case RangeGroupByEnum.MONTH:
-        timeFormat = 'YYYY-MM';
+        timeFormat = 'YYYY/MM';
         aggregate = `date_part('month', "createdAt")`;
         break;
       default:
-        timeFormat = 'YYYY-MM-DD HH24:MI';
+        timeFormat = 'YYYY/MM/DD/HH24/MI';
         aggregate = `"createdAt"`;
         break;
     }
@@ -42,9 +42,13 @@ export class MeasurementRepository extends Repository<Measurement> {
         ROUND(AVG("measurement"::numeric)::numeric, 2) as "measurement",
         to_char(MIN("createdAt"), '${timeFormat}') as "createdAt"
       FROM "measurement"
-      ${where.measurementType || (where.from && where.to) ? ' WHERE ' : ''}
-      ${where.measurementType ? `"measurementType" = $1` : ''}
-      ${where.measurementType && where.from && where.to ? ' AND ' : ''}
+      ${
+        where.measurementTypes?.length || (where.from && where.to)
+          ? ' WHERE '
+          : ''
+      }
+      ${where.measurementTypes?.length ? `"measurementType" = ANY ($1)` : ''}
+      ${where.measurementTypes?.length && where.from && where.to ? ' AND ' : ''}
       ${
         where.from && where.to
           ? `"createdAt" BETWEEN 
@@ -55,19 +59,20 @@ export class MeasurementRepository extends Repository<Measurement> {
       GROUP BY "measurementType", "aggregate"
       ORDER BY "aggregate" DESC
     `,
-      where.measurementType ? [where.measurementType] : [],
+      where.measurementTypes?.length ? [where.measurementTypes] : [],
     );
 
-    return {
-      items: r,
-      meta: {
-        totalItems: r.length,
-        currentPage: 1,
-        itemCount: 0,
-        itemsPerPage: 0,
-        totalPages: 0,
+    const res = r.reduce(
+      (acc: { [key: string]: Measurement[] }, curr: Measurement) => {
+        if (!acc[curr.measurementType]) {
+          acc[curr.measurementType] = [];
+        }
+        acc[curr.measurementType].push(curr);
+        return acc;
       },
-      links: {},
-    };
+      {},
+    );
+
+    return res;
   }
 }

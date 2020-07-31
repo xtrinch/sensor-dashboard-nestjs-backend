@@ -69,28 +69,50 @@ describe('MeasurementService', () => {
     expect(measurements[0]).toBeDefined();
   });
 
-  it('should list measurements', async () => {
-    const measurements = await measurementService.findAll({
-      measurementType: MeasurementTypeEnum.GAS,
+  it('should list measurements for current year', async () => {
+    const resp = await measurementService.findAll({
+      measurementTypes: [MeasurementTypeEnum.GAS],
       createdAtRange: `${new Date().getFullYear()}`,
     });
 
-    expect(measurements.items.length).not.toBe(0);
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
 
-  it('should list measurements only with range supplied', async () => {
-    const measurements = await measurementService.findAll({
-      createdAtRange: `${new Date().getFullYear()}`,
+  it('should list measurements for current year and current month', async () => {
+    const resp = await measurementService.findAll({
+      measurementTypes: [MeasurementTypeEnum.GAS],
+      createdAtRange: `${new Date().getFullYear()}/${
+        new Date().getMonth() + 1
+      }`,
     });
 
-    expect(measurements.items.length).not.toBe(0);
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
 
-  it('should list measurements without query params', async () => {
-    const measurements = await measurementService.findAll({});
+  it('should list measurements for current year, current month and current day', async () => {
+    const resp = await measurementService.findAll({
+      measurementTypes: [MeasurementTypeEnum.GAS],
+      createdAtRange: `${new Date().getFullYear()}/${
+        new Date().getMonth() + 1
+      }/${new Date().getDate()}`,
+    });
 
-    expect(measurements.items.length).not.toBe(0);
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
+
+  // it('should list measurements only with range supplied', async () => {
+  //   const measurements = await measurementService.findAll({
+  //     createdAtRange: `${new Date().getFullYear()}`,
+  //   });
+
+  //   expect(measurements.items.length).not.toBe(0);
+  // });
+
+  // it('should list measurements without query params', async () => {
+  //   const measurements = await measurementService.findAll({});
+
+  //   expect(measurements.items.length).not.toBe(0);
+  // });
 
   afterAll(async () => {
     //await getConnection().close();
