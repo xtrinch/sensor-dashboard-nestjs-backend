@@ -21,8 +21,6 @@ describe('MeasurementService', () => {
   let module: TestingModule = null;
 
   beforeAll(async () => {
-    //await createConnection();
-
     const seed = v4();
 
     module = await Test.createTestingModule({
