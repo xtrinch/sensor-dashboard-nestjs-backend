@@ -115,7 +115,6 @@ describe('MeasurementService', () => {
   // });
 
   afterAll(async () => {
-    //await getConnection().close();
-    //await module.close();
+    await module.close();
   });
 });

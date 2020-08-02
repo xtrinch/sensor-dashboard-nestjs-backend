@@ -6,7 +6,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SensorBoardTypesEnum } from '~modules/sensor/enum/sensor-board-types.enum';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import Sensor from '~modules/sensor/sensor.entity';
-import { getConnection, createConnection } from 'typeorm';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import {
   SensorFixtureInterface,
@@ -21,12 +20,14 @@ describe('SensorService', () => {
   let fixture: SensorFixtureInterface;
 
   beforeAll(async () => {
-    //await createConnection();
     const seed = v4();
 
     module = await Test.createTestingModule({
       providers: [SensorService],
-      imports: [TypeOrmModule.forFeature([Sensor]), TypeOrmModule.forRoot()],
+      imports: [
+        TypeOrmModule.forRoot(),
+        TypeOrmModule.forFeature([Sensor]), 
+      ],
     }).compile();
 
     sensorService = module.get<SensorService>(SensorService);
@@ -72,7 +73,6 @@ describe('SensorService', () => {
   });
 
   afterAll(async () => {
-    //await getConnection().close();
-    //await module.close();
+    await module.close();
   });
 });

@@ -14,11 +14,11 @@
     "start:debug": "env-cmd -f .env.local nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "env-cmd -f .env.test jest --testTimeout 99999999 --runInBand",
+    "test": "env-cmd -f .env.test jest --verbose --testTimeout 99999999 --runInBand",
     "test:watch": "env-cmd -f .env.test jest --watch",
     "test:cov": "env-cmd -f .env.test jest --coverage",
     "test:debug": "env-cmd -f .env.test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "env-cmd -f .env.test jest --config ./test/jest-e2e.json --testTimeout 99999999 --runInBand"
+    "test:e2e": "env-cmd -f .env.test jest --config ./test/jest-e2e.json --testTimeout 99999999 --runInBand --verbose"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
