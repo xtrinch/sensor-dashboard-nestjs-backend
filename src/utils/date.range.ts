@@ -74,7 +74,7 @@ export class DateRange {
     range: DateRegexGroupsInterface,
   ): RangeGroupByEnum | null {
     let groupBy: RangeGroupByEnum = null;
-    if (!range.month) {
+    if (!range.month && !range.week) {
       groupBy = RangeGroupByEnum.MONTH;
     } else if (!range.day) {
       groupBy = RangeGroupByEnum.DAY;
