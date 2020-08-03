@@ -7,7 +7,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.setGlobalPrefix('api');
+  
   // use class-validator to validate query and body in controllers
   app.useGlobalPipes(
     new ValidationPipe({
@@ -26,8 +27,8 @@ async function bootstrap() {
     .addTag('sensors')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger', app, document);
 
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();

@@ -15,7 +15,7 @@ $ cp .env.test.example .env.test
 ```
 Fill out database credentials in .env files.
 
-For detailed API documentation (swagger docs) see `http://localhost:3000/api`.
+For detailed API documentation (swagger docs) see `http://localhost:3000/swagger`.
 
 ## Endpoints
 
