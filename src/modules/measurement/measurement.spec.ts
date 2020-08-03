@@ -14,6 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import Measurement from '~modules/measurement/measurement.entity';
 import { getConnection, createConnection } from 'typeorm';
+import { getWeek } from 'date-fns';
 
 describe('MeasurementService', () => {
   let measurementService: MeasurementService;
@@ -36,7 +37,7 @@ describe('MeasurementService', () => {
       MeasurementService,
     );
     fixture = await MeasurementFixture(module, { seed });
-  }, 10000);
+  }, 20000);
 
   it('should create a measurement', async () => {
     const data = plainToClass(MeasurementCreateDto, {
@@ -93,6 +94,15 @@ describe('MeasurementService', () => {
       createdAtRange: `${new Date().getFullYear()}/${
         new Date().getMonth() + 1
       }/${new Date().getDate()}`,
+    });
+
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
+  });
+
+  it('should list measurements for current year and week', async () => {
+    const resp = await measurementService.findAll({
+      measurementTypes: [MeasurementTypeEnum.GAS],
+      createdAtRange: `${new Date().getFullYear()}/w${getWeek(new Date())}`,
     });
 
     expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);

@@ -24,15 +24,12 @@ describe('SensorService', () => {
 
     module = await Test.createTestingModule({
       providers: [SensorService],
-      imports: [
-        TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([Sensor]), 
-      ],
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([Sensor])],
     }).compile();
 
     sensorService = module.get<SensorService>(SensorService);
     fixture = await SensorFixture(module, { seed });
-  }, 10000);
+  }, 20000);
 
   it('should create a sensor', async () => {
     const data = plainToClass(SensorCreateDto, {

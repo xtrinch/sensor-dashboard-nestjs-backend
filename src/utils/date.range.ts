@@ -8,13 +8,10 @@ import {
   setDate,
   setMonth,
   setYear,
+  setWeek,
+  startOfWeek,
+  endOfWeek,
 } from 'date-fns';
-
-export interface DateRangeInterface {
-  from?: Date;
-  to?: Date;
-  groupBy?: RangeGroupByEnum;
-}
 
 export interface DateRegexGroupsInterface {
   year?: number;
@@ -22,6 +19,13 @@ export interface DateRegexGroupsInterface {
   day?: number;
   hour?: number;
   minute?: number;
+  week?: number;
+}
+
+export interface DateRangeInterface {
+  from?: Date;
+  to?: Date;
+  groupBy?: RangeGroupByEnum;
 }
 
 export enum RangeGroupByEnum {
@@ -29,8 +33,10 @@ export enum RangeGroupByEnum {
   DAY = 'day',
 }
 
+export type DateRegex = string;
+
 export class DateRange {
-  public static regex = /^(?<year>[0-9]{4})(\/(?<month>[0-9]{1,2})(\/(?<day>[0-9]{1,2})(\/(?<hour>[0-9]{1,2})(\/(?<minute>[0-9]{1,2}))?)?)?)?$/;
+  public static regex = /^(?<year>[0-9]{4})(\/((?<month>[0-9]{1,2})|(w(?<week>[0-9]{1,2})))(\/(?<day>[0-9]{1,2})(\/(?<hour>[0-9]{1,2})(\/(?<minute>[0-9]{1,2}))?)?)?)?$/;
 
   public static parse(input: string): DateRangeInterface {
     const ranges = this.getRegexGroups(input);
@@ -50,19 +56,23 @@ export class DateRange {
     if (!match) {
       return {};
     }
-
-    const { month, day, year } = match.groups;
+    const { month, day, year, hour, minute, week } = match.groups;
 
     const ranges: DateRegexGroupsInterface = {
       year: year ? parseInt(year, 10) : undefined,
       month: month ? parseInt(month, 10) : undefined,
       day: day ? parseInt(day, 10) : undefined,
+      hour: hour ? parseInt(hour, 10) : undefined,
+      minute: minute ? parseInt(minute, 10) : undefined,
+      week: week ? parseInt(week, 10) : undefined,
     };
 
     return ranges;
   }
 
-  public static getGroupBy(range: DateRegexGroupsInterface): RangeGroupByEnum | null {
+  public static getGroupBy(
+    range: DateRegexGroupsInterface,
+  ): RangeGroupByEnum | null {
     let groupBy: RangeGroupByEnum = null;
     if (!range.month) {
       groupBy = RangeGroupByEnum.MONTH;
@@ -73,7 +83,7 @@ export class DateRange {
   }
 
   public static getFromTo(
-    range: DateRegexGroupsInterface
+    range: DateRegexGroupsInterface,
   ): {
     from: Date;
     to: Date;
@@ -93,6 +103,11 @@ export class DateRange {
       start = setYear(start, range.year);
       from = startOfMonth(start);
       to = endOfMonth(start);
+    } else if (range.week) {
+      start = setYear(start, range.year);
+      start = setWeek(start, range.week);
+      from = startOfWeek(start);
+      to = endOfWeek(start);
     } else {
       from = startOfYear(start);
       to = endOfYear(start);
