@@ -17,20 +17,18 @@ export class MeasurementRepository extends Repository<Measurement> {
   public async groupBy(
     where: MeasurementWhereInterface,
   ): Promise<{ [key: string]: Measurement[] }> {
-    let aggregate, timeFormat;
+    let timeFormat;
+    const timezone = 'Europe/Ljubljana';
 
     switch (where.groupBy) {
       case RangeGroupByEnum.DAY:
-        aggregate = `date_part('day', "createdAt")`;
         timeFormat = 'YYYY/MM/DD';
         break;
       case RangeGroupByEnum.MONTH:
         timeFormat = 'YYYY/MM';
-        aggregate = `date_part('month', "createdAt")`;
         break;
       default:
         timeFormat = 'YYYY/MM/DD/HH24/MI';
-        aggregate = `"createdAt"`;
         break;
     }
 
@@ -38,10 +36,16 @@ export class MeasurementRepository extends Repository<Measurement> {
       `
       SELECT 
         "measurementType", 
-        ${aggregate} AS aggregate, 
-        ROUND(AVG("measurement"::numeric)::numeric, 2) as "measurement",
+        to_char("createdAt", '${timeFormat}') AS aggregate, 
+        ROUND(AVG("measurement")::numeric, 2) as "measurement",
         to_char(MIN("createdAt"), '${timeFormat}') as "createdAt"
-      FROM "measurement"
+      FROM (
+        SELECT 
+          "createdAt"::timestamptz AT TIME ZONE '${timezone}' as "createdAt", 
+          "measurementType", 
+          "measurement"::numeric 
+        FROM "measurement"
+      ) as sq
       ${
         where.measurementTypes?.length || (where.from && where.to)
           ? ' WHERE '

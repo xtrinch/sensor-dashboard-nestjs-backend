@@ -40,6 +40,11 @@ export class Sensor extends AbstractEntity {
   @Column('text', { array: true, default: () => 'array[]::text[]' })
   public measurementTypes: MeasurementTypeEnum[];
 
+  @Column({
+    default: 'Europe/Ljubljana'
+  })
+  public timezone: string;
+
   public toString(): string {
     return this.name;
   }
