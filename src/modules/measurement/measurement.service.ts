@@ -23,6 +23,7 @@ export class MeasurementService {
     const results = await this.measurementRepository.groupBy({
       ...range,
       measurementTypes: query.measurementTypes,
+      sensorIds: query.sensorIds,
     });
 
     return results;

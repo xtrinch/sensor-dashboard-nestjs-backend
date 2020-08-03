@@ -23,8 +23,8 @@ export interface DateRegexGroupsInterface {
 }
 
 export interface DateRangeInterface {
-  from?: Date;
-  to?: Date;
+  from: Date;
+  to: Date;
   groupBy?: RangeGroupByEnum;
 }
 

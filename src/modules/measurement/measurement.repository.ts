@@ -4,12 +4,14 @@ import { RangeGroupByEnum } from '~utils/date.range';
 import Measurement from '~modules/measurement/measurement.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { SensorId } from '~modules/sensor/sensor.entity';
 
 export interface MeasurementWhereInterface {
-  from?: Date;
-  to?: Date;
-  measurementTypes?: MeasurementTypeEnum[];
+  from: Date;
+  to: Date;
+  measurementTypes: MeasurementTypeEnum[];
   groupBy?: RangeGroupByEnum;
+  sensorIds: SensorId[];
 }
 
 @EntityRepository(Measurement)
@@ -18,6 +20,7 @@ export class MeasurementRepository extends Repository<Measurement> {
     where: MeasurementWhereInterface,
   ): Promise<{ [key: string]: Measurement[] }> {
     let timeFormat;
+    // TODO: eventually require sensor ids and use the sensor timezone
     const timezone = 'Europe/Ljubljana';
 
     switch (where.groupBy) {
@@ -41,29 +44,22 @@ export class MeasurementRepository extends Repository<Measurement> {
         to_char(MIN("createdAt"), '${timeFormat}') as "createdAt"
       FROM (
         SELECT 
-          "createdAt"::timestamptz AT TIME ZONE '${timezone}' as "createdAt", 
-          "measurementType", 
-          "measurement"::numeric 
+          "measurement"."createdAt"::timestamptz AT TIME ZONE "timezone" as "createdAt", 
+          "measurement"."measurementType", 
+          "measurement"."measurement"::numeric,
+          "sensor"."timezone"
         FROM "measurement"
+        LEFT JOIN "sensor" on "sensor".id = "measurement"."sensorId"
+        WHERE "sensor"."id" = ANY ($1)
       ) as sq
-      ${
-        where.measurementTypes?.length || (where.from && where.to)
-          ? ' WHERE '
-          : ''
-      }
-      ${where.measurementTypes?.length ? `"measurementType" = ANY ($1)` : ''}
-      ${where.measurementTypes?.length && where.from && where.to ? ' AND ' : ''}
-      ${
-        where.from && where.to
-          ? `"createdAt" BETWEEN 
-      '${format(where.from, 'yyyy-MM-dd HH:mm:ss')}'
-      AND '${format(where.to, 'yyyy-MM-dd HH:mm:ss')}'`
-          : ''
-      }
+      WHERE "measurementType" = ANY ($2)  
+        AND "createdAt" BETWEEN 
+        '${format(where.from, 'yyyy-MM-dd HH:mm:ss')}'
+        AND '${format(where.to, 'yyyy-MM-dd HH:mm:ss')}'
       GROUP BY "measurementType", "aggregate"
       ORDER BY "createdAt" DESC
     `,
-      where.measurementTypes?.length ? [where.measurementTypes] : [],
+      [where.sensorIds, where.measurementTypes],
     );
 
     const res = r.reduce(

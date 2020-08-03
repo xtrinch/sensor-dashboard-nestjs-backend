@@ -72,6 +72,7 @@ describe('MeasurementService', () => {
     const resp = await measurementService.findAll({
       measurementTypes: [MeasurementTypeEnum.GAS],
       createdAtRange: `${new Date().getFullYear()}`,
+      sensorIds: [fixture.sensorOne.id],
     });
 
     expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
@@ -83,6 +84,7 @@ describe('MeasurementService', () => {
       createdAtRange: `${new Date().getFullYear()}/${
         new Date().getMonth() + 1
       }`,
+      sensorIds: [fixture.sensorOne.id],
     });
 
     expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
@@ -94,6 +96,7 @@ describe('MeasurementService', () => {
       createdAtRange: `${new Date().getFullYear()}/${
         new Date().getMonth() + 1
       }/${new Date().getDate()}`,
+      sensorIds: [fixture.sensorOne.id],
     });
 
     expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
@@ -103,24 +106,11 @@ describe('MeasurementService', () => {
     const resp = await measurementService.findAll({
       measurementTypes: [MeasurementTypeEnum.GAS],
       createdAtRange: `${new Date().getFullYear()}/w${getWeek(new Date())}`,
+      sensorIds: [fixture.sensorOne.id],
     });
 
     expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
-
-  // it('should list measurements only with range supplied', async () => {
-  //   const measurements = await measurementService.findAll({
-  //     createdAtRange: `${new Date().getFullYear()}`,
-  //   });
-
-  //   expect(measurements.items.length).not.toBe(0);
-  // });
-
-  // it('should list measurements without query params', async () => {
-  //   const measurements = await measurementService.findAll({});
-
-  //   expect(measurements.items.length).not.toBe(0);
-  // });
 
   afterAll(async () => {
     await module.close();

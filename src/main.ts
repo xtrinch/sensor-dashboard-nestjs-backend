@@ -4,21 +4,13 @@ import 'reflect-metadata';
 import { ValidationPipe, BadRequestException } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { initPipes } from '~utils/app.utils';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   
-  // use class-validator to validate query and body in controllers
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-      exceptionFactory: (validationErrors: ValidationError[] = []) => {
-        return new BadRequestException(validationErrors);
-      },
-    }),
-  );
+  initPipes(app);
 
   const options = new DocumentBuilder()
     .setTitle('Sensor dashboard backend')

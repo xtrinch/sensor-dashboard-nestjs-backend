@@ -9,13 +9,16 @@ import {
 } from 'class-validator';
 import { DateRange } from '~utils/date.range';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { SensorId } from '~modules/sensor/sensor.entity';
 
 export class MeasurementQueryDto {
-  @IsOptional()
+  @ArrayMinSize(1)
+  @IsArray()
+  public readonly sensorIds?: SensorId[];
+
   @Matches(DateRange.regex)
   public readonly createdAtRange?: string;
 
-  @IsOptional()
   @IsArray()
   @IsEnum(MeasurementTypeEnum, { each: true })
   @ArrayMinSize(1)
