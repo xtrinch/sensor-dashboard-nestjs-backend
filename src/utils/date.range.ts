@@ -36,7 +36,7 @@ export enum RangeGroupByEnum {
 export type DateRegex = string;
 
 export class DateRange {
-  public static regex = /^(?<year>[0-9]{4})(\/((?<month>[0-9]{1,2})|(w(?<week>[0-9]{1,2})))(\/(?<day>[0-9]{1,2})(\/(?<hour>[0-9]{1,2})(\/(?<minute>[0-9]{1,2}))?)?)?)?$/;
+  public static regex = /^(?<year>[0-9]{4})(\/((?<month>[0-9]{1,2})|(w(?<week>[0-9]{1,2})))(\/(?<day>[0-9]{1,2})( (?<hour>[0-9]{1,2})(:(?<minute>[0-9]{1,2}))?)?)?)?$/;
 
   public static parse(input: string): DateRangeInterface {
     const ranges = this.getRegexGroups(input);

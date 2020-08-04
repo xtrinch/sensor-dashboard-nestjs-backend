@@ -31,7 +31,7 @@ export class MeasurementRepository extends Repository<Measurement> {
         timeFormat = 'YYYY/MM';
         break;
       default:
-        timeFormat = 'YYYY/MM/DD/HH24/MI';
+        timeFormat = 'YYYY/MM/DD HH24:MI';
         break;
     }
 
