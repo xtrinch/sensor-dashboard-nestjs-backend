@@ -42,7 +42,8 @@ export class SensorService {
     sensor.location = data.location;
     sensor.name = data.name;
     sensor.measurementTypes = data.measurementTypes;
-
+    sensor.timezone = data.timezone;
+    
     await Sensor.save(sensor);
 
     return sensor;
@@ -59,6 +60,9 @@ export class SensorService {
     }
     if (data.name) {
       sensor.name = data.name;
+    }
+    if (data.timezone) {
+      sensor.timezone = data.timezone;
     }
 
     await Sensor.save(sensor);

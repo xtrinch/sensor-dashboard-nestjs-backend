@@ -8,6 +8,7 @@ export class SensorDto {
   public boardType: SensorBoardTypesEnum;
   public location: string;
   public measurementTypes: MeasurementTypeEnum[];
+  public timezone: string;
 
   public static fromSensor(sensor: Sensor): SensorDto {
     return {
@@ -16,6 +17,7 @@ export class SensorDto {
       boardType: sensor.boardType,
       location: sensor.location,
       measurementTypes: sensor.measurementTypes,
+      timezone: sensor.timezone,
     };
   }
 }

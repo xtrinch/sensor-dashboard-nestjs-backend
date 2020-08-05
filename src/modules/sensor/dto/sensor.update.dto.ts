@@ -1,5 +1,6 @@
-import { IsEnum, IsString, IsOptional, IsArray } from 'class-validator';
+import { IsEnum, IsString, IsOptional, IsArray, Validate } from 'class-validator';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { TimezoneValidator } from '~utils/timezone.validator';
 
 export class SensorUpdateDto {
   @IsString()
@@ -10,6 +11,11 @@ export class SensorUpdateDto {
   @IsOptional()
   public location: string;
 
+  @IsString()
+  @IsOptional()
+  @Validate(TimezoneValidator)
+  public timezone: string;
+  
   @IsArray()
   @IsEnum(MeasurementTypeEnum, { each: true })
   @IsOptional()

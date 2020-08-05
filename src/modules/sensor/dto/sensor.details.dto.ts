@@ -7,12 +7,8 @@ export class SensorDetailsDto extends SensorDto {
 
   public static fromSensor(sensor: Sensor): SensorDetailsDto {
     return {
-      id: sensor.id,
-      name: sensor.name,
-      boardType: sensor.boardType,
-      location: sensor.location,
+      ...SensorDto.fromSensor(sensor),
       sensorAccessToken: sensor.sensorAccessToken,
-      measurementTypes: sensor.measurementTypes,
     };
   }
 }

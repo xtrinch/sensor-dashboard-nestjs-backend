@@ -1,0 +1,18 @@
+module.exports = {
+  type: 'postgres',
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT, 10),
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  entities: process.env.DB_ENTITIES.split(' '),
+  synchronize: process.env.DB_SYNCHRONIZE === 'true',
+  autoLoadEntities: true,
+  logging: process.env.DB_LOGGING === "true",
+  keepConnectionAlive: process.env.DB_KEEP_CONNECTION_ALIVE === "true",
+  migrationsTableName: "migrations",
+  migrations: ["src/migrations/*.js"], // has to be .JS!
+  cli: {
+    migrationsDir: "src/migrations"
+  }
+};

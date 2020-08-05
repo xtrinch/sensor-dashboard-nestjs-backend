@@ -40,6 +40,18 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Migrations
+
+Generate migrations:
+```bash
+$ yarn run typeorm migration:generate -n SampleMigrationName
+```
+
+Run migrations:
+```bash
+$  yarn run typeorm migration:run
+```
+
 ## Test
 
 ```bash

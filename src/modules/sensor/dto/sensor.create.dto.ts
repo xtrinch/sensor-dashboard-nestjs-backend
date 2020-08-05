@@ -5,8 +5,10 @@ import {
   IsNotEmpty,
   ArrayMinSize,
   IsArray,
+  Validate,
 } from 'class-validator';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { TimezoneValidator } from '~utils/timezone.validator';
 
 export class SensorCreateDto {
   @IsString()
@@ -19,6 +21,10 @@ export class SensorCreateDto {
   @IsString()
   @IsNotEmpty()
   public location: string;
+
+  @IsString()
+  @Validate(TimezoneValidator)
+  public timezone: string;
 
   @IsArray()
   @IsEnum(MeasurementTypeEnum, { each: true })

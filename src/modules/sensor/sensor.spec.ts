@@ -37,12 +37,14 @@ describe('SensorService', () => {
       boardType: SensorBoardTypesEnum.BME680,
       location: 'A location',
       measurementTypes: [MeasurementTypeEnum.GAS],
+      timezone: 'Europe/Ljubljana',
     });
 
     await validateOrReject(data);
     const sensor = await sensorService.create(data);
     expect(sensor).toBeDefined();
     expect(sensor.measurementTypes).toEqual([MeasurementTypeEnum.GAS]);
+    expect(sensor.timezone).toEqual('Europe/Ljubljana');
     expect(sensor.sensorAccessToken).toBeDefined();
   });
 
