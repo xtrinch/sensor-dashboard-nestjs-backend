@@ -11,8 +11,8 @@ module.exports = {
   logging: process.env.DB_LOGGING === "true",
   keepConnectionAlive: process.env.DB_KEEP_CONNECTION_ALIVE === "true",
   migrationsTableName: "migrations",
-  migrations: ["src/migrations/*.js"], // has to be .JS!
+  migrations: ["dist/src/migrations/*.js"], // where migrations are read from on run, has to be .JS!
   cli: {
-    migrationsDir: "src/migrations"
+    migrationsDir: "src/migrations" // where migrations are created
   }
 };

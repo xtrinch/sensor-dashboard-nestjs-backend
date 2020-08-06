@@ -1,27 +1,15 @@
-import { EntityRepository, Repository } from 'typeorm';
 import { format } from 'date-fns';
-import { RangeGroupByEnum } from '~utils/date.range';
+import { EntityRepository, Repository } from 'typeorm';
 import Measurement from '~modules/measurement/measurement.entity';
-import { Pagination } from 'nestjs-typeorm-paginate';
-import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import { SensorId } from '~modules/sensor/sensor.entity';
-
-export interface MeasurementWhereInterface {
-  from: Date;
-  to: Date;
-  measurementTypes: MeasurementTypeEnum[];
-  groupBy?: RangeGroupByEnum;
-  sensorIds: SensorId[];
-}
+import { MeasurementAggregateInterface, MeasurementWhereInterface } from '~modules/measurement/measurement.interfaces';
+import { RangeGroupByEnum } from '~utils/date.range';
 
 @EntityRepository(Measurement)
 export class MeasurementRepository extends Repository<Measurement> {
   public async groupBy(
     where: MeasurementWhereInterface,
-  ): Promise<{ [key: string]: Measurement[] }> {
+  ): Promise<MeasurementAggregateInterface> {
     let timeFormat;
-    // TODO: eventually require sensor ids and use the sensor timezone
-    const timezone = 'Europe/Ljubljana';
 
     switch (where.groupBy) {
       case RangeGroupByEnum.DAY:
@@ -41,13 +29,15 @@ export class MeasurementRepository extends Repository<Measurement> {
         "measurementType", 
         to_char("createdAt", '${timeFormat}') AS aggregate, 
         ROUND(AVG("measurement")::numeric, 2) as "measurement",
-        to_char(MIN("createdAt"), '${timeFormat}') as "createdAt"
+        to_char(MIN("createdAt"), '${timeFormat}') as "createdAt",
+        "sensorId"
       FROM (
         SELECT 
           "measurement"."createdAt"::timestamptz AT TIME ZONE "timezone" as "createdAt", 
           "measurement"."measurementType", 
           "measurement"."measurement"::numeric,
-          "sensor"."timezone"
+          "sensor"."timezone",
+          "measurement"."sensorId"
         FROM "measurement"
         LEFT JOIN "sensor" on "sensor".id = "measurement"."sensorId"
         WHERE "sensor"."id" = ANY ($1)
@@ -56,18 +46,23 @@ export class MeasurementRepository extends Repository<Measurement> {
         AND "createdAt" BETWEEN 
         '${format(where.from, 'yyyy-MM-dd HH:mm:ss')}'
         AND '${format(where.to, 'yyyy-MM-dd HH:mm:ss')}'
-      GROUP BY "measurementType", "aggregate"
+      GROUP BY "measurementType", "aggregate", "sensorId"
       ORDER BY "createdAt" DESC
     `,
       [where.sensorIds, where.measurementTypes],
     );
 
     const res = r.reduce(
-      (acc: { [key: string]: Measurement[] }, curr: Measurement) => {
-        if (!acc[curr.measurementType]) {
-          acc[curr.measurementType] = [];
+      (acc: MeasurementAggregateInterface, curr: Measurement) => {
+        if (!acc[curr.sensorId]) {
+          acc[curr.sensorId] = {};
         }
-        acc[curr.measurementType].push(curr);
+
+        if (!acc[curr.sensorId][curr.measurementType]) {
+          acc[curr.sensorId][curr.measurementType] = [];
+        }
+
+        acc[curr.sensorId][curr.measurementType].push(curr);
         return acc;
       },
       {},

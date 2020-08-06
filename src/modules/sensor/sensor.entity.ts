@@ -1,16 +1,16 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  Generated,
+  Column, Entity,
+
+
+
+  Generated, OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
+import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import Measurement from '~modules/measurement/measurement.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
-import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 
-export type SensorId = string;
+export type SensorId = number;
 
 export interface SensorWhereInterface {
   sensorAccessToken?: string;
@@ -19,7 +19,7 @@ export interface SensorWhereInterface {
 @Entity()
 export class Sensor extends AbstractEntity {
   @PrimaryGeneratedColumn()
-  public id: string;
+  public id: number;
 
   @Column()
   public name: string;

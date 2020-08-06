@@ -1,21 +1,17 @@
 import {
-  Controller,
+  Body, Controller,
   Get,
-  Query,
-  Post,
-  Body,
-  UseGuards,
-  Request,
+  Post, Query,
+  Request, UseGuards
 } from '@nestjs/common';
 import { MeasurementService } from '~/modules/measurement/measurement.service';
-import { MeasurementDto } from '~modules/measurement/dto/measurement.dto';
-import { PaginationDto } from '~utils/pagination.dto';
-import Measurement from '~modules/measurement/measurement.entity';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
-import { SensorGuard, SensorRequest } from '~modules/sensor/sensor.guard';
-import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
+import { MeasurementDto } from '~modules/measurement/dto/measurement.dto';
 import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.list.create.dto';
+import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { MeasurementAggregateDto } from '~modules/measurement/measurement.interfaces';
+import { SensorGuard, SensorRequest } from '~modules/sensor/sensor.guard';
 
 @Controller('measurements')
 export class MeasurementController {
@@ -24,11 +20,15 @@ export class MeasurementController {
   @Get()
   public async findAll(
     @Query() query: MeasurementQueryDto,
-  ): Promise<{ [key: string]: MeasurementDto[] }> {
+  ): Promise<MeasurementAggregateDto> {
     const items = await this.measurementService.findAll(query);
-    Object.keys(items).map((key) =>
-      items[key].map(MeasurementDto.fromMeasurement),
-    );
+
+    Object.keys(items).map((sensorIdKey) => {
+      return Object.keys(items[sensorIdKey]).map((measurementTypeKey: MeasurementTypeEnum) =>
+        items[sensorIdKey][measurementTypeKey].map(MeasurementDto.fromMeasurement),
+      );
+    })
+    
     return items;
   }
 

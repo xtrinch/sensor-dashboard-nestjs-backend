@@ -1,20 +1,20 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
-import { MeasurementService } from '~modules/measurement/measurement.service';
+import { getWeek } from 'date-fns';
+import { v4 } from 'uuid';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import Measurement from '~modules/measurement/measurement.entity';
 import {
   MeasurementFixture,
-  MeasurementFixtureInterface,
+  MeasurementFixtureInterface
 } from '~modules/measurement/measurement.fixture';
-import { v4 } from 'uuid';
-import { SensorModule } from '~modules/sensor/sensor.module';
-import { Test, TestingModuleBuilder, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { MeasurementAggregateInterface } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
-import Measurement from '~modules/measurement/measurement.entity';
-import { getConnection, createConnection } from 'typeorm';
-import { getWeek } from 'date-fns';
+import { MeasurementService } from '~modules/measurement/measurement.service';
+import { SensorModule } from '~modules/sensor/sensor.module';
 
 describe('MeasurementService', () => {
   let measurementService: MeasurementService;
@@ -75,11 +75,11 @@ describe('MeasurementService', () => {
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
+    expect(resp[fixture.sensorOne.id][MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
 
   it('should list measurements for current year and current month', async () => {
-    const resp = await measurementService.findAll({
+    const resp: MeasurementAggregateInterface = await measurementService.findAll({
       measurementTypes: [MeasurementTypeEnum.GAS],
       createdAtRange: `${new Date().getFullYear()}/${
         new Date().getMonth() + 1
@@ -87,11 +87,11 @@ describe('MeasurementService', () => {
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
+    expect(resp[fixture.sensorOne.id][MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
 
   it('should list measurements for current year, current month and current day', async () => {
-    const resp = await measurementService.findAll({
+    const resp: MeasurementAggregateInterface = await measurementService.findAll({
       measurementTypes: [MeasurementTypeEnum.GAS],
       createdAtRange: `${new Date().getFullYear()}/${
         new Date().getMonth() + 1
@@ -99,17 +99,17 @@ describe('MeasurementService', () => {
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
+    expect(resp[fixture.sensorOne.id][MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
 
   it('should list measurements for current year and week', async () => {
-    const resp = await measurementService.findAll({
+    const resp: MeasurementAggregateInterface = await measurementService.findAll({
       measurementTypes: [MeasurementTypeEnum.GAS],
       createdAtRange: `${new Date().getFullYear()}/w${getWeek(new Date())}`,
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
+    expect(resp[fixture.sensorOne.id][MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
 
   afterAll(async () => {
