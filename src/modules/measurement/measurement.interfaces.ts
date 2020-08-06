@@ -13,13 +13,13 @@ export interface MeasurementWhereInterface {
 }
 
 export interface MeasurementAggregateDto {
-  [SensorId: string]: { 
-    [MeasurementTypeEnum: string] : MeasurementDto[] 
+  [MeasurementTypeEnum: string]: { 
+    [SensorId: string] : MeasurementDto[] 
   }
 }
 
 export interface MeasurementAggregateInterface {
-  [SensorId: string]: { 
-    [MeasurementTypeEnum: string] : Measurement[] 
+  [MeasurementTypeEnum: string]: { 
+    [SensorId: string] : Measurement[] 
   }
 }

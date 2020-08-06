@@ -54,15 +54,15 @@ export class MeasurementRepository extends Repository<Measurement> {
 
     const res = r.reduce(
       (acc: MeasurementAggregateInterface, curr: Measurement) => {
-        if (!acc[curr.sensorId]) {
-          acc[curr.sensorId] = {};
+        if (!acc[curr.measurementType]) {
+          acc[curr.measurementType] = {};
         }
 
-        if (!acc[curr.sensorId][curr.measurementType]) {
-          acc[curr.sensorId][curr.measurementType] = [];
+        if (!acc[curr.measurementType][curr.sensorId]) {
+          acc[curr.measurementType][curr.sensorId] = [];
         }
 
-        acc[curr.sensorId][curr.measurementType].push(curr);
+        acc[curr.measurementType][curr.sensorId].push(curr);
         return acc;
       },
       {},

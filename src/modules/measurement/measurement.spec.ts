@@ -75,7 +75,7 @@ describe('MeasurementService', () => {
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[fixture.sensorOne.id][MeasurementTypeEnum.GAS].length).not.toBe(0);
+    expect(resp[MeasurementTypeEnum.GAS][fixture.sensorOne.id].length).not.toBe(0);
   });
 
   it('should list measurements for current year and current month', async () => {
@@ -87,7 +87,7 @@ describe('MeasurementService', () => {
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[fixture.sensorOne.id][MeasurementTypeEnum.GAS].length).not.toBe(0);
+    expect(resp[MeasurementTypeEnum.GAS][fixture.sensorOne.id].length).not.toBe(0);
   });
 
   it('should list measurements for current year, current month and current day', async () => {
@@ -99,7 +99,7 @@ describe('MeasurementService', () => {
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[fixture.sensorOne.id][MeasurementTypeEnum.GAS].length).not.toBe(0);
+    expect(resp[MeasurementTypeEnum.GAS][fixture.sensorOne.id].length).not.toBe(0);
   });
 
   it('should list measurements for current year and week', async () => {
@@ -109,7 +109,7 @@ describe('MeasurementService', () => {
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[fixture.sensorOne.id][MeasurementTypeEnum.GAS].length).not.toBe(0);
+    expect(resp[MeasurementTypeEnum.GAS][fixture.sensorOne.id].length).not.toBe(0);
   });
 
   afterAll(async () => {
