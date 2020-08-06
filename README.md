@@ -6,6 +6,8 @@ Simple NestJS backend for a dashboard displaying graphs of environmental sensor 
 
 How this works? You create a sensor entry in the database via the API with the admin token, which creates the sensor authentication token (`sensorAccessToken` field of the sensor entry). With the sensor authentication token you program your sensor board to make api calls to import measurements. One board can have multiple sensors, so you can import multiple measurements at a time.
 
+See also [frontend](https://github.com/xtrinch/sensor-dashboard-react-frontend) and [sensor board code](https://github.com/xtrinch/sensor-dashboard-ESP32-BME680-reader), or [see it live](http://sensor-dashboard.trina.si/) with some sensor data from my living room.
+
 ## Installation
 
 ```bash
@@ -19,13 +21,13 @@ For detailed API documentation (swagger docs) see `http://localhost:3000/swagger
 
 ## Endpoints
 
- Endpoint              | Method | Auth?             | Query params                    | Description
- --------------------- | ------ | ----------------- | ------------------------------- | ------------------------------------------------
- `/sensors`            | GET    | No                |                                 | List all sensor boards
- `/sensors`            | POST   | Yes - Admin auth  |                                 | Create a sensor entry
- `/measurements`       | GET    | No                | createdAtRange, measurementType | List all measurements
- `/measurements`       | POST   | Yes - Sensor auth |                                 | Post one measurement for a sensor board
- `/measurements/multi` | POST   | Yes - Sensor auth |                                 | Post multiple measurements for a sensor board
+ Endpoint              | Method | Auth?             | Query params                                 | Description
+ --------------------- | ------ | ----------------- | -------------------------------------------- | ------------------------------------------------
+ `/sensors`            | GET    | No                |                                              | List all sensor boards
+ `/sensors`            | POST   | Yes - Admin auth  |                                              | Create a sensor entry
+ `/measurements`       | GET    | No                | createdAtRange, measurementTypes, sensorsIds | List all measurements
+ `/measurements`       | POST   | Yes - Sensor auth |                                              | Post one measurement for a sensor board
+ `/measurements/multi` | POST   | Yes - Sensor auth |                                              | Post multiple measurements for a sensor board
 
 ## Running the app
 
