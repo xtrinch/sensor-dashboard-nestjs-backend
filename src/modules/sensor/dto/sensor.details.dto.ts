@@ -1,6 +1,5 @@
-import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
-import Sensor from '~modules/sensor/sensor.entity';
 import { SensorDto } from '~modules/sensor/dto/sensor.dto';
+import { Sensor } from '~modules/sensor/sensor.entity';
 
 export class SensorDetailsDto extends SensorDto {
   public sensorAccessToken: string;

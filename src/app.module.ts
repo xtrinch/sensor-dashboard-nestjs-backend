@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
-import { SensorModule } from '~/modules/sensor/sensor.module';
-import { DefaultAdminModule } from 'nestjs-admin';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MeasurementModule } from '~/modules/measurement/measurement.module';
+import { SensorModule } from '~/modules/sensor/sensor.module';
+import { UserModule } from '~/modules/user/user.module';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
     SensorModule,
     MeasurementModule,
-    DefaultAdminModule,
+    UserModule,
     TypeOrmModule.forRoot(),
   ],
   controllers: [],

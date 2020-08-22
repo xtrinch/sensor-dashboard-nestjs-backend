@@ -1,8 +1,11 @@
 import {
-  Body, Controller,
+  Body,
+  Controller,
   Get,
-  Post, Query,
-  Request, UseGuards
+  Post,
+  Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { MeasurementService } from '~/modules/measurement/measurement.service';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
@@ -24,11 +27,15 @@ export class MeasurementController {
     const items = await this.measurementService.findAll(query);
 
     Object.keys(items).map((sensorIdKey) => {
-      return Object.keys(items[sensorIdKey]).map((measurementTypeKey: MeasurementTypeEnum) =>
-        items[sensorIdKey][measurementTypeKey].map(MeasurementDto.fromMeasurement),
+      return Object.keys(
+        items[sensorIdKey],
+      ).map((measurementTypeKey: MeasurementTypeEnum) =>
+        items[sensorIdKey][measurementTypeKey].map(
+          MeasurementDto.fromMeasurement,
+        ),
       );
-    })
-    
+    });
+
     return items;
   }
 

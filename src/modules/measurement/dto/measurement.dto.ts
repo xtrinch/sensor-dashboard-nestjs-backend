@@ -1,5 +1,5 @@
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import Measurement from '~modules/measurement/measurement.entity';
+import { Measurement } from '~modules/measurement/measurement.entity';
 import { SensorDto } from '~modules/sensor/dto/sensor.dto';
 
 export class MeasurementDto {

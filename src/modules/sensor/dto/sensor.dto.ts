@@ -1,6 +1,6 @@
 import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import Sensor from '~modules/sensor/sensor.entity';
+import { Sensor } from '~modules/sensor/sensor.entity';
 
 export class SensorDto {
   public id: number;

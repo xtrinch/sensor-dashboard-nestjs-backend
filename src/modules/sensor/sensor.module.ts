@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { SensorService } from '~/modules/sensor/sensor.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import Sensor from '~/modules/sensor/sensor.entity';
 import { DefaultAdminModule, DefaultAdminSite } from 'nestjs-admin';
+import { SensorService } from '~/modules/sensor/sensor.service';
 import { SensorController } from '~modules/sensor/sensor.controller';
+import { Sensor } from '~modules/sensor/sensor.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Sensor]), DefaultAdminModule],

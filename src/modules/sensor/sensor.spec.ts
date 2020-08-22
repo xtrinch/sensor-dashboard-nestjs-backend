@@ -1,18 +1,19 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
-import { SensorService } from '~modules/sensor/sensor.service';
-import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
-import { Test, TestingModule } from '@nestjs/testing';
-import { SensorBoardTypesEnum } from '~modules/sensor/enum/sensor-board-types.enum';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import Sensor from '~modules/sensor/sensor.entity';
-import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import {
-  SensorFixtureInterface,
-  SensorFixture,
-} from '~modules/sensor/sensor.fixture';
 import { v4 } from 'uuid';
+import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
 import { SensorUpdateDto } from '~modules/sensor/dto/sensor.update.dto';
+import { SensorBoardTypesEnum } from '~modules/sensor/enum/sensor-board-types.enum';
+import { Sensor } from '~modules/sensor/sensor.entity';
+import {
+  SensorFixture,
+  SensorFixtureInterface,
+} from '~modules/sensor/sensor.fixture';
+import { SensorService } from '~modules/sensor/sensor.service';
+import { UserModule } from '~modules/user/user.module';
 
 describe('SensorService', () => {
   let sensorService: SensorService;
@@ -24,7 +25,11 @@ describe('SensorService', () => {
 
     module = await Test.createTestingModule({
       providers: [SensorService],
-      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([Sensor])],
+      imports: [
+        UserModule,
+        TypeOrmModule.forRoot(),
+        TypeOrmModule.forFeature([Sensor]),
+      ],
     }).compile();
 
     sensorService = module.get<SensorService>(SensorService);
@@ -41,7 +46,7 @@ describe('SensorService', () => {
     });
 
     await validateOrReject(data);
-    const sensor = await sensorService.create(data);
+    const sensor = await sensorService.create(fixture.userRequest, data);
     expect(sensor).toBeDefined();
     expect(sensor.measurementTypes).toEqual([MeasurementTypeEnum.GAS]);
     expect(sensor.timezone).toEqual('Europe/Ljubljana');
@@ -54,7 +59,11 @@ describe('SensorService', () => {
     });
 
     await validateOrReject(data);
-    const sensor = await sensorService.update(fixture.sensorOne.id, data);
+    const sensor = await sensorService.update(
+      fixture.userRequest,
+      fixture.sensorOne.id,
+      data,
+    );
     expect(sensor).toBeDefined();
     expect(sensor.measurementTypes).toEqual([MeasurementTypeEnum.HUMIDITY]);
   });

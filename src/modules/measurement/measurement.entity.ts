@@ -1,6 +1,12 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import Sensor from '~/modules/sensor/sensor.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { Sensor } from '~modules/sensor/sensor.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
 export type MeasurementId = string;
@@ -27,5 +33,3 @@ export class Measurement extends AbstractEntity {
     return this.measurementType;
   }
 }
-
-export default Measurement;

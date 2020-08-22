@@ -1,7 +1,10 @@
 import { format } from 'date-fns';
 import { EntityRepository, Repository } from 'typeorm';
-import Measurement from '~modules/measurement/measurement.entity';
-import { MeasurementAggregateInterface, MeasurementWhereInterface } from '~modules/measurement/measurement.interfaces';
+import { Measurement } from '~modules/measurement/measurement.entity';
+import {
+  MeasurementAggregateInterface,
+  MeasurementWhereInterface,
+} from '~modules/measurement/measurement.interfaces';
 import { RangeGroupByEnum } from '~utils/date.range';
 
 @EntityRepository(Measurement)

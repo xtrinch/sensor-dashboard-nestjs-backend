@@ -1,5 +1,10 @@
-import { ValidationPipe, BadRequestException, INestApplication } from "@nestjs/common";
-import { ValidationError } from "class-validator";
+import {
+  BadRequestException,
+  INestApplication,
+  ValidationPipe,
+} from '@nestjs/common';
+import { ValidationError } from 'class-validator';
+import { transform } from '~utils/validation';
 
 export function initPipes(app: INestApplication) {
   // use class-validator to validate query and body in controllers
@@ -8,7 +13,7 @@ export function initPipes(app: INestApplication) {
       whitelist: true,
       transform: true,
       exceptionFactory: (validationErrors: ValidationError[] = []) => {
-        return new BadRequestException(validationErrors);
+        return new BadRequestException(transform(validationErrors));
       },
     }),
   );

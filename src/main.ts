@@ -1,15 +1,13 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import 'reflect-metadata';
-import { ValidationPipe, BadRequestException } from '@nestjs/common';
-import { ValidationError } from 'class-validator';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { initPipes } from '~utils/app.utils';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
-  
+
   initPipes(app);
 
   const options = new DocumentBuilder()

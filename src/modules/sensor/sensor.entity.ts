@@ -1,13 +1,16 @@
 import {
-  Column, Entity,
-
-
-
-  Generated, OneToMany, PrimaryGeneratedColumn
+  Column,
+  Entity,
+  Generated,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import Measurement from '~modules/measurement/measurement.entity';
+import { Measurement } from '~modules/measurement/measurement.entity';
+import { User } from '~modules/user/user.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
 export type SensorId = number;
@@ -41,13 +44,18 @@ export class Sensor extends AbstractEntity {
   public measurementTypes: MeasurementTypeEnum[];
 
   @Column({
-    default: 'Europe/Ljubljana'
+    default: 'Europe/Ljubljana',
   })
   public timezone: string;
+
+  @ManyToOne(() => User, (user) => user.sensors)
+  @JoinColumn({ name: 'userId' })
+  public user: User;
+
+  @Column('integer')
+  public userId: number;
 
   public toString(): string {
     return this.name;
   }
 }
-
-export default Sensor;

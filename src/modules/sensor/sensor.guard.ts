@@ -1,13 +1,13 @@
 import {
-  Injectable,
-  Inject,
   CanActivate,
   ExecutionContext,
+  Inject,
+  Injectable,
 } from '@nestjs/common';
-import { SensorService } from '~modules/sensor/sensor.service';
-import Sensor from '~modules/sensor/sensor.entity';
 import { Http2ServerRequest } from 'http2';
 import validator from 'validator';
+import { Sensor } from '~modules/sensor/sensor.entity';
+import { SensorService } from '~modules/sensor/sensor.service';
 
 export interface SensorRequest extends Http2ServerRequest {
   sensor: Sensor;
