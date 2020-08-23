@@ -69,9 +69,13 @@ $ npm run test:cov
 
 ## Production setup
  
- ```bash
- $ docker-compose up -d
-```
+```bash
+# spin up postgres, node and test container
+$ docker-compose up -d
 
-Will spin up a postgres container, node container and a separate postgres container for tests.
- 
+# backup database in production
+$ docker exec -t postgres pg_dump --no-owner -U postgres sensor-dashboard > ../sensor-dashboard-database-backups/backup.sql
+
+# run migrations
+$  docker exec -t main yarn run typeorm migration:run
+```
