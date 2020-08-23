@@ -2,6 +2,7 @@ import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from '~modules/user/auth.service';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
 import { UserDto } from '~modules/user/dto/user.dto';
+import { UserLoginDto } from '~modules/user/dto/user.login.dto';
 import { UserGuard } from '~modules/user/user.guard';
 
 @Controller('auth')
@@ -11,6 +12,7 @@ export class AuthController {
   @UseGuards(UserGuard)
   @Post('login')
   async login(
+    @Body() data: UserLoginDto,
     @Request() req,
   ): Promise<{
     accessToken: string;
