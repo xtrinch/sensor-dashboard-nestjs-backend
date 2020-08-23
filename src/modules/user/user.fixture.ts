@@ -26,6 +26,8 @@ export async function UserFixture(
     plainToClass(UserCreateDto, {
       username,
       email,
+      name: 'Mojca',
+      surname: 'Rojca',
       password: 'Test password',
     }),
   );

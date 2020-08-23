@@ -39,6 +39,8 @@ describe('UserService', () => {
     const data = plainToClass(UserCreateDto, {
       username,
       email,
+      name: 'Mojca',
+      surname: 'Rojca',
       password: 'test pass',
     });
 
