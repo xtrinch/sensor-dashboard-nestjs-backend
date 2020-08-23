@@ -76,6 +76,9 @@ $ docker-compose up -d
 # backup database in production
 $ docker exec -t postgres pg_dump --no-owner -U postgres sensor-dashboard > ../sensor-dashboard-database-backups/backup.sql
 
+# build containers so that migration files are transpiled
+$ docker-compose build
+
 # run migrations
-$  docker exec -t main yarn run typeorm migration:run
+$  docker exec -t main yarn run typeorm-prod migration:run
 ```

@@ -1,15 +1,7 @@
-import {
-  Matches,
-  IsNotEmpty,
-  IsEnum,
-  IsOptional,
-  IsArray,
-  MinLength,
-  ArrayMinSize,
-} from 'class-validator';
-import { DateRange } from '~utils/date.range';
+import { ArrayMinSize, IsArray, IsEnum, Matches } from 'class-validator';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorId } from '~modules/sensor/sensor.entity';
+import { DateRange } from '~utils/date.range';
 
 export class MeasurementQueryDto {
   @ArrayMinSize(1)

@@ -6,9 +6,10 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
+import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
 import { SensorUpdateDto } from '~modules/sensor/dto/sensor.update.dto';
-import { UserRequest } from '~modules/user/user.guard';
+import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import { Sensor, SensorId, SensorWhereInterface } from './sensor.entity';
 
@@ -49,7 +50,7 @@ export class SensorService {
     sensor.boardType = data.boardType;
     sensor.location = data.location;
     sensor.name = data.name;
-    sensor.measurementTypes = data.measurementTypes;
+    sensor.measurementTypes = Object.values(MeasurementTypeEnum);
     sensor.timezone = data.timezone;
     sensor.userId = request.user?.id;
 

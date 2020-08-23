@@ -15,7 +15,7 @@ import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
 import { SensorDetailsDto } from '~modules/sensor/dto/sensor.details.dto';
 import { SensorDto } from '~modules/sensor/dto/sensor.dto';
 import { SensorUpdateDto } from '~modules/sensor/dto/sensor.update.dto';
-import { UserGuard, UserRequest } from '~modules/user/user.guard';
+import { JwtGuard, UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
@@ -35,7 +35,7 @@ export class SensorController {
     );
   }
 
-  @UseGuards(UserGuard)
+  @UseGuards(JwtGuard)
   @Post()
   public async create(
     @Body() data: SensorCreateDto,
@@ -45,7 +45,7 @@ export class SensorController {
     return SensorDetailsDto.fromSensor(sensor);
   }
 
-  @UseGuards(UserGuard)
+  @UseGuards(JwtGuard)
   @Put('/:id')
   public async update(
     @Body() data: SensorUpdateDto,

@@ -3,8 +3,8 @@ import { NestApplicationContext } from '@nestjs/core';
 import { plainToClass } from 'class-transformer';
 import { v4 } from 'uuid';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
+import { UserRequest } from '~modules/user/jwt.guard';
 import { User } from '~modules/user/user.entity';
-import { UserRequest } from '~modules/user/user.guard';
 import { UserService } from '~modules/user/user.service';
 
 export interface UserFixtureInterface {

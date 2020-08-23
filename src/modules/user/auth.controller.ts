@@ -3,13 +3,13 @@ import { AuthService } from '~modules/user/auth.service';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
 import { UserDto } from '~modules/user/dto/user.dto';
 import { UserLoginDto } from '~modules/user/dto/user.login.dto';
-import { UserGuard } from '~modules/user/user.guard';
+import { LocalGuard } from '~modules/user/local.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(UserGuard)
+  @UseGuards(LocalGuard)
   @Post('login')
   async login(
     @Body() data: UserLoginDto,
