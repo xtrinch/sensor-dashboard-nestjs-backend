@@ -8,10 +8,12 @@ export interface UserWhereInterface {
   email?: string;
 }
 
+export type UserId = number;
+
 @Entity()
 export class User extends AbstractEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: UserId;
 
   @Column({ length: 128, unique: true, nullable: false })
   email: string;

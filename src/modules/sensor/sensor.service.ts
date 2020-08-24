@@ -1,8 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
@@ -33,13 +29,21 @@ export class SensorService {
   }
 
   public async find(where: SensorWhereInterface): Promise<Sensor> {
-    const result = await this.sensorRepository.findOne(where);
+    const sensor = await this.sensorRepository.findOneOrFail(where);
+    return sensor;
+  }
 
-    if (!result) {
-      throw new NotFoundException('Sensor not found');
+  public async userFind(
+    request: UserRequest,
+    where: SensorWhereInterface,
+  ): Promise<Sensor> {
+    const sensor = await this.find(where);
+
+    if (sensor.userId !== request.user?.id) {
+      throw new ForbiddenException();
     }
 
-    return result;
+    return sensor;
   }
 
   public async create(
@@ -53,6 +57,7 @@ export class SensorService {
     sensor.measurementTypes = Object.values(MeasurementTypeEnum);
     sensor.timezone = data.timezone;
     sensor.userId = request.user?.id;
+    sensor.user = request.user;
 
     await Sensor.save(sensor);
 

@@ -10,7 +10,7 @@ services:
       - /usr/src/app/node_modules
       - /usr/src/app/dist
     ports:
-      - ${SERVER_PORT}:3001
+      - ${DOCKER_MAPPED_PORT}:${SERVER_PORT}
     command: yarn run start
     env_file:
       - .env

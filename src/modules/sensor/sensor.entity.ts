@@ -16,6 +16,7 @@ import { AbstractEntity } from '~utils/abstract.entity';
 export type SensorId = number;
 
 export interface SensorWhereInterface {
+  id?: number;
   sensorAccessToken?: string;
 }
 
@@ -44,16 +45,19 @@ export class Sensor extends AbstractEntity {
   public measurementTypes: MeasurementTypeEnum[];
 
   @Column({
-    default: 'Europe/Ljubljana',
+    default: 'Europe/Vienna',
   })
   public timezone: string;
 
-  @ManyToOne(() => User, (user) => user.sensors)
+  @ManyToOne(() => User, (user) => user.sensors, { eager: true })
   @JoinColumn({ name: 'userId' })
   public user: User;
 
   @Column('integer')
   public userId: number;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  public lastSeenAt: Date;
 
   public toString(): string {
     return this.name;

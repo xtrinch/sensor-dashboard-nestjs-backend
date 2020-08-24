@@ -55,4 +55,15 @@ export class SensorController {
     const sensor = await this.sensorService.update(request, id, data);
     return SensorDetailsDto.fromSensor(sensor);
   }
+
+  @UseGuards(JwtGuard)
+  @Get('/:id')
+  public async get(
+    @Param('id') id: SensorId,
+    @Request() request: UserRequest,
+  ): Promise<SensorDetailsDto> {
+    const sensor = await this.sensorService.userFind(request, { id });
+
+    return SensorDetailsDto.fromSensor(sensor);
+  }
 }

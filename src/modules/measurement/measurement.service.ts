@@ -5,6 +5,7 @@ import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.l
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
 import { MeasurementAggregateInterface } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
+import { Sensor } from '~modules/sensor/sensor.entity';
 import { SensorRequest } from '~modules/sensor/sensor.guard';
 import { DateRange } from '~utils/date.range';
 import { Measurement } from './measurement.entity';
@@ -39,7 +40,10 @@ export class MeasurementService {
     measurement.sensor = request.sensor;
     measurement.sensorId = request.sensor.id;
 
+    request.sensor.lastSeenAt = new Date();
+
     await Measurement.save(measurement);
+    await Sensor.save(request.sensor);
 
     return measurement;
   }
@@ -58,7 +62,11 @@ export class MeasurementService {
       measurements.push(measurement);
     }
 
+    request.sensor.lastSeenAt = new Date();
+
     await Measurement.save(measurements);
+    await Sensor.save(request.sensor);
+
     return measurements;
   }
 }
