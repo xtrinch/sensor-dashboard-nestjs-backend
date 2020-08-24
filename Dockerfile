@@ -10,4 +10,6 @@ COPY . .
 
 RUN npm run build
 
+RUN npm run typeorm-prod migration:run
+
 CMD [ "npm", "run", "start" ]
