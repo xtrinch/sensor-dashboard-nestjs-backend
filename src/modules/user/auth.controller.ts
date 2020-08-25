@@ -18,11 +18,13 @@ export class AuthController {
     accessToken: string;
     user: UserDto;
   }> {
-    const loginData = await this.authService.login(req.user);
+    const {
+      accessToken, user
+    } = await this.authService.login(req.user);
 
     return {
-      accessToken: loginData.accessToken,
-      user: UserDto.fromUser(loginData.user),
+      accessToken,
+      user: UserDto.fromUser(user),
     };
   }
 

@@ -1,6 +1,7 @@
 import { User } from '~modules/user/user.entity';
 
 export class UserDto {
+  public id: number;
   public username: string;
   public email: string;
   public name: string;
@@ -12,6 +13,7 @@ export class UserDto {
       email: user.email,
       name: user.name,
       surname: user.surname,
+      id: user.id,
     };
   }
 }
