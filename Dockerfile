@@ -1,15 +1,10 @@
 FROM node:alpine
-
 WORKDIR /usr/src/app
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install
+COPY . ./
+RUN yarn run build
+RUN yarn run typeorm-prod migration:run
 
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
-RUN npm run build
-
-RUN npm run typeorm-prod migration:run
-
-CMD [ "npm", "run", "start" ]
+CMD [ "yarn", "run", "start" ]
