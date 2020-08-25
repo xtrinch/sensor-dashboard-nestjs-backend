@@ -19,6 +19,11 @@ services:
     depends_on:
       - postgrestest
       - postgres
+    logging:
+      driver: "json-file"
+      options:
+          max-file: 5
+          max-size: 10m
   postgres:
     container_name: postgres
     image: postgres:12
@@ -33,6 +38,11 @@ services:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
+    logging:
+      driver: "json-file"
+      options:
+          max-file: 5
+          max-size: 10m
   postgrestest:
     container_name: postgrestest
     image: postgres:12
@@ -44,6 +54,11 @@ services:
       POSTGRES_DB: ${DB_DATABASE}
     ports:
       - 5433:5432
+    logging:
+      driver: "json-file"
+      options:
+          max-file: 5
+          max-size: 10m
 networks:
   webnet:
 volumes:
