@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MeasurementModule } from '~/modules/measurement/measurement.module';
 import { SensorModule } from '~/modules/sensor/sensor.module';
 import { UserModule } from '~/modules/user/user.module';
+import { LoggerMiddleware } from '~utils/logger.middleware';
 import { AppService } from './app.service';
 
 @Module({
@@ -15,4 +16,10 @@ import { AppService } from './app.service';
   controllers: [],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes('/');
+  }
+}
