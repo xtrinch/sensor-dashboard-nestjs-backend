@@ -12,7 +12,7 @@ export class MeasurementRepository extends Repository<Measurement> {
   public async groupBy(
     where: MeasurementWhereInterface,
   ): Promise<MeasurementAggregateInterface> {
-    let timeFormat;
+    let timeFormat: string;
 
     switch (where.groupBy) {
       case RangeGroupByEnum.DAY:

@@ -1,16 +1,24 @@
 import {
-  startOfDay,
   endOfDay,
+  endOfHour,
   endOfMonth,
-  startOfMonth,
-  startOfYear,
-  endOfYear,
-  setDate,
-  setMonth,
-  setYear,
-  setWeek,
-  startOfWeek,
   endOfWeek,
+  endOfYear,
+  getDate,
+  getHours,
+  getMonth,
+  getWeek,
+  getYear,
+  setDate,
+  setHours,
+  setMonth,
+  setWeek,
+  setYear,
+  startOfDay,
+  startOfHour,
+  startOfMonth,
+  startOfWeek,
+  startOfYear,
 } from 'date-fns';
 
 export interface DateRegexGroupsInterface {
@@ -31,6 +39,14 @@ export interface DateRangeInterface {
 export enum RangeGroupByEnum {
   MONTH = 'month',
   DAY = 'day',
+}
+
+export enum DateRangeEnum {
+  year = 'year',
+  month = 'month',
+  week = 'week',
+  day = 'day',
+  hour = 'hour',
 }
 
 export type DateRegex = string;
@@ -92,7 +108,14 @@ export class DateRange {
     let to: Date;
     let start: Date = new Date();
 
-    if (range.day) {
+    if (range.hour) {
+      start = setHours(start, range.hour);
+      start = setDate(start, range.day);
+      start = setMonth(start, range.month - 1);
+      start = setYear(start, range.year);
+      from = startOfHour(start);
+      to = endOfHour(start);
+    } else if (range.day) {
       start = setDate(start, range.day);
       start = setMonth(start, range.month - 1);
       start = setYear(start, range.year);
@@ -117,5 +140,33 @@ export class DateRange {
       from,
       to,
     };
+  }
+
+  public static getDateString(date: Date, groupBy: DateRangeEnum): string {
+    let dateString = '';
+
+    switch (groupBy) {
+      case DateRangeEnum.month:
+        dateString = `${getYear(date)}/${getMonth(date) + 1}`;
+        break;
+      case DateRangeEnum.year:
+        dateString = `${getYear(date)}`;
+        break;
+      case DateRangeEnum.day:
+        dateString = `${getYear(date)}/${getMonth(date) + 1}/${getDate(date)}`;
+        break;
+      case DateRangeEnum.hour:
+        dateString = `${getYear(date)}/${getMonth(date) + 1}/${getDate(
+          date,
+        )} ${getHours(date)}`;
+        break;
+      case DateRangeEnum.week:
+        dateString = `${getYear(date)}/w${getWeek(date)}`;
+        break;
+      default:
+        break;
+    }
+
+    return dateString;
   }
 }
