@@ -1,23 +1,18 @@
+import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import {
-  INestApplication,
-  ValidationPipe,
-  BadRequestException,
-} from '@nestjs/common';
 import * as request from 'supertest';
-import {
-  MeasurementFixtureInterface,
-  MeasurementFixture,
-} from '~modules/measurement/measurement.fixture';
 import { AppModule } from '~app.module';
-import { ValidationError } from 'class-validator';
+import {
+  MeasurementFixture,
+  MeasurementFixtureInterface,
+} from '~modules/measurement/measurement.fixture';
 import { initPipes } from '~utils/app.utils';
 
 describe('MeasurementController (e2e)', () => {
   let app: INestApplication;
   let fixture: MeasurementFixtureInterface;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();

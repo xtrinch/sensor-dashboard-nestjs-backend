@@ -36,6 +36,25 @@ export class SensorController {
   }
 
   @UseGuards(JwtGuard)
+  @Get('/my')
+  public async findMySensors(
+    @Query() pagination: PaginationQueryDto,
+    @Request() request: UserRequest,
+  ): Promise<PaginationDto<SensorDetailsDto>> {
+    const items = await this.sensorService.findAll(
+      {
+        userId: request.user?.id,
+      },
+      pagination,
+    );
+
+    return PaginationDto.fromPagination<Sensor, SensorDetailsDto>(
+      items,
+      SensorDetailsDto.fromSensor,
+    );
+  }
+
+  @UseGuards(JwtGuard)
   @Post()
   public async create(
     @Body() data: SensorCreateDto,

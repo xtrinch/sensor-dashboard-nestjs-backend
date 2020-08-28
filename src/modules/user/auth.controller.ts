@@ -18,9 +18,7 @@ export class AuthController {
     accessToken: string;
     user: UserDto;
   }> {
-    const {
-      accessToken, user
-    } = await this.authService.login(req.user);
+    const { accessToken, user } = await this.authService.login(req.user);
 
     return {
       accessToken,

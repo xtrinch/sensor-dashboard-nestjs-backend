@@ -14,12 +14,12 @@ import { AppService } from './app.service';
     TypeOrmModule.forRoot(),
   ],
   controllers: [],
-  providers: [AppService],
+  providers: [
+    AppService,
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes('/');
+    consumer.apply(LoggerMiddleware).forRoutes('/');
   }
 }

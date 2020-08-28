@@ -10,7 +10,7 @@ import {
 import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Measurement } from '~modules/measurement/measurement.entity';
-import { User } from '~modules/user/user.entity';
+import { User, UserId } from '~modules/user/user.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
 export type SensorId = number;
@@ -18,6 +18,7 @@ export type SensorId = number;
 export interface SensorWhereInterface {
   id?: number;
   sensorAccessToken?: string;
+  userId?: UserId;
 }
 
 @Entity()

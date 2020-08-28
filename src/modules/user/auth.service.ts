@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
 import { User } from '~modules/user/user.entity';
+import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { PostgresErrorCode } from '~utils/postgres-error-codes.enum';
 import { UserService } from './user.service';
 
@@ -13,7 +14,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(user: User) {
+  async login(user: User): Promise<UserAuthInterface> {
     const payload = { username: user.email, sub: user.id };
     return {
       accessToken: this.jwtService.sign(payload),
@@ -21,7 +22,7 @@ export class AuthService {
     };
   }
 
-  public async register(userCreateDto: UserCreateDto) {
+  public async register(userCreateDto: UserCreateDto): Promise<User> {
     const hashedPassword = await bcrypt.hash(userCreateDto.password, 10);
     try {
       const createdUser = await this.usersService.create({
@@ -40,7 +41,7 @@ export class AuthService {
     }
   }
 
-  async validateUser(email: string, plaintextPass: string): Promise<any> {
+  async validateUser(email: string, plaintextPass: string): Promise<User> {
     const user = await this.usersService.find({ email });
 
     const isPasswordMatching = await bcrypt.compare(
