@@ -27,7 +27,7 @@ export class Display extends AbstractEntity {
   @Generated('uuid')
   public displayAccessToken: string;
 
-  @ManyToMany(() => Display, display => display.sensors, { 
+  @ManyToMany(() => Sensor, sensor => sensor.displays, { 
     cascade: ["insert", "update"],
   })
   @JoinTable()

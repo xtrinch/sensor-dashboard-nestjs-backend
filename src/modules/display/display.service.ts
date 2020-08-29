@@ -27,8 +27,8 @@ export class DisplayService {
     return results;
   }
 
-  public async find(where: DisplayWhereInterface): Promise<Display> {
-    const display = await this.displayRepository.findOneOrFail(where);
+  public async find(where: DisplayWhereInterface, options?: { relations: string[] }): Promise<Display> {
+    const display = await this.displayRepository.findOneOrFail(where, options);
     return display;
   }
 

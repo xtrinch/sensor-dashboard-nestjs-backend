@@ -2,13 +2,49 @@ import { format } from 'date-fns';
 import { EntityRepository, Repository } from 'typeorm';
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
-  MeasurementAggregateInterface,
+  DisplayMeasurementAggregateInterface, MeasurementAggregateInterface,
   MeasurementWhereInterface
 } from '~modules/measurement/measurement.interfaces';
 import { RangeGroupByEnum } from '~utils/date.range';
 
 @EntityRepository(Measurement)
 export class MeasurementRepository extends Repository<Measurement> {
+  public async getLatest(
+    where: MeasurementWhereInterface,
+  ): Promise<DisplayMeasurementAggregateInterface> {
+    
+    const r = await this.manager.query(
+      `
+      SELECT DISTINCT ON ("sensorId", "measurementType")
+        last_value("createdAt") OVER w as "createdAt",
+        last_value("measurement") OVER w as "measurement",
+        last_value("sensorId") OVER w as "sensorId",
+        last_value("measurementType") OVER w as "measurementType"
+        FROM "measurement"
+        WHERE "measurementType" = ANY ($2) AND "sensorId" = ANY ($1)
+        WINDOW w AS (
+          PARTITION BY "sensorId", "measurementType" ORDER BY "createdAt" DESC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+        );
+    `,
+      [where.sensorIds, where.measurementTypes],
+    );
+
+    const res = r.reduce(
+      (acc: DisplayMeasurementAggregateInterface, curr: Measurement) => {
+        if (!acc[curr.sensorId]) {
+          acc[curr.sensorId] = {};
+        }
+
+        acc[curr.sensorId][curr.measurementType] = curr;
+        return acc;
+      },
+      {},
+    );
+    
+    return res;
+  }
+  
   public async groupBy(
     where: MeasurementWhereInterface,
   ): Promise<MeasurementAggregateInterface> {

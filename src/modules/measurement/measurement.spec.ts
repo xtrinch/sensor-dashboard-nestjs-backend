@@ -4,14 +4,15 @@ import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
 import { getWeek } from 'date-fns';
 import { v4 } from 'uuid';
+import { DisplayModule } from '~modules/display/display.module';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   MeasurementFixture,
-  MeasurementFixtureInterface,
+  MeasurementFixtureInterface
 } from '~modules/measurement/measurement.fixture';
-import { MeasurementAggregateInterface } from '~modules/measurement/measurement.interfaces';
+import { DisplayMeasurementAggregateInterface, MeasurementAggregateInterface } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { MeasurementService } from '~modules/measurement/measurement.service';
 import { SensorModule } from '~modules/sensor/sensor.module';
@@ -32,6 +33,7 @@ describe('MeasurementService', () => {
         TypeOrmModule.forFeature([Measurement, MeasurementRepository]),
         SensorModule,
         UserModule,
+        DisplayModule,
       ],
     }).compile();
 
@@ -126,6 +128,14 @@ describe('MeasurementService', () => {
     expect(resp[MeasurementTypeEnum.GAS][fixture.sensorOne.id].length).not.toBe(
       0,
     );
+  });
+
+  it('should list latest measurements for display device', async () => {
+    const resp: DisplayMeasurementAggregateInterface = await measurementService.getLatestMeasurements(
+      fixture.displayRequest
+    );
+
+    console.log(resp);
   });
 
   afterAll(async () => {

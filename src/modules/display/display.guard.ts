@@ -29,8 +29,8 @@ export class DisplayGuard implements CanActivate {
 
     request.display = await this.displayService.find({
       displayAccessToken: authorization,
-    });
-
+    }, { relations: ['sensors'] });
+    
     return true;
   }
 }

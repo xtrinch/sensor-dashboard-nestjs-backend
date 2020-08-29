@@ -12,14 +12,26 @@ export interface MeasurementWhereInterface {
   sensorIds: SensorId[];
 }
 
+export interface MeasurementAggregateInterface {
+  [MeasurementTypeEnum: string]: {
+    [SensorId: string]: Measurement[];
+  };
+}
+
 export interface MeasurementAggregateDto {
   [MeasurementTypeEnum: string]: {
     [SensorId: string]: MeasurementDto[];
   };
 }
 
-export interface MeasurementAggregateInterface {
-  [MeasurementTypeEnum: string]: {
-    [SensorId: string]: Measurement[];
+export interface DisplayMeasurementAggregateInterface {
+  [SensorId: string]: {
+    [MeasurementTypeEnum: string]: Measurement;
+  };
+}
+
+export interface DisplayMeasurementAggregateDto {
+  [SensorId: string]: {
+    [MeasurementTypeEnum: string]: MeasurementDto;
   };
 }
