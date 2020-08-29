@@ -3,7 +3,7 @@ import { Measurement } from '~modules/measurement/measurement.entity';
 import { SensorDto } from '~modules/sensor/dto/sensor.dto';
 
 export class MeasurementDto {
-  public id: string;
+  public id: number;
   public measurement: number;
   public measurementType: MeasurementTypeEnum;
   public sensor?: SensorDto;

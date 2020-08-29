@@ -3,13 +3,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
-export type MeasurementId = string;
+export type MeasurementId = number;
 
 @Entity()
 export class Measurement extends AbstractEntity {

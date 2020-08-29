@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Display } from '~modules/display/display.entity';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
@@ -35,4 +36,7 @@ export class User extends AbstractEntity {
 
   @OneToMany(() => Sensor, (sensor) => sensor.user)
   public sensors: Sensor[];
+
+  @OneToMany(() => Display, (display) => display.user)
+  public displays: Display[];
 }

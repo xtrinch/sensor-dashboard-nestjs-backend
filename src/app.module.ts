@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MeasurementModule } from '~/modules/measurement/measurement.module';
 import { SensorModule } from '~/modules/sensor/sensor.module';
 import { UserModule } from '~/modules/user/user.module';
+import { DisplayModule } from '~modules/display/display.module';
 import { LoggerMiddleware } from '~utils/logger.middleware';
 import { AppService } from './app.service';
 
@@ -11,6 +12,7 @@ import { AppService } from './app.service';
     SensorModule,
     MeasurementModule,
     UserModule,
+    DisplayModule,
     TypeOrmModule.forRoot(),
   ],
   controllers: [],

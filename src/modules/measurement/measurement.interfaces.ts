@@ -5,8 +5,8 @@ import { SensorId } from '~modules/sensor/sensor.entity';
 import { RangeGroupByEnum } from '~utils/date.range';
 
 export interface MeasurementWhereInterface {
-  from: Date;
-  to: Date;
+  from?: Date;
+  to?: Date;
   measurementTypes: MeasurementTypeEnum[];
   groupBy?: RangeGroupByEnum;
   sensorIds: SensorId[];
