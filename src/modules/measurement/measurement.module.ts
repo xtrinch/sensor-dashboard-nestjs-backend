@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DefaultAdminModule, DefaultAdminSite } from 'nestjs-admin';
 import { MeasurementController } from '~/modules/measurement/measurement.controller';
 import { Measurement } from '~/modules/measurement/measurement.entity';
 import { MeasurementService } from '~/modules/measurement/measurement.service';
@@ -10,7 +9,6 @@ import { SensorModule } from '~modules/sensor/sensor.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Measurement, MeasurementRepository]),
-    DefaultAdminModule,
     SensorModule,
   ],
   providers: [MeasurementService],
@@ -18,7 +16,4 @@ import { SensorModule } from '~modules/sensor/sensor.module';
   controllers: [MeasurementController],
 })
 export class MeasurementModule {
-  constructor(private readonly adminSite: DefaultAdminSite) {
-    adminSite.register('Measurement', Measurement);
-  }
 }

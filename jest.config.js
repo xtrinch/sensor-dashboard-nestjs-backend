@@ -6,10 +6,13 @@ module.exports = {
   moduleNameMapper: {
     '~(.*)$': '<rootDir>/$1',
   },
-  moduleFileExtensions: ['js', 'json', 'ts'],
+  moduleFileExtensions: ['js', 'json', 'ts', 'node'],
   moduleDirectories: [
     "node_modules", 
     "src"
   ],
-  testTimeout: 30000
+  testTimeout: 30000,
+  transform: {
+    '^.+\\.ts?$': 'ts-jest'
+  },
 };

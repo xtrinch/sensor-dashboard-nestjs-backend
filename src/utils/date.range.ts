@@ -18,7 +18,7 @@ import {
   startOfHour,
   startOfMonth,
   startOfWeek,
-  startOfYear,
+  startOfYear
 } from 'date-fns';
 
 export interface DateRegexGroupsInterface {
@@ -39,6 +39,7 @@ export interface DateRangeInterface {
 export enum RangeGroupByEnum {
   MONTH = 'month',
   DAY = 'day',
+  HOUR = 'hour',
 }
 
 export enum DateRangeEnum {
@@ -91,7 +92,9 @@ export class DateRange {
   ): RangeGroupByEnum | null {
     let groupBy: RangeGroupByEnum = null;
     if (!range.month && !range.week) {
-      groupBy = RangeGroupByEnum.MONTH;
+      groupBy = RangeGroupByEnum.DAY;
+    } else if (range.week) {
+      groupBy = RangeGroupByEnum.HOUR;
     } else if (!range.day) {
       groupBy = RangeGroupByEnum.DAY;
     }

@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   MeasurementAggregateInterface,
-  MeasurementWhereInterface,
+  MeasurementWhereInterface
 } from '~modules/measurement/measurement.interfaces';
 import { RangeGroupByEnum } from '~utils/date.range';
 
@@ -20,6 +20,9 @@ export class MeasurementRepository extends Repository<Measurement> {
         break;
       case RangeGroupByEnum.MONTH:
         timeFormat = 'YYYY/MM';
+        break;
+      case RangeGroupByEnum.HOUR:
+        timeFormat = 'YYYY/MM/DD HH24';
         break;
       default:
         timeFormat = 'YYYY/MM/DD HH24:MI';
