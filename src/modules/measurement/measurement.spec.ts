@@ -10,9 +10,12 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   MeasurementFixture,
-  MeasurementFixtureInterface
+  MeasurementFixtureInterface,
 } from '~modules/measurement/measurement.fixture';
-import { DisplayMeasurementAggregateInterface, MeasurementAggregateInterface } from '~modules/measurement/measurement.interfaces';
+import {
+  DisplayMeasurementAggregateInterface,
+  MeasurementAggregateInterface,
+} from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { MeasurementService } from '~modules/measurement/measurement.service';
 import { SensorModule } from '~modules/sensor/sensor.module';
@@ -132,10 +135,10 @@ describe('MeasurementService', () => {
 
   it('should list latest measurements for display device', async () => {
     const resp: DisplayMeasurementAggregateInterface = await measurementService.getLatestMeasurements(
-      fixture.displayRequest
+      fixture.displayRequest,
     );
 
-    console.log(resp);
+    expect(resp[fixture.sensorOne.id][MeasurementTypeEnum.GAS]).toBeDefined();
   });
 
   afterAll(async () => {

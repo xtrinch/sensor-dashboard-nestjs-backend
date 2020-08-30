@@ -3,7 +3,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Sensor } from '~modules/sensor/sensor.entity';

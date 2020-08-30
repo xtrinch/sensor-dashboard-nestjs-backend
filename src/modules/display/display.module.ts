@@ -10,5 +10,4 @@ import { Display } from '~modules/display/display.entity';
   exports: [DisplayService, TypeOrmModule],
   controllers: [DisplayController],
 })
-export class DisplayModule {
-}
+export class DisplayModule {}

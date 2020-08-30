@@ -25,7 +25,7 @@ For detailed API documentation (swagger docs) see `http://localhost:3000/swagger
  --------------------- | ------ | ----------------- | -------------------------------------------- | ------------------------------------------------
  `/sensors`            | GET    | No                |                                              | List all sensor boards
  `/sensors`            | POST   | Yes - Admin auth  |                                              | Create a sensor entry
- `/measurements`       | GET    | No                | createdAtRange, measurementTypes, sensorsIds | List all measurements
+ `/measurements`       | GET    | No                | createdAtRange, measurementTypes, sensorIds | List all measurements
  `/measurements`       | POST   | Yes - Sensor auth |                                              | Post one measurement for a sensor board
  `/measurements/multi` | POST   | Yes - Sensor auth |                                              | Post multiple measurements for a sensor board
 

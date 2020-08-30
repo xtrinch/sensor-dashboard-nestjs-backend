@@ -1,17 +1,22 @@
 import { INestApplication } from '@nestjs/common';
 import { NestApplicationContext } from '@nestjs/core';
 import { plainToClass } from 'class-transformer';
-import { DisplayFixture, DisplayFixtureInterface } from '~modules/display/display.fixture';
+import {
+  DisplayFixture,
+  DisplayFixtureInterface,
+} from '~modules/display/display.fixture';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Measurement } from '~modules/measurement/measurement.entity';
 import { MeasurementService } from '~modules/measurement/measurement.service';
 import {
   SensorFixture,
-  SensorFixtureInterface
+  SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
 
-export interface MeasurementFixtureInterface extends SensorFixtureInterface, DisplayFixtureInterface {
+export interface MeasurementFixtureInterface
+  extends SensorFixtureInterface,
+    DisplayFixtureInterface {
   measurementOne: Measurement;
 }
 

@@ -20,8 +20,8 @@ import {
   startOfHour,
   startOfMonth,
   startOfWeek,
-  startOfYear
-} from "date-fns";
+  startOfYear,
+} from 'date-fns';
 
 export interface DateRegexGroupsInterface {
   year?: number;
@@ -45,19 +45,19 @@ export enum RangeGroupByEnum {
 }
 
 export enum DateRangeEnum {
-  year = "year",
-  month = "month",
-  week = "week",
-  day = "day",
-  hour = "hour",
-  minute = "minute",
+  year = 'year',
+  month = 'month',
+  week = 'week',
+  day = 'day',
+  hour = 'hour',
+  minute = 'minute',
 }
 
 export type DateRegex = string;
 
-export const DATETIME_REGEX = "MMMM d, yyyy HH:mm"; // August 31, 2020
-export const DATE_REGEX = "MMMM d, yyyy"; // August 31, 2020
-export const MONTH_YEAR_REGEX = "MMMM yyyy"; // August 31, 2020
+export const DATETIME_REGEX = 'MMMM d, yyyy HH:mm'; // August 31, 2020
+export const DATE_REGEX = 'MMMM d, yyyy'; // August 31, 2020
+export const MONTH_YEAR_REGEX = 'MMMM yyyy'; // August 31, 2020
 
 export class DateRange {
   public static regex = /^(?<year>[0-9]{4})(\/((?<month>[0-9]{1,2})|(w(?<week>[0-9]{1,2})))(\/(?<day>[0-9]{1,2})( (?<hour>[0-9]{1,2})(:(?<minute>[0-9]{1,2}))?)?)?)?$/;
@@ -168,12 +168,12 @@ export class DateRange {
         break;
       case DateRangeEnum.hour:
         dateString = `${getYear(date)}/${getMonth(date) + 1}/${getDate(
-          date
+          date,
         )} ${getHours(date)}`;
         break;
       case DateRangeEnum.minute:
         dateString = `${getYear(date)}/${getMonth(date) + 1}/${getDate(
-          date
+          date,
         )} ${getHours(date)}:${getMinutes(date)}`;
         break;
       case DateRangeEnum.week:
@@ -190,10 +190,10 @@ export class DateRange {
     const groups = this.getRegexGroups(date);
     const now = new Date();
     const nowGroups = this.getRegexGroups(
-      this.getDateString(now, DateRangeEnum.minute)
+      this.getDateString(now, DateRangeEnum.minute),
     );
     const nowWeekGroups = this.getRegexGroups(
-      this.getDateString(now, DateRangeEnum.week)
+      this.getDateString(now, DateRangeEnum.week),
     );
 
     switch (groupBy) {

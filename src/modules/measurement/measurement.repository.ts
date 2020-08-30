@@ -2,8 +2,9 @@ import { format } from 'date-fns';
 import { EntityRepository, Repository } from 'typeorm';
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
-  DisplayMeasurementAggregateInterface, MeasurementAggregateInterface,
-  MeasurementWhereInterface
+  DisplayMeasurementAggregateInterface,
+  MeasurementAggregateInterface,
+  MeasurementWhereInterface,
 } from '~modules/measurement/measurement.interfaces';
 import { RangeGroupByEnum } from '~utils/date.range';
 
@@ -12,7 +13,6 @@ export class MeasurementRepository extends Repository<Measurement> {
   public async getLatest(
     where: MeasurementWhereInterface,
   ): Promise<DisplayMeasurementAggregateInterface> {
-    
     const r = await this.manager.query(
       `
       SELECT DISTINCT ON ("sensorId", "measurementType")
@@ -41,10 +41,10 @@ export class MeasurementRepository extends Repository<Measurement> {
       },
       {},
     );
-    
+
     return res;
   }
-  
+
   public async groupBy(
     where: MeasurementWhereInterface,
   ): Promise<MeasurementAggregateInterface> {

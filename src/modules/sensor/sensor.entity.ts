@@ -3,12 +3,10 @@ import {
   Entity,
   Generated,
   JoinColumn,
-
-
-
-  ManyToMany, ManyToOne,
+  ManyToMany,
+  ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
 import { Display } from '~modules/display/display.entity';
@@ -64,7 +62,7 @@ export class Sensor extends AbstractEntity {
   @Column({ type: 'timestamptz', nullable: true })
   public lastSeenAt: Date;
 
-  @ManyToMany(() => Display, display => display.sensors)
+  @ManyToMany(() => Display, (display) => display.sensors)
   public displays: Display[];
 
   @Column('boolean', { default: false })

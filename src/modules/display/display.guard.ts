@@ -2,7 +2,7 @@ import {
   CanActivate,
   ExecutionContext,
   Inject,
-  Injectable
+  Injectable,
 } from '@nestjs/common';
 import { Http2ServerRequest } from 'http2';
 import validator from 'validator';
@@ -27,10 +27,13 @@ export class DisplayGuard implements CanActivate {
       return false;
     }
 
-    request.display = await this.displayService.find({
-      displayAccessToken: authorization,
-    }, { relations: ['sensors'] });
-    
+    request.display = await this.displayService.find(
+      {
+        displayAccessToken: authorization,
+      },
+      { relations: ['sensors'] },
+    );
+
     return true;
   }
 }

@@ -4,8 +4,10 @@ import { DisplayRequest } from '~modules/display/display.guard';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.list.create.dto';
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
-import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import { DisplayMeasurementAggregateInterface, MeasurementAggregateInterface } from '~modules/measurement/measurement.interfaces';
+import {
+  DisplayMeasurementAggregateInterface,
+  MeasurementAggregateInterface,
+} from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { SensorRequest } from '~modules/sensor/sensor.guard';
@@ -36,8 +38,8 @@ export class MeasurementService {
     request: DisplayRequest,
   ): Promise<DisplayMeasurementAggregateInterface> {
     const results = await this.measurementRepository.getLatest({
-      measurementTypes: Object.values(MeasurementTypeEnum),
-      sensorIds: (request.display.sensors || []).map(s => s.id),
+      measurementTypes: request.display.measurementTypes || [],
+      sensorIds: (request.display.sensors || []).map((s) => s.id),
     });
 
     return results;

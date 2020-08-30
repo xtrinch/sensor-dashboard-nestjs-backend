@@ -10,5 +10,4 @@ import { Sensor } from '~modules/sensor/sensor.entity';
   exports: [SensorService, TypeOrmModule],
   controllers: [SensorController],
 })
-export class SensorModule {
-}
+export class SensorModule {}

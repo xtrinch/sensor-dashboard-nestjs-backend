@@ -6,12 +6,15 @@ import { v4 } from 'uuid';
 import { Display } from '~modules/display/display.entity';
 import {
   DisplayFixture,
-  DisplayFixtureInterface
+  DisplayFixtureInterface,
 } from '~modules/display/display.fixture';
+import { DisplayModule } from '~modules/display/display.module';
 import { DisplayService } from '~modules/display/display.service';
 import { DisplayCreateDto } from '~modules/display/dto/display.create.dto';
 import { DisplayUpdateDto } from '~modules/display/dto/display.update.dto';
 import { DisplayBoardTypesEnum } from '~modules/display/enum/display-board-types.enum';
+import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { SensorModule } from '~modules/sensor/sensor.module';
 import { UserModule } from '~modules/user/user.module';
 
 describe('DisplayService', () => {
@@ -25,7 +28,9 @@ describe('DisplayService', () => {
     module = await Test.createTestingModule({
       providers: [DisplayService],
       imports: [
+        DisplayModule,
         UserModule,
+        SensorModule,
         TypeOrmModule.forRoot(),
         TypeOrmModule.forFeature([Display]),
       ],
@@ -40,6 +45,8 @@ describe('DisplayService', () => {
       name: 'A display name',
       location: 'A location',
       boardType: DisplayBoardTypesEnum.STM32F769NI,
+      sensorIds: [fixture.sensorOne.id],
+      measurementTypes: Object.values(MeasurementTypeEnum),
     });
 
     await validateOrReject(data);
@@ -65,6 +72,7 @@ describe('DisplayService', () => {
 
   it('should list displays', async () => {
     const displays = await displayService.findAll(
+      {},
       {},
       {
         limit: 20,

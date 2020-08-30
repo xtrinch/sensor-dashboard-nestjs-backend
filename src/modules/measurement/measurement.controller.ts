@@ -5,7 +5,7 @@ import {
   Post,
   Query,
   Request,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { MeasurementService } from '~/modules/measurement/measurement.service';
 import { DisplayGuard, DisplayRequest } from '~modules/display/display.guard';
@@ -14,7 +14,10 @@ import { MeasurementDto } from '~modules/measurement/dto/measurement.dto';
 import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.list.create.dto';
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import { DisplayMeasurementAggregateDto, MeasurementAggregateDto } from '~modules/measurement/measurement.interfaces';
+import {
+  DisplayMeasurementAggregateDto,
+  MeasurementAggregateDto,
+} from '~modules/measurement/measurement.interfaces';
 import { SensorGuard, SensorRequest } from '~modules/sensor/sensor.guard';
 
 @Controller('measurements')
@@ -73,15 +76,19 @@ export class MeasurementController {
     const response: DisplayMeasurementAggregateDto = {};
 
     // map the measurements to a DTO
-    Object.keys(items).map(sensorIdKey => {
+    Object.keys(items).map((sensorIdKey) => {
       const measurementTypes = items[sensorIdKey];
       response[sensorIdKey] = {};
 
-      Object.keys(measurementTypes).map(measurementTypeKey => {
-        response[sensorIdKey][measurementTypeKey] = MeasurementDto.fromMeasurement(measurementTypes[measurementTypeKey]);
-      })
-    })
-    
+      Object.keys(measurementTypes).map((measurementTypeKey) => {
+        response[sensorIdKey][
+          measurementTypeKey
+        ] = MeasurementDto.fromMeasurement(
+          measurementTypes[measurementTypeKey],
+        );
+      });
+    });
+
     return response;
   }
 }

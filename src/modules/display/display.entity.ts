@@ -1,8 +1,15 @@
 import {
-  Column, Entity,
-  Generated, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn
+  Column,
+  Entity,
+  Generated,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { DisplayBoardTypesEnum } from '~modules/display/enum/display-board-types.enum';
+import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { User, UserId } from '~modules/user/user.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
@@ -22,13 +29,13 @@ export class Display extends AbstractEntity {
 
   @Column()
   public name: string;
-  
+
   @Column()
   @Generated('uuid')
   public displayAccessToken: string;
 
-  @ManyToMany(() => Sensor, sensor => sensor.displays, { 
-    cascade: ["insert", "update"],
+  @ManyToMany(() => Sensor, (sensor) => sensor.displays, {
+    cascade: ['insert', 'update'],
   })
   @JoinTable()
   public sensors: Sensor[];
@@ -48,4 +55,7 @@ export class Display extends AbstractEntity {
 
   @Column()
   public boardType: DisplayBoardTypesEnum;
+
+  @Column('text', { array: true, default: () => 'array[]::text[]' })
+  public measurementTypes: MeasurementTypeEnum[];
 }

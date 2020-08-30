@@ -4,6 +4,7 @@ import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 import { DisplayCreateDto } from '~modules/display/dto/display.create.dto';
 import { DisplayUpdateDto } from '~modules/display/dto/display.update.dto';
+import { Sensor } from '~modules/sensor/sensor.entity';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import { Display, DisplayId, DisplayWhereInterface } from './display.entity';
@@ -17,17 +18,27 @@ export class DisplayService {
 
   public async findAll(
     where: DisplayWhereInterface,
+    options: { relations?: string[] },
     pagination: PaginationQueryDto,
   ): Promise<Pagination<Display>> {
-    const results = await paginate<Display>(this.displayRepository, {
-      ...pagination,
-      ...where,
-    });
+    const results = await paginate<Display>(
+      this.displayRepository,
+      {
+        ...pagination,
+        ...where,
+      },
+      {
+        ...options,
+      },
+    );
 
     return results;
   }
 
-  public async find(where: DisplayWhereInterface, options?: { relations: string[] }): Promise<Display> {
+  public async find(
+    where: DisplayWhereInterface,
+    options?: { relations: string[] },
+  ): Promise<Display> {
     const display = await this.displayRepository.findOneOrFail(where, options);
     return display;
   }
@@ -35,8 +46,9 @@ export class DisplayService {
   public async userFind(
     request: UserRequest,
     where: DisplayWhereInterface,
+    options?: { relations: string[] },
   ): Promise<Display> {
-    const display = await this.find(where);
+    const display = await this.find(where, options);
 
     if (display.userId !== request.user?.id) {
       throw new ForbiddenException();
@@ -55,7 +67,9 @@ export class DisplayService {
     display.user = request.user;
     display.name = data.name;
     display.boardType = data.boardType;
-    
+    display.sensors = data.sensorIds.map((id) => ({ id } as Sensor));
+    display.measurementTypes = data.measurementTypes;
+
     await Display.save(display);
 
     return display;
@@ -79,6 +93,12 @@ export class DisplayService {
     }
     if (data.boardType) {
       display.boardType = data.boardType;
+    }
+    if (data.sensorIds) {
+      display.sensors = data.sensorIds.map((id) => ({ id } as Sensor));
+    }
+    if (data.measurementTypes) {
+      display.measurementTypes = data.measurementTypes;
     }
 
     await Display.save(display);

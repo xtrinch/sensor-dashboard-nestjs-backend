@@ -11,11 +11,10 @@ import { SensorModule } from '~modules/sensor/sensor.module';
   imports: [
     TypeOrmModule.forFeature([Measurement, MeasurementRepository]),
     SensorModule,
-    DisplayModule
+    DisplayModule,
   ],
   providers: [MeasurementService],
   exports: [MeasurementService, TypeOrmModule],
   controllers: [MeasurementController],
 })
-export class MeasurementModule {
-}
+export class MeasurementModule {}
