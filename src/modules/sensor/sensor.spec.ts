@@ -10,7 +10,7 @@ import { SensorBoardTypesEnum } from '~modules/sensor/enum/sensor-board-types.en
 import { Sensor } from '~modules/sensor/sensor.entity';
 import {
   SensorFixture,
-  SensorFixtureInterface,
+  SensorFixtureInterface
 } from '~modules/sensor/sensor.fixture';
 import { SensorService } from '~modules/sensor/sensor.service';
 import { UserModule } from '~modules/user/user.module';
@@ -19,7 +19,7 @@ describe('SensorService', () => {
   let sensorService: SensorService;
   let module: TestingModule = null;
   let fixture: SensorFixtureInterface;
-
+  
   beforeAll(async () => {
     const seed = v4();
 
@@ -78,6 +78,15 @@ describe('SensorService', () => {
     );
 
     expect(sensors.items.length).not.toBe(0);
+  });
+
+  it('should delete a sensor', async () => {
+    const success = await sensorService.delete(
+      fixture.userRequest,
+      { id: fixture.sensorOne.id },
+    );
+
+    expect(success).toEqual(true);
   });
 
   afterAll(async () => {

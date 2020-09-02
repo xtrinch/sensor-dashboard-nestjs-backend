@@ -6,7 +6,7 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
 import { Display } from '~modules/display/display.entity';

@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
@@ -39,7 +39,12 @@ export class DisplayService {
     where: DisplayWhereInterface,
     options?: { relations: string[] },
   ): Promise<Display> {
-    const display = await this.displayRepository.findOneOrFail(where, options);
+    const display = await this.displayRepository.findOne(where, options);
+
+    if (!display) {
+      throw new NotFoundException();
+    }
+
     return display;
   }
 
@@ -104,5 +109,20 @@ export class DisplayService {
     await Display.save(display);
 
     return display;
+  }
+
+  public async delete(
+    request: UserRequest,
+    where: DisplayWhereInterface,
+  ): Promise<boolean> {
+    const display = await this.find(where);
+
+    if (display.userId !== request.user?.id) {
+      throw new ForbiddenException();
+    }
+
+    await Display.remove(display);
+
+    return true;
   }
 }

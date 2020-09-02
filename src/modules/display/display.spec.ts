@@ -6,7 +6,7 @@ import { v4 } from 'uuid';
 import { Display } from '~modules/display/display.entity';
 import {
   DisplayFixture,
-  DisplayFixtureInterface,
+  DisplayFixtureInterface
 } from '~modules/display/display.fixture';
 import { DisplayModule } from '~modules/display/display.module';
 import { DisplayService } from '~modules/display/display.service';
@@ -81,6 +81,15 @@ describe('DisplayService', () => {
     );
 
     expect(displays.items.length).not.toBe(0);
+  });
+
+  it('should delete a display', async () => {
+    const success = await displayService.delete(
+      fixture.userRequest,
+      { id: fixture.displayOne.id }
+    );
+
+    expect(success).toEqual(true);
   });
 
   afterAll(async () => {

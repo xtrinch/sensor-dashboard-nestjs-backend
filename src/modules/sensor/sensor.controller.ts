@@ -1,13 +1,20 @@
 import {
   Body,
   Controller,
-  Get,
+
+
+
+
+
+
+
+  Delete, Get,
   Param,
   Post,
   Put,
   Query,
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { Sensor, SensorId } from '~/modules/sensor/sensor.entity';
 import { SensorService } from '~/modules/sensor/sensor.service';
@@ -84,5 +91,21 @@ export class SensorController {
     const sensor = await this.sensorService.userFind(request, { id });
 
     return SensorDetailsDto.fromSensor(sensor);
+  }
+
+  @UseGuards(JwtGuard)
+  @Delete('/:id')
+  public async delete(
+    @Param('id') id: SensorId,
+    @Request() request: UserRequest,
+  ): Promise<{ status: string }> {
+    await this.sensorService.delete(
+      request,
+      { id },
+    );
+
+    return {
+      status:'200'
+    };
   }
 }

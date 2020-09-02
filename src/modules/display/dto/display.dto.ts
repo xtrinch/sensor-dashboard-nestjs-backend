@@ -1,5 +1,6 @@
 import { Display } from '~modules/display/display.entity';
 import { DisplayBoardTypesEnum } from '~modules/display/enum/display-board-types.enum';
+import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorDto } from '~modules/sensor/dto/sensor.dto';
 import { SensorId } from '~modules/sensor/sensor.entity';
 import { UserDto } from '~modules/user/dto/user.dto';
@@ -18,6 +19,7 @@ export class DisplayDto implements AbstractDto {
   public boardType: DisplayBoardTypesEnum;
   public sensorIds: SensorId[];
   public sensors: SensorDto[];
+  public measurementTypes: MeasurementTypeEnum[];
 
   public static fromDisplay(display: Display): DisplayDto {
     return {
@@ -32,6 +34,7 @@ export class DisplayDto implements AbstractDto {
       boardType: display.boardType,
       sensors: (display.sensors || []).map((s) => SensorDto.fromSensor(s)),
       sensorIds: (display.sensors || []).map((s) => s.id),
+      measurementTypes: display.measurementTypes
     };
   }
 }
