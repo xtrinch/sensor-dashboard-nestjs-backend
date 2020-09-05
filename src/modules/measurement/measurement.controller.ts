@@ -5,7 +5,7 @@ import {
   Post,
   Query,
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { MeasurementService } from '~/modules/measurement/measurement.service';
 import { DisplayGuard, DisplayRequest } from '~modules/display/display.guard';
@@ -16,7 +16,7 @@ import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import {
   DisplayMeasurementAggregateDto,
-  MeasurementAggregateDto,
+  MeasurementAggregateDto
 } from '~modules/measurement/measurement.interfaces';
 import { SensorGuard, SensorRequest } from '~modules/sensor/sensor.guard';
 
@@ -67,7 +67,7 @@ export class MeasurementController {
   }
 
   @UseGuards(DisplayGuard)
-  @Get()
+  @Get('display')
   public async getLatestMeasurements(
     @Request() request: DisplayRequest,
   ): Promise<DisplayMeasurementAggregateDto> {
