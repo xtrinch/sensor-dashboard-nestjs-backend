@@ -3,26 +3,28 @@ import { NestApplicationContext } from '@nestjs/core';
 import { plainToClass } from 'class-transformer';
 import { Display } from '~modules/display/display.entity';
 import { DisplayRequest } from '~modules/display/display.guard';
+import { DisplayAuthInterface } from '~modules/display/display.interfaces';
 import { DisplayService } from '~modules/display/display.service';
 import { DisplayCreateDto } from '~modules/display/dto/display.create.dto';
 import { DisplayBoardTypesEnum } from '~modules/display/enum/display-board-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import {
   SensorFixture,
-  SensorFixtureInterface,
+  SensorFixtureInterface
 } from '~modules/sensor/sensor.fixture';
 
 export interface DisplayFixtureInterface extends SensorFixtureInterface {
   displayOne: Display;
   displayRequest: DisplayRequest;
+  displayAuth: () => Promise<DisplayAuthInterface>;
 }
 
 export async function DisplayFixture(
   module: NestApplicationContext | INestApplication,
-  deduplicate: any | DisplayFixtureInterface = {},
+  dedupe: any | DisplayFixtureInterface = {},
 ): Promise<DisplayFixtureInterface> {
-  if (deduplicate.displayOne) return deduplicate;
-  const fixture = await SensorFixture(module, deduplicate);
+  if (dedupe.displayOne) return dedupe;
+  const fixture = await SensorFixture(module, dedupe);
 
   const displayService = await module.get<DisplayService>(DisplayService);
 
@@ -41,5 +43,11 @@ export async function DisplayFixture(
     display: displayOne,
   } as DisplayRequest;
 
-  return { ...fixture, displayOne, displayRequest };
+  const displayAuth = async () => {
+    return {
+      accessToken: displayOne.displayAccessToken,
+    };
+  };
+
+  return { ...fixture, displayOne, displayRequest, displayAuth };
 }

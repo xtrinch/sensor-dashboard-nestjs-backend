@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
-import { v4 } from 'uuid';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
 import { SensorUpdateDto } from '~modules/sensor/dto/sensor.update.dto';
@@ -21,8 +20,6 @@ describe('SensorService', () => {
   let fixture: SensorFixtureInterface;
   
   beforeAll(async () => {
-    const seed = v4();
-
     module = await Test.createTestingModule({
       providers: [SensorService],
       imports: [
@@ -33,7 +30,7 @@ describe('SensorService', () => {
     }).compile();
 
     sensorService = module.get<SensorService>(SensorService);
-    fixture = await SensorFixture(module, { seed });
+    fixture = await SensorFixture(module);
   }, 20000);
 
   it('should create a sensor', async () => {

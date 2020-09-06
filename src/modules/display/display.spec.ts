@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
-import { v4 } from 'uuid';
 import { Display } from '~modules/display/display.entity';
 import {
   DisplayFixture,
@@ -23,8 +22,6 @@ describe('DisplayService', () => {
   let fixture: DisplayFixtureInterface;
 
   beforeAll(async () => {
-    const seed = v4();
-
     module = await Test.createTestingModule({
       providers: [DisplayService],
       imports: [
@@ -37,7 +34,7 @@ describe('DisplayService', () => {
     }).compile();
 
     displayService = module.get<DisplayService>(DisplayService);
-    fixture = await DisplayFixture(module, { seed });
+    fixture = await DisplayFixture(module);
   }, 20000);
 
   it('should create a display', async () => {

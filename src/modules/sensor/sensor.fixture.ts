@@ -15,10 +15,10 @@ export interface SensorFixtureInterface extends UserFixtureInterface {
 
 export async function SensorFixture(
   module: NestApplicationContext | INestApplication,
-  deduplicate: any | SensorFixtureInterface = {},
+  dedupe: any | SensorFixtureInterface = {},
 ): Promise<SensorFixtureInterface> {
-  if (deduplicate.sensorOne) return deduplicate;
-  const userFixture = await UserFixture(module, deduplicate);
+  if (dedupe.sensorOne) return dedupe;
+  const userFixture = await UserFixture(module, dedupe);
 
   const sensorService = await module.get<SensorService>(SensorService);
 

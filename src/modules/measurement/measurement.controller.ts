@@ -74,14 +74,11 @@ export class MeasurementController {
     const items = await this.measurementService.getLatestMeasurements(request);
 
     const response: DisplayMeasurementAggregateDto = {};
-
+    Object.assign(response, items);
+    
     // map the measurements to a DTO
     Object.keys(items).map((sensorIdKey) => {
-      const measurementTypes = items[sensorIdKey];
-      response[sensorIdKey] = {
-        info: items[sensorIdKey].info,
-        measurements: {},
-      };
+      const measurementTypes = items[sensorIdKey].measurements;
 
       Object.keys(measurementTypes).map((measurementTypeKey) => {
         response[sensorIdKey].measurements[

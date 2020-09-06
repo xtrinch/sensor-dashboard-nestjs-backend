@@ -6,7 +6,7 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { SensorBoardTypesEnum } from '~modules/sensor/enum/sensor-board-types.enum';
 import {
   SensorFixture,
-  SensorFixtureInterface,
+  SensorFixtureInterface
 } from '~modules/sensor/sensor.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
@@ -34,6 +34,7 @@ describe('SensorController (e2e)', () => {
       .set({ authorization: `Bearer ${userAuth.accessToken}` })
       .send({
         name: 'Test sensor',
+        displayName: 'Test sensor',
         boardType: SensorBoardTypesEnum.BME680,
         location: 'Living room',
         measurementTypes: [MeasurementTypeEnum.GAS],

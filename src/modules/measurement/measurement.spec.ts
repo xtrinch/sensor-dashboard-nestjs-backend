@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
 import { getWeek } from 'date-fns';
-import { v4 } from 'uuid';
 import { DisplayModule } from '~modules/display/display.module';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
@@ -27,8 +26,6 @@ describe('MeasurementService', () => {
   let module: TestingModule = null;
 
   beforeAll(async () => {
-    const seed = v4();
-
     module = await Test.createTestingModule({
       providers: [MeasurementService],
       imports: [
@@ -43,7 +40,7 @@ describe('MeasurementService', () => {
     measurementService = await module.get<MeasurementService>(
       MeasurementService,
     );
-    fixture = await MeasurementFixture(module, { seed });
+    fixture = await MeasurementFixture(module);
   }, 20000);
 
   it('should create a measurement', async () => {

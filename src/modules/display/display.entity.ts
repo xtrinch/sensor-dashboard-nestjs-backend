@@ -6,7 +6,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { DisplayBoardTypesEnum } from '~modules/display/enum/display-board-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
@@ -56,6 +56,6 @@ export class Display extends AbstractEntity {
   @Column()
   public boardType: DisplayBoardTypesEnum;
 
-  @Column('text', { array: true, default: () => 'array[]::text[]' })
+  @Column('text', { array: true })
   public measurementTypes: MeasurementTypeEnum[];
 }

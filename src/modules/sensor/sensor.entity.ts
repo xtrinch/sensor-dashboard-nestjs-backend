@@ -47,7 +47,7 @@ export class Sensor extends AbstractEntity {
   @OneToMany(() => Measurement, (measurement) => measurement.sensor)
   public measurements: Measurement[];
 
-  @Column('text', { array: true, default: () => 'array[]::text[]' })
+  @Column('text', { array: true })
   public measurementTypes: MeasurementTypeEnum[];
 
   @Column({

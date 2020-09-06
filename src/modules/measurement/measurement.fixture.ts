@@ -3,7 +3,7 @@ import { NestApplicationContext } from '@nestjs/core';
 import { plainToClass } from 'class-transformer';
 import {
   DisplayFixture,
-  DisplayFixtureInterface,
+  DisplayFixtureInterface
 } from '~modules/display/display.fixture';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
@@ -11,7 +11,7 @@ import { Measurement } from '~modules/measurement/measurement.entity';
 import { MeasurementService } from '~modules/measurement/measurement.service';
 import {
   SensorFixture,
-  SensorFixtureInterface,
+  SensorFixtureInterface
 } from '~modules/sensor/sensor.fixture';
 
 export interface MeasurementFixtureInterface
@@ -22,11 +22,11 @@ export interface MeasurementFixtureInterface
 
 export async function MeasurementFixture(
   module: NestApplicationContext | INestApplication,
-  deduplicate: any | MeasurementFixtureInterface = {},
+  dedupe: any | MeasurementFixtureInterface = {},
 ): Promise<MeasurementFixtureInterface> {
-  if (deduplicate.measurementOne) return deduplicate;
-  const sensorFixture = await SensorFixture(module, deduplicate);
-  const displayFixture = await DisplayFixture(module, deduplicate);
+  if (dedupe.measurementOne) return dedupe;
+  const sensorFixture = await SensorFixture(module, dedupe);
+  const displayFixture = await DisplayFixture(module, sensorFixture);
 
   const measurementService = await module.get<MeasurementService>(
     MeasurementService,

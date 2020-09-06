@@ -17,9 +17,9 @@ export interface UserFixtureInterface {
 
 export async function UserFixture(
   module: NestApplicationContext | INestApplication,
-  deduplicate: any | UserFixtureInterface = {},
+  dedupe: any | UserFixtureInterface = {},
 ): Promise<UserFixtureInterface> {
-  if (deduplicate.userOne) return deduplicate;
+  if (dedupe.userOne) return dedupe;
   const userService = await module.get<UserService>(UserService);
   const username = `${v4()}username123`;
   const email = `${v4()}email@email.com`;
