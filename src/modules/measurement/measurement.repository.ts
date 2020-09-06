@@ -4,8 +4,9 @@ import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   DisplayMeasurementAggregateInterface,
   MeasurementAggregateInterface,
-  MeasurementWhereInterface,
+  MeasurementWhereInterface
 } from '~modules/measurement/measurement.interfaces';
+import { Sensor } from '~modules/sensor/sensor.entity';
 import { RangeGroupByEnum } from '~utils/date.range';
 
 @EntityRepository(Measurement)
@@ -20,7 +21,9 @@ export class MeasurementRepository extends Repository<Measurement> {
         last_value("measurement") OVER w as "measurement",
         last_value("sensorId") OVER w as "sensorId",
         last_value("measurementType") OVER w as "measurementType"
+        last_value("displayName") OVER w as "displayName"
         FROM "measurement"
+        LEFT JOIN "sensor" on "sensor".id = "measurement"."sensorId"
         WHERE "measurementType" = ANY ($2) AND "sensorId" = ANY ($1)
         WINDOW w AS (
           PARTITION BY "sensorId", "measurementType" ORDER BY "createdAt" DESC
@@ -31,12 +34,17 @@ export class MeasurementRepository extends Repository<Measurement> {
     );
 
     const res = r.reduce(
-      (acc: DisplayMeasurementAggregateInterface, curr: Measurement) => {
+      (acc: DisplayMeasurementAggregateInterface, curr: Measurement & Sensor) => {
         if (!acc[curr.sensorId]) {
-          acc[curr.sensorId] = {};
+          acc[curr.sensorId] = {
+            info: {
+              displayName: curr.displayName,
+            },
+            measurements: {},
+          };
         }
 
-        acc[curr.sensorId][curr.measurementType] = curr;
+        acc[curr.sensorId].measurements[curr.measurementType] = curr;
         return acc;
       },
       {},

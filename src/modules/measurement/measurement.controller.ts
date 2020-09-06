@@ -40,7 +40,7 @@ export class MeasurementController {
       );
     });
 
-    return items;
+    return items as unknown as MeasurementAggregateDto;
   }
 
   @UseGuards(SensorGuard)
@@ -78,10 +78,13 @@ export class MeasurementController {
     // map the measurements to a DTO
     Object.keys(items).map((sensorIdKey) => {
       const measurementTypes = items[sensorIdKey];
-      response[sensorIdKey] = {};
+      response[sensorIdKey] = {
+        info: items[sensorIdKey].info,
+        measurements: {},
+      };
 
       Object.keys(measurementTypes).map((measurementTypeKey) => {
-        response[sensorIdKey][
+        response[sensorIdKey].measurements[
           measurementTypeKey
         ] = MeasurementDto.fromMeasurement(
           measurementTypes[measurementTypeKey],

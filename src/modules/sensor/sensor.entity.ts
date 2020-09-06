@@ -32,6 +32,9 @@ export class Sensor extends AbstractEntity {
   public name: string;
 
   @Column()
+  public displayName: string;
+
+  @Column()
   public location: string;
 
   @Column()

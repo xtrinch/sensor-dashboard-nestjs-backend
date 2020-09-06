@@ -59,6 +59,7 @@ export class SensorService {
     sensor.boardType = data.boardType;
     sensor.location = data.location;
     sensor.name = data.name;
+    sensor.displayName = data.displayName;
     sensor.measurementTypes = Object.values(MeasurementTypeEnum);
     sensor.timezone = data.timezone;
     sensor.userId = request.user?.id;
@@ -87,6 +88,9 @@ export class SensorService {
     }
     if (data.name) {
       sensor.name = data.name;
+    }
+    if (data.displayName) {
+      sensor.displayName = data.displayName;
     }
     if (data.timezone) {
       sensor.timezone = data.timezone;

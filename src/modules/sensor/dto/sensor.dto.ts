@@ -7,6 +7,7 @@ import { UserId } from '~modules/user/user.entity';
 export class SensorDto {
   public id: number;
   public name: string;
+  public displayName: string;
   public boardType: SensorBoardTypesEnum;
   public location: string;
   public measurementTypes: MeasurementTypeEnum[];
@@ -19,6 +20,7 @@ export class SensorDto {
     return {
       id: sensor.id,
       name: sensor.name,
+      displayName: sensor.displayName,
       boardType: sensor.boardType,
       location: sensor.location,
       measurementTypes: sensor.measurementTypes,

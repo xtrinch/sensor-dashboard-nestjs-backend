@@ -26,12 +26,22 @@ export interface MeasurementAggregateDto {
 
 export interface DisplayMeasurementAggregateInterface {
   [SensorId: string]: {
-    [MeasurementTypeEnum: string]: Measurement;
+    info: {
+      displayName: string,
+    },
+    measurements: {
+      [MeasurementTypeEnum: string]: Measurement;
+    }
   };
 }
 
 export interface DisplayMeasurementAggregateDto {
   [SensorId: string]: {
-    [MeasurementTypeEnum: string]: MeasurementDto;
+    info: {
+      displayName: string,
+    },
+    measurements: {
+      [MeasurementTypeEnum: string]: MeasurementDto;
+    }
   };
 }

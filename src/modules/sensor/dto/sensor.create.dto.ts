@@ -7,6 +7,10 @@ export class SensorCreateDto {
   @IsNotEmpty()
   public name: string;
 
+  @IsString()
+  @IsNotEmpty()
+  public displayName: string;
+
   @IsEnum(SensorBoardTypesEnum)
   public boardType: SensorBoardTypesEnum;
 
