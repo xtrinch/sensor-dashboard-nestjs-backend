@@ -1,7 +1,7 @@
 export enum MeasurementTypeUnitEnum {
   'humidity' = '%',
-  'temperature' = '°C',
-  'gas' = 'kΩ',
+  'temperature' = 'C',
+  'gas' = 'kOhm',
   'pressure' = 'hPa',
   'altitude' = 'm',
 }
