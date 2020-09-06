@@ -20,10 +20,7 @@ export class SensorService {
     where: SensorWhereInterface,
     pagination: PaginationQueryDto,
   ): Promise<Pagination<Sensor>> {
-    const results = await paginate<Sensor>(this.sensorRepository, {
-      ...pagination,
-      ...where,
-    });
+    const results = await paginate<Sensor>(this.sensorRepository, pagination, where);
 
     return results;
   }
@@ -64,6 +61,7 @@ export class SensorService {
     sensor.timezone = data.timezone;
     sensor.userId = request.user?.id;
     sensor.user = request.user;
+    sensor.private = data.private;
 
     await Sensor.save(sensor);
 
@@ -94,6 +92,9 @@ export class SensorService {
     }
     if (data.timezone) {
       sensor.timezone = data.timezone;
+    }
+    if ('private' in data) {
+      sensor.private = data.private;
     }
 
     await Sensor.save(sensor);

@@ -15,6 +15,7 @@ export class SensorDto {
   public userId: UserId;
   public user: UserDto;
   public lastSeenAt: Date;
+  public private: boolean;
 
   public static fromSensor(sensor: Sensor): SensorDto {
     return {
@@ -28,6 +29,7 @@ export class SensorDto {
       userId: sensor.userId,
       user: sensor.user ? UserDto.fromUser(sensor.user) : undefined,
       lastSeenAt: sensor.lastSeenAt,
+      private: sensor.private,
     };
   }
 }

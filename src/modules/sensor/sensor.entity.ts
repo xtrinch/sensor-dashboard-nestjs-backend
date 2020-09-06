@@ -21,6 +21,7 @@ export interface SensorWhereInterface {
   id?: number;
   sensorAccessToken?: string;
   userId?: UserId;
+  private?: boolean;
 }
 
 @Entity()

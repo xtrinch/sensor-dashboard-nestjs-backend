@@ -1,5 +1,12 @@
+import { Type } from 'class-transformer';
 import {
-  IsArray, IsEnum,
+  IsArray,
+
+
+
+
+
+  IsBoolean, IsEnum,
 
   IsOptional, IsString,
 
@@ -31,4 +38,9 @@ export class SensorUpdateDto {
   @IsEnum(MeasurementTypeEnum, { each: true })
   @IsOptional()
   public measurementTypes: MeasurementTypeEnum[];
+
+  @IsOptional()
+  @IsBoolean()
+  @Type(() => Boolean)
+  public private: boolean;
 }
