@@ -17,16 +17,16 @@ export class MeasurementRepository extends Repository<Measurement> {
     const r = await this.manager.query(
       `
       SELECT DISTINCT ON ("sensorId", "measurementType")
-        last_value("createdAt") OVER w as "createdAt",
+        last_value("measurement"."createdAt") OVER w as "createdAt",
         last_value("measurement") OVER w as "measurement",
         last_value("sensorId") OVER w as "sensorId",
-        last_value("measurementType") OVER w as "measurementType"
+        last_value("measurementType") OVER w as "measurementType",
         last_value("displayName") OVER w as "displayName"
         FROM "measurement"
         LEFT JOIN "sensor" on "sensor".id = "measurement"."sensorId"
         WHERE "measurementType" = ANY ($2) AND "sensorId" = ANY ($1)
         WINDOW w AS (
-          PARTITION BY "sensorId", "measurementType" ORDER BY "createdAt" DESC
+          PARTITION BY "sensorId", "measurementType" ORDER BY "measurement"."createdAt" DESC
           ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
         );
     `,

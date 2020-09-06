@@ -26,6 +26,7 @@ export async function SensorFixture(
     userFixture.userRequest,
     plainToClass(SensorCreateDto, {
       name: 'Test sensor',
+      displayName: 'Test sensor',
       boardType: SensorBoardTypesEnum.BME680,
       location: 'Living room',
     }),

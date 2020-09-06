@@ -10,11 +10,11 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   MeasurementFixture,
-  MeasurementFixtureInterface,
+  MeasurementFixtureInterface
 } from '~modules/measurement/measurement.fixture';
 import {
   DisplayMeasurementAggregateInterface,
-  MeasurementAggregateInterface,
+  MeasurementAggregateInterface
 } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { MeasurementService } from '~modules/measurement/measurement.service';
@@ -138,7 +138,7 @@ describe('MeasurementService', () => {
       fixture.displayRequest,
     );
 
-    expect(resp[fixture.sensorOne.id][MeasurementTypeEnum.GAS]).toBeDefined();
+    expect(resp[fixture.sensorOne.id].measurements[MeasurementTypeEnum.GAS]).toBeDefined();
   });
 
   afterAll(async () => {

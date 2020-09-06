@@ -39,6 +39,7 @@ describe('SensorService', () => {
   it('should create a sensor', async () => {
     const data = plainToClass(SensorCreateDto, {
       name: 'A sensor name',
+      displayName: 'Nm',
       boardType: SensorBoardTypesEnum.BME680,
       location: 'A location',
       measurementTypes: [MeasurementTypeEnum.GAS],
