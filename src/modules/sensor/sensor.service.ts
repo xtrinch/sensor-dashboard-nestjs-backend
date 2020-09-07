@@ -20,7 +20,7 @@ export class SensorService {
     where: SensorWhereInterface,
     pagination: PaginationQueryDto,
   ): Promise<Pagination<Sensor>> {
-    const results = await paginate<Sensor>(this.sensorRepository, pagination, where);
+    const results = await paginate<Sensor>(this.sensorRepository, pagination, { where });
 
     return results;
   }
