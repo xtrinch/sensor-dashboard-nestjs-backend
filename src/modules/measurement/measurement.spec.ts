@@ -4,16 +4,17 @@ import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
 import { getWeek } from 'date-fns';
 import { DisplayModule } from '~modules/display/display.module';
+import { ForwarderModule } from '~modules/forwarder/forwarder.module';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   MeasurementFixture,
-  MeasurementFixtureInterface
+  MeasurementFixtureInterface,
 } from '~modules/measurement/measurement.fixture';
 import {
   DisplayMeasurementAggregateInterface,
-  MeasurementAggregateInterface
+  MeasurementAggregateInterface,
 } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { MeasurementService } from '~modules/measurement/measurement.service';
@@ -34,6 +35,7 @@ describe('MeasurementService', () => {
         SensorModule,
         UserModule,
         DisplayModule,
+        ForwarderModule,
       ],
     }).compile();
 
@@ -135,7 +137,25 @@ describe('MeasurementService', () => {
       fixture.displayRequest,
     );
 
-    expect(resp[fixture.sensorOne.id].measurements[MeasurementTypeEnum.GAS]).toBeDefined();
+    expect(
+      resp[fixture.sensorOne.id].measurements[MeasurementTypeEnum.GAS],
+    ).toBeDefined();
+  });
+
+  it('should create multiple measurements as a forwarder request', async () => {
+    const data = plainToClass(MeasurementCreateDto, {
+      measurement: 12.2,
+      measurementType: MeasurementTypeEnum.GAS,
+    });
+    await validateOrReject(data);
+
+    await validateOrReject(data);
+    const measurements = await measurementService.createMultiple(
+      fixture.forwarderRequest,
+      { measurements: [data] },
+    );
+    expect(measurements[0]).toBeDefined();
+    expect(fixture.forwarderRequest.forwarder.numForwarded).toBeGreaterThan(0);
   });
 
   afterAll(async () => {

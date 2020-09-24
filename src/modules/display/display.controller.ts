@@ -1,20 +1,14 @@
 import {
   Body,
   Controller,
-
-
-
-
-
-
-
-  Delete, Get,
+  Delete,
+  Get,
   Param,
   Post,
   Put,
   Query,
   Request,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { Display, DisplayId } from '~/modules/display/display.entity';
 import { DisplayService } from '~/modules/display/display.service';
@@ -104,13 +98,10 @@ export class DisplayController {
     @Param('id') id: DisplayId,
     @Request() request: UserRequest,
   ): Promise<{ status: string }> {
-    await this.displayService.delete(
-      request,
-      { id },
-    );
+    await this.displayService.delete(request, { id });
 
     return {
-      status:'200'
+      status: '200',
     };
   }
 }

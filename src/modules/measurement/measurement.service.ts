@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DisplayRequest } from '~modules/display/display.guard';
+import { Display } from '~modules/display/display.entity';
+import { DisplayRequest } from '~modules/display/display.interfaces';
+import { Forwarder } from '~modules/forwarder/forwarder.entity';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.list.create.dto';
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
 import {
   DisplayMeasurementAggregateInterface,
-  MeasurementAggregateInterface
+  MeasurementAggregateInterface,
 } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { Sensor } from '~modules/sensor/sensor.entity';
@@ -37,6 +39,9 @@ export class MeasurementService {
   public async getLatestMeasurements(
     request: DisplayRequest,
   ): Promise<DisplayMeasurementAggregateInterface> {
+    request.display.lastSeenAt = new Date();
+    await Display.save(request.display);
+
     const results = await this.measurementRepository.getLatest({
       measurementTypes: request.display.measurementTypes || [],
       sensorIds: (request.display.sensors || []).map((s) => s.id),
@@ -56,6 +61,12 @@ export class MeasurementService {
     measurement.sensorId = request.sensor.id;
 
     request.sensor.lastSeenAt = new Date();
+
+    if (request.forwarder) {
+      request.forwarder.lastSeenAt = new Date();
+      request.forwarder.numForwarded += 1;
+      await Forwarder.save(request.forwarder);
+    }
 
     await Measurement.save(measurement);
     await Sensor.save(request.sensor);
@@ -78,6 +89,12 @@ export class MeasurementService {
     }
 
     request.sensor.lastSeenAt = new Date();
+
+    if (request.forwarder) {
+      request.forwarder.lastSeenAt = new Date();
+      request.forwarder.numForwarded += 1;
+      await Forwarder.save(request.forwarder);
+    }
 
     await Measurement.save(measurements);
     await Sensor.save(request.sensor);

@@ -29,6 +29,7 @@ export async function SensorFixture(
       displayName: 'Test sensor',
       boardType: SensorBoardTypesEnum.BME680,
       location: 'Living room',
+      private: false,
     }),
   );
 

@@ -5,7 +5,7 @@ import { validateOrReject } from 'class-validator';
 import { Display } from '~modules/display/display.entity';
 import {
   DisplayFixture,
-  DisplayFixtureInterface
+  DisplayFixtureInterface,
 } from '~modules/display/display.fixture';
 import { DisplayModule } from '~modules/display/display.module';
 import { DisplayService } from '~modules/display/display.service';
@@ -49,7 +49,7 @@ describe('DisplayService', () => {
     await validateOrReject(data);
     const display = await displayService.create(fixture.userRequest, data);
     expect(display).toBeDefined();
-    expect(display.displayAccessToken).toBeDefined();
+    expect(display.accessToken).toBeDefined();
   });
 
   it('should update a display', async () => {
@@ -81,10 +81,9 @@ describe('DisplayService', () => {
   });
 
   it('should delete a display', async () => {
-    const success = await displayService.delete(
-      fixture.userRequest,
-      { id: fixture.displayOne.id }
-    );
+    const success = await displayService.delete(fixture.userRequest, {
+      id: fixture.displayOne.id,
+    });
 
     expect(success).toEqual(true);
   });

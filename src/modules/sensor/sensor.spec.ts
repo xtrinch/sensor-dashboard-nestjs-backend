@@ -9,7 +9,7 @@ import { SensorBoardTypesEnum } from '~modules/sensor/enum/sensor-board-types.en
 import { Sensor } from '~modules/sensor/sensor.entity';
 import {
   SensorFixture,
-  SensorFixtureInterface
+  SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
 import { SensorService } from '~modules/sensor/sensor.service';
 import { UserModule } from '~modules/user/user.module';
@@ -18,7 +18,7 @@ describe('SensorService', () => {
   let sensorService: SensorService;
   let module: TestingModule = null;
   let fixture: SensorFixtureInterface;
-  
+
   beforeAll(async () => {
     module = await Test.createTestingModule({
       providers: [SensorService],
@@ -41,6 +41,7 @@ describe('SensorService', () => {
       location: 'A location',
       measurementTypes: [MeasurementTypeEnum.GAS],
       timezone: 'Europe/Vienna',
+      private: false,
     });
 
     await validateOrReject(data);
@@ -48,7 +49,7 @@ describe('SensorService', () => {
     expect(sensor).toBeDefined();
     //expect(sensor.measurementTypes).toEqual([MeasurementTypeEnum.GAS]);
     expect(sensor.timezone).toEqual('Europe/Vienna');
-    expect(sensor.sensorAccessToken).toBeDefined();
+    expect(sensor.accessToken).toBeDefined();
   });
 
   it('should update a sensor', async () => {
@@ -79,10 +80,9 @@ describe('SensorService', () => {
   });
 
   it('should delete a sensor', async () => {
-    const success = await sensorService.delete(
-      fixture.userRequest,
-      { id: fixture.sensorOne.id },
-    );
+    const success = await sensorService.delete(fixture.userRequest, {
+      id: fixture.sensorOne.id,
+    });
 
     expect(success).toEqual(true);
   });

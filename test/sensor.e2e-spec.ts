@@ -6,7 +6,7 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { SensorBoardTypesEnum } from '~modules/sensor/enum/sensor-board-types.enum';
 import {
   SensorFixture,
-  SensorFixtureInterface
+  SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
@@ -54,7 +54,7 @@ describe('SensorController (e2e)', () => {
       .expect(200);
 
     expect(response.body.items.length).toBeGreaterThan(0);
-    expect(response.body.items[0].sensorAccessToken).toBeDefined();
+    expect(response.body.items[0].accessToken).toBeDefined();
   });
 
   afterAll(async () => {

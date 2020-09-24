@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
@@ -20,7 +24,9 @@ export class SensorService {
     where: SensorWhereInterface,
     pagination: PaginationQueryDto,
   ): Promise<Pagination<Sensor>> {
-    const results = await paginate<Sensor>(this.sensorRepository, pagination, { where });
+    const results = await paginate<Sensor>(this.sensorRepository, pagination, {
+      where,
+    });
 
     return results;
   }
@@ -31,7 +37,7 @@ export class SensorService {
     if (!sensor) {
       throw new NotFoundException();
     }
-    
+
     return sensor;
   }
 

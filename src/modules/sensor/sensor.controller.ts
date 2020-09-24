@@ -1,20 +1,14 @@
 import {
   Body,
   Controller,
-
-
-
-
-
-
-
-  Delete, Get,
+  Delete,
+  Get,
   Param,
   Post,
   Put,
   Query,
   Request,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { Sensor, SensorId } from '~/modules/sensor/sensor.entity';
 import { SensorService } from '~/modules/sensor/sensor.service';
@@ -34,9 +28,12 @@ export class SensorController {
   public async findAll(
     @Query() pagination: PaginationQueryDto,
   ): Promise<PaginationDto<SensorDto>> {
-    const items = await this.sensorService.findAll({
-      private: false
-    }, pagination);
+    const items = await this.sensorService.findAll(
+      {
+        private: false,
+      },
+      pagination,
+    );
 
     return PaginationDto.fromPagination<Sensor, SensorDto>(
       items,
@@ -101,13 +98,10 @@ export class SensorController {
     @Param('id') id: SensorId,
     @Request() request: UserRequest,
   ): Promise<{ status: string }> {
-    await this.sensorService.delete(
-      request,
-      { id },
-    );
+    await this.sensorService.delete(request, { id });
 
     return {
-      status:'200'
+      status: '200',
     };
   }
 }

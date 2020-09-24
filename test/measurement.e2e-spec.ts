@@ -6,7 +6,7 @@ import { DisplayAuthInterface } from '~modules/display/display.interfaces';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import {
   MeasurementFixture,
-  MeasurementFixtureInterface
+  MeasurementFixtureInterface,
 } from '~modules/measurement/measurement.fixture';
 import { initPipes } from '~utils/app.utils';
 
@@ -43,9 +43,10 @@ describe('MeasurementController (e2e)', () => {
 
     expect(response.body[fixture.sensorOne.id]).toBeDefined();
     expect(response.body[fixture.sensorOne.id].measurements).toBeDefined();
-    expect(response.body[fixture.sensorOne.id].measurements[MeasurementTypeEnum.GAS]).toBeDefined();
+    expect(
+      response.body[fixture.sensorOne.id].measurements[MeasurementTypeEnum.GAS],
+    ).toBeDefined();
   });
-
 
   afterAll(async () => {
     await app.close();

@@ -1,5 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { Display } from '~modules/display/display.entity';
+import { Forwarder } from '~modules/forwarder/forwarder.entity';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
@@ -13,9 +14,6 @@ export type UserId = number;
 
 @Entity()
 export class User extends AbstractEntity {
-  @PrimaryGeneratedColumn()
-  id: UserId;
-
   @Column({ length: 128, unique: true, nullable: false })
   email: string;
 
@@ -39,4 +37,7 @@ export class User extends AbstractEntity {
 
   @OneToMany(() => Display, (display) => display.user)
   public displays: Display[];
+
+  @OneToMany(() => Forwarder, (forwarder) => forwarder.user)
+  public forwarders: Forwarder[];
 }

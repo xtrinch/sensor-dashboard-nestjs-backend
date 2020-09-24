@@ -1,6 +1,14 @@
-import { CreateDateColumn, BaseEntity, UpdateDateColumn } from 'typeorm';
+import {
+  BaseEntity,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export abstract class AbstractEntity extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  public id: number;
+
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 

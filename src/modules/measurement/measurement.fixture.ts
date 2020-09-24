@@ -3,20 +3,25 @@ import { NestApplicationContext } from '@nestjs/core';
 import { plainToClass } from 'class-transformer';
 import {
   DisplayFixture,
-  DisplayFixtureInterface
+  DisplayFixtureInterface,
 } from '~modules/display/display.fixture';
+import {
+  ForwarderFixture,
+  ForwarderFixtureInterface,
+} from '~modules/forwarder/forwarder.fixture';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Measurement } from '~modules/measurement/measurement.entity';
 import { MeasurementService } from '~modules/measurement/measurement.service';
 import {
   SensorFixture,
-  SensorFixtureInterface
+  SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
 
 export interface MeasurementFixtureInterface
   extends SensorFixtureInterface,
-    DisplayFixtureInterface {
+    DisplayFixtureInterface,
+    ForwarderFixtureInterface {
   measurementOne: Measurement;
 }
 
@@ -27,6 +32,7 @@ export async function MeasurementFixture(
   if (dedupe.measurementOne) return dedupe;
   const sensorFixture = await SensorFixture(module, dedupe);
   const displayFixture = await DisplayFixture(module, sensorFixture);
+  const forwarderFixture = await ForwarderFixture(module, sensorFixture);
 
   const measurementService = await module.get<MeasurementService>(
     MeasurementService,
@@ -40,5 +46,10 @@ export async function MeasurementFixture(
     }),
   );
 
-  return { ...sensorFixture, ...displayFixture, measurementOne };
+  return {
+    ...sensorFixture,
+    ...displayFixture,
+    ...forwarderFixture,
+    measurementOne,
+  };
 }

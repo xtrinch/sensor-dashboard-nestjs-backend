@@ -4,7 +4,7 @@
 
 Simple NestJS backend for a dashboard displaying graphs of environmental sensor data.
 
-How this works? You create a sensor entry in the database via the API with the admin token, which creates the sensor authentication token (`sensorAccessToken` field of the sensor entry). With the sensor authentication token you program your sensor board to make api calls to import measurements. One board can have multiple sensors, so you can import multiple measurements at a time.
+How this works? You create a sensor entry in the database via the API with the admin token, which creates the sensor authentication token (`accessToken` field of the sensor entry). With the sensor authentication token you program your sensor board to make api calls to import measurements. One board can have multiple sensors, so you can import multiple measurements at a time.
 
 See also [frontend](https://github.com/xtrinch/sensor-dashboard-react-frontend) and [sensor board code](https://github.com/xtrinch/sensor-dashboard-ESP32-BME680-reader), or [see it live](http://sensor-dashboard.trina.si/) with some sensor data from my living room.
 

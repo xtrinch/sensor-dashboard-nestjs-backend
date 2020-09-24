@@ -5,28 +5,28 @@ import {
   Injectable,
 } from '@nestjs/common';
 import validator from 'validator';
-import { DisplayRequest } from '~modules/display/display.interfaces';
-import { DisplayService } from '~modules/display/display.service';
+import { ForwarderRequest } from '~modules/forwarder/forwarder.interfaces';
+import { ForwarderService } from '~modules/forwarder/forwarder.service';
 
 @Injectable()
-export class DisplayGuard implements CanActivate {
+export class ForwarderGuard implements CanActivate {
   constructor(
-    @Inject(DisplayService)
-    readonly displayService: DisplayService,
+    @Inject(ForwarderService)
+    readonly forwarderService: ForwarderService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request: DisplayRequest = context.switchToHttp().getRequest();
+    const request: ForwarderRequest = context.switchToHttp().getRequest();
     const authorization = request.headers.authorization;
     if (!validator.isUUID(authorization)) {
       return false;
     }
 
-    request.display = await this.displayService.find(
+    request.forwarder = await this.forwarderService.find(
       {
         accessToken: authorization,
       },
-      { relations: ['sensors'] },
+      { relations: [] },
     );
 
     return true;

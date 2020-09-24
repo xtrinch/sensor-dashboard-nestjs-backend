@@ -34,7 +34,7 @@ export class DisplayDto implements AbstractDto {
       boardType: display.boardType,
       sensors: (display.sensors || []).map((s) => SensorDto.fromSensor(s)),
       sensorIds: (display.sensors || []).map((s) => s.id),
-      measurementTypes: display.measurementTypes
+      measurementTypes: display.measurementTypes,
     };
   }
 }

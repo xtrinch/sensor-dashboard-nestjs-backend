@@ -27,21 +27,21 @@ export interface MeasurementAggregateDto {
 export interface DisplayMeasurementAggregateInterface {
   [SensorId: string]: {
     info: {
-      displayName: string,
-    },
+      displayName: string;
+    };
     measurements: {
       [MeasurementTypeEnum: string]: Measurement;
-    }
+    };
   };
 }
 
 export interface DisplayMeasurementAggregateDto {
   [SensorId: string]: {
     info: {
-      displayName: string,
-    },
+      displayName: string;
+    };
     measurements: {
       [MeasurementTypeEnum: string]: MeasurementDto;
-    }
+    };
   };
 }
