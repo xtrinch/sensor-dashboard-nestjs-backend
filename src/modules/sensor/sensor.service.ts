@@ -103,6 +103,9 @@ export class SensorService {
     if (data.sensorTypes) {
       sensor.sensorTypes = data.sensorTypes;
     }
+    if (data.boardType) {
+      sensor.boardType = data.boardType;
+    }
     if ('private' in data) {
       sensor.private = data.private;
     }

@@ -9,6 +9,7 @@ import {
 } from 'class-validator';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 import { TimezoneValidator } from '~utils/timezone.validator';
 
 export class SensorUpdateDto {
@@ -38,6 +39,10 @@ export class SensorUpdateDto {
   @IsEnum(SensorTypeEnum, { each: true })
   @IsOptional()
   public sensorTypes: SensorTypeEnum[];
+
+  @IsOptional()
+  @IsEnum(BoardTypeEnum)
+  public boardType: BoardTypeEnum;
 
   @IsOptional()
   @IsBoolean()
