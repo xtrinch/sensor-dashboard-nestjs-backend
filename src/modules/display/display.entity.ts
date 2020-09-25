@@ -4,9 +4,9 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
-  ManyToOne,
+  ManyToOne
 } from 'typeorm';
-import { DisplayBoardTypesEnum } from '~modules/display/enum/display-board-types.enum';
+import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { User, UserId } from '~modules/user/user.entity';
@@ -33,7 +33,7 @@ export class Display extends AbstractIOTDeviceEntity {
   public user: User;
 
   @Column()
-  public boardType: DisplayBoardTypesEnum;
+  public displayType: DisplayTypeEnum;
 
   @Column('text', { array: true })
   public measurementTypes: MeasurementTypeEnum[];

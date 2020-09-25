@@ -3,11 +3,12 @@ import {
   IsArray,
   IsEnum,
   IsNotEmpty,
-  IsString,
+  IsString
 } from 'class-validator';
-import { DisplayBoardTypesEnum } from '~modules/display/enum/display-board-types.enum';
+import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorId } from '~modules/sensor/sensor.entity';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 
 export class DisplayCreateDto {
   @IsString()
@@ -18,8 +19,11 @@ export class DisplayCreateDto {
   @IsNotEmpty()
   public location: string;
 
-  @IsEnum(DisplayBoardTypesEnum)
-  public boardType: DisplayBoardTypesEnum;
+  @IsEnum(BoardTypeEnum)
+  public boardType: BoardTypeEnum;
+
+  @IsEnum(DisplayTypeEnum)
+  public displayType: DisplayTypeEnum;
 
   @IsArray()
   @ArrayMinSize(1)

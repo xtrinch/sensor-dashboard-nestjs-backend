@@ -4,12 +4,12 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
-  OneToMany,
+  OneToMany
 } from 'typeorm';
-import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
 import { Display } from '~modules/display/display.entity';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Measurement } from '~modules/measurement/measurement.entity';
+import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
 import { User, UserId } from '~modules/user/user.entity';
 import { AbstractIOTDeviceEntity } from '~utils/abstract.iot-device.entity';
 
@@ -27,14 +27,14 @@ export class Sensor extends AbstractIOTDeviceEntity {
   @Column()
   public displayName: string;
 
-  @Column()
-  public boardType: SensorBoardTypesEnum;
-
   @OneToMany(() => Measurement, (measurement) => measurement.sensor)
   public measurements: Measurement[];
 
   @Column('text', { array: true })
   public measurementTypes: MeasurementTypeEnum[];
+
+  @Column('text', { array: true })
+  public sensorTypes: SensorTypeEnum[];
 
   @Column({
     default: 'Europe/Vienna',

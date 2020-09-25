@@ -3,10 +3,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '~app.module';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import { SensorBoardTypesEnum } from '~modules/sensor/enum/sensor-board-types.enum';
+import { BoardTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
 import {
   SensorFixture,
-  SensorFixtureInterface,
+  SensorFixtureInterface
 } from '~modules/sensor/sensor.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
@@ -35,7 +35,7 @@ describe('SensorController (e2e)', () => {
       .send({
         name: 'Test sensor',
         displayName: 'Test sensor',
-        boardType: SensorBoardTypesEnum.BME680,
+        boardType: BoardTypeEnum.BME680,
         location: 'Living room',
         measurementTypes: [MeasurementTypeEnum.GAS],
         timezone: 'Europe/Vienna',

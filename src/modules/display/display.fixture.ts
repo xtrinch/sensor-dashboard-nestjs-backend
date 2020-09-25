@@ -4,16 +4,17 @@ import { plainToClass } from 'class-transformer';
 import { Display } from '~modules/display/display.entity';
 import {
   DisplayAuthInterface,
-  DisplayRequest,
+  DisplayRequest
 } from '~modules/display/display.interfaces';
 import { DisplayService } from '~modules/display/display.service';
 import { DisplayCreateDto } from '~modules/display/dto/display.create.dto';
-import { DisplayBoardTypesEnum } from '~modules/display/enum/display-board-types.enum';
+import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import {
   SensorFixture,
-  SensorFixtureInterface,
+  SensorFixtureInterface
 } from '~modules/sensor/sensor.fixture';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 
 export interface DisplayFixtureInterface extends SensorFixtureInterface {
   displayOne: Display;
@@ -35,9 +36,10 @@ export async function DisplayFixture(
     plainToClass(DisplayCreateDto, {
       name: 'Test display',
       location: 'Living room',
-      boardType: DisplayBoardTypesEnum.STM32F769NI,
+      boardType: BoardTypeEnum.NODEMCU_ESP8266,
       sensorIds: [fixture.sensorOne.id],
       measurementTypes: Object.values(MeasurementTypeEnum),
+      displayType: DisplayTypeEnum.NOKIA_PCD8544,
     }),
   );
 

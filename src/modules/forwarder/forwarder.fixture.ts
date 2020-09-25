@@ -5,13 +5,14 @@ import { ForwarderCreateDto } from '~modules/forwarder/dto/forwarder.create.dto'
 import { Forwarder } from '~modules/forwarder/forwarder.entity';
 import {
   ForwarderAuthInterface,
-  ForwarderRequest,
+  ForwarderRequest
 } from '~modules/forwarder/forwarder.interfaces';
 import { ForwarderService } from '~modules/forwarder/forwarder.service';
 import {
   SensorFixture,
-  SensorFixtureInterface,
+  SensorFixtureInterface
 } from '~modules/sensor/sensor.fixture';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 
 export interface ForwarderFixtureInterface extends SensorFixtureInterface {
   forwarderOne: Forwarder;
@@ -33,6 +34,7 @@ export async function ForwarderFixture(
     plainToClass(ForwarderCreateDto, {
       name: 'Test forwarder',
       location: 'Living room',
+      boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
     }),
   );
 

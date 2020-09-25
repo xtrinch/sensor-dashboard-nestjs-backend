@@ -1,7 +1,7 @@
 import {
   ForbiddenException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
@@ -78,6 +78,7 @@ export class DisplayService {
     display.boardType = data.boardType;
     display.sensors = data.sensorIds.map((id) => ({ id } as Sensor));
     display.measurementTypes = data.measurementTypes;
+    display.displayType = data.displayType;
 
     await Display.save(display);
 
@@ -108,6 +109,9 @@ export class DisplayService {
     }
     if (data.measurementTypes) {
       display.measurementTypes = data.measurementTypes;
+    }
+    if (data.displayType) {
+      display.displayType = data.displayType;
     }
 
     await Display.save(display);

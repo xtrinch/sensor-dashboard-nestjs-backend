@@ -7,12 +7,13 @@ import { ForwarderUpdateDto } from '~modules/forwarder/dto/forwarder.update.dto'
 import { Forwarder } from '~modules/forwarder/forwarder.entity';
 import {
   ForwarderFixture,
-  ForwarderFixtureInterface,
+  ForwarderFixtureInterface
 } from '~modules/forwarder/forwarder.fixture';
 import { ForwarderModule } from '~modules/forwarder/forwarder.module';
 import { ForwarderService } from '~modules/forwarder/forwarder.service';
 import { SensorModule } from '~modules/sensor/sensor.module';
 import { UserModule } from '~modules/user/user.module';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('ForwarderService', () => {
   let forwarderService: ForwarderService;
@@ -39,6 +40,7 @@ describe('ForwarderService', () => {
     const data = plainToClass(ForwarderCreateDto, {
       name: 'A forwarder name',
       location: 'A location',
+      boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1
     });
 
     await validateOrReject(data);

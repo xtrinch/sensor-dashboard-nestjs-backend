@@ -2,11 +2,12 @@ import { INestApplication } from '@nestjs/common';
 import { NestApplicationContext } from '@nestjs/core';
 import { plainToClass } from 'class-transformer';
 import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
-import { SensorBoardTypesEnum } from '~modules/sensor/enum/sensor-board-types.enum';
+import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { SensorRequest } from '~modules/sensor/sensor.guard';
 import { SensorService } from '~modules/sensor/sensor.service';
 import { UserFixture, UserFixtureInterface } from '~modules/user/user.fixture';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 
 export interface SensorFixtureInterface extends UserFixtureInterface {
   sensorOne: Sensor;
@@ -27,9 +28,10 @@ export async function SensorFixture(
     plainToClass(SensorCreateDto, {
       name: 'Test sensor',
       displayName: 'Test sensor',
-      boardType: SensorBoardTypesEnum.BME680,
+      boardType: BoardTypeEnum.FIREBEETLE_ESP8266,
       location: 'Living room',
       private: false,
+      sensorTypes: [SensorTypeEnum.BME680],
     }),
   );
 

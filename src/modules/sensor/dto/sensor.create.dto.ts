@@ -1,12 +1,16 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayMinSize,
+  IsArray,
   IsBoolean,
   IsEnum,
   IsNotEmpty,
   IsString,
-  Validate,
+  Validate
 } from 'class-validator';
-import { SensorBoardTypesEnum } from '~/modules/sensor/enum/sensor-board-types.enum';
+import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 import { TimezoneValidator } from '~utils/timezone.validator';
 
 export class SensorCreateDto {
@@ -18,8 +22,8 @@ export class SensorCreateDto {
   @IsNotEmpty()
   public displayName: string;
 
-  @IsEnum(SensorBoardTypesEnum)
-  public boardType: SensorBoardTypesEnum;
+  @IsEnum(BoardTypeEnum)
+  public boardType: BoardTypeEnum;
 
   @IsString()
   @IsNotEmpty()
@@ -33,8 +37,13 @@ export class SensorCreateDto {
   @Type(() => Boolean)
   public private: boolean;
 
-  // @IsArray()
-  // @IsEnum(MeasurementTypeEnum, { each: true })
-  // @ArrayMinSize(0)
-  // public measurementTypes: MeasurementTypeEnum[];
+  @IsArray()
+  @IsEnum(MeasurementTypeEnum, { each: true })
+  @ArrayMinSize(0)
+  public measurementTypes: MeasurementTypeEnum[];
+
+  @IsArray()
+  @IsEnum(SensorTypeEnum, { each: true })
+  @ArrayMinSize(0)
+  public sensorTypes: SensorTypeEnum[];
 }

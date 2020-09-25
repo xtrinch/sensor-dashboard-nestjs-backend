@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 
 export class ForwarderUpdateDto {
   @IsOptional()
@@ -10,4 +11,8 @@ export class ForwarderUpdateDto {
   @IsString()
   @IsNotEmpty()
   public location: string;
+
+  @IsOptional()
+  @IsEnum(BoardTypeEnum)
+  public boardType: BoardTypeEnum;
 }

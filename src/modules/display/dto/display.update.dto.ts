@@ -4,11 +4,12 @@ import {
   IsEnum,
   IsNotEmpty,
   IsOptional,
-  IsString,
+  IsString
 } from 'class-validator';
-import { DisplayBoardTypesEnum } from '~modules/display/enum/display-board-types.enum';
+import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorId } from '~modules/sensor/sensor.entity';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 
 export class DisplayUpdateDto {
   @IsOptional()
@@ -22,9 +23,13 @@ export class DisplayUpdateDto {
   public location: string;
 
   @IsOptional()
-  @IsEnum(DisplayBoardTypesEnum)
-  public boardType: DisplayBoardTypesEnum;
+  @IsEnum(BoardTypeEnum)
+  public boardType: BoardTypeEnum;
 
+  @IsOptional()
+  @IsEnum(DisplayTypeEnum)
+  public displayType: DisplayTypeEnum;
+  
   @IsOptional()
   @IsArray()
   @ArrayMinSize(1)

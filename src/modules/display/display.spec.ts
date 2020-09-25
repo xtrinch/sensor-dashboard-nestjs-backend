@@ -5,16 +5,17 @@ import { validateOrReject } from 'class-validator';
 import { Display } from '~modules/display/display.entity';
 import {
   DisplayFixture,
-  DisplayFixtureInterface,
+  DisplayFixtureInterface
 } from '~modules/display/display.fixture';
 import { DisplayModule } from '~modules/display/display.module';
 import { DisplayService } from '~modules/display/display.service';
 import { DisplayCreateDto } from '~modules/display/dto/display.create.dto';
 import { DisplayUpdateDto } from '~modules/display/dto/display.update.dto';
-import { DisplayBoardTypesEnum } from '~modules/display/enum/display-board-types.enum';
+import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorModule } from '~modules/sensor/sensor.module';
 import { UserModule } from '~modules/user/user.module';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('DisplayService', () => {
   let displayService: DisplayService;
@@ -41,9 +42,10 @@ describe('DisplayService', () => {
     const data = plainToClass(DisplayCreateDto, {
       name: 'A display name',
       location: 'A location',
-      boardType: DisplayBoardTypesEnum.STM32F769NI,
+      boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
       sensorIds: [fixture.sensorOne.id],
       measurementTypes: Object.values(MeasurementTypeEnum),
+      displayType: DisplayTypeEnum.NOKIA_PCD8544
     });
 
     await validateOrReject(data);

@@ -51,7 +51,7 @@ $ yarn run typeorm migration:generate -n SampleMigrationName
 
 Run migrations:
 ```bash
-$  yarn run typeorm migration:run
+$ yarn run typeorm migration:run
 ```
 
 ## Test

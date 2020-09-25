@@ -1,7 +1,7 @@
 import {
   ForbiddenException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
@@ -14,7 +14,7 @@ import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import {
   Forwarder,
   ForwarderId,
-  ForwarderWhereInterface,
+  ForwarderWhereInterface
 } from './forwarder.entity';
 
 @Injectable()
@@ -79,6 +79,7 @@ export class ForwarderService {
     forwarder.userId = request.user?.id;
     forwarder.user = request.user;
     forwarder.name = data.name;
+    forwarder.boardType = data.boardType;
 
     await Forwarder.save(forwarder);
 
@@ -100,6 +101,9 @@ export class ForwarderService {
     }
     if (data.name) {
       forwarder.name = data.name;
+    }
+    if (data.boardType) {
+      forwarder.boardType = data.boardType;
     }
 
     await Forwarder.save(forwarder);
