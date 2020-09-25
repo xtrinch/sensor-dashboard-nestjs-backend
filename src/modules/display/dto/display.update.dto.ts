@@ -4,7 +4,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsOptional,
-  IsString
+  IsString,
 } from 'class-validator';
 import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
@@ -29,7 +29,7 @@ export class DisplayUpdateDto {
   @IsOptional()
   @IsEnum(DisplayTypeEnum)
   public displayType: DisplayTypeEnum;
-  
+
   @IsOptional()
   @IsArray()
   @ArrayMinSize(1)

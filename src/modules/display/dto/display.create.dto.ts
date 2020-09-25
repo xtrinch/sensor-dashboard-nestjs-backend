@@ -3,7 +3,7 @@ import {
   IsArray,
   IsEnum,
   IsNotEmpty,
-  IsString
+  IsString,
 } from 'class-validator';
 import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';

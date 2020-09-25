@@ -9,7 +9,7 @@ import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import {
   SensorFixture,
-  SensorFixtureInterface
+  SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
 import { SensorService } from '~modules/sensor/sensor.service';
 import { UserModule } from '~modules/user/user.module';

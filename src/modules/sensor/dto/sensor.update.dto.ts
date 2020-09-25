@@ -5,7 +5,7 @@ import {
   IsEnum,
   IsOptional,
   IsString,
-  Validate
+  Validate,
 } from 'class-validator';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';

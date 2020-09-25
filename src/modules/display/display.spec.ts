@@ -5,7 +5,7 @@ import { validateOrReject } from 'class-validator';
 import { Display } from '~modules/display/display.entity';
 import {
   DisplayFixture,
-  DisplayFixtureInterface
+  DisplayFixtureInterface,
 } from '~modules/display/display.fixture';
 import { DisplayModule } from '~modules/display/display.module';
 import { DisplayService } from '~modules/display/display.service';
@@ -45,7 +45,7 @@ describe('DisplayService', () => {
       boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
       sensorIds: [fixture.sensorOne.id],
       measurementTypes: Object.values(MeasurementTypeEnum),
-      displayType: DisplayTypeEnum.NOKIA_PCD8544
+      displayType: DisplayTypeEnum.NOKIA_PCD8544,
     });
 
     await validateOrReject(data);

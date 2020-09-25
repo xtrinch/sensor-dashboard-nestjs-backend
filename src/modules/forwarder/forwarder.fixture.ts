@@ -5,12 +5,12 @@ import { ForwarderCreateDto } from '~modules/forwarder/dto/forwarder.create.dto'
 import { Forwarder } from '~modules/forwarder/forwarder.entity';
 import {
   ForwarderAuthInterface,
-  ForwarderRequest
+  ForwarderRequest,
 } from '~modules/forwarder/forwarder.interfaces';
 import { ForwarderService } from '~modules/forwarder/forwarder.service';
 import {
   SensorFixture,
-  SensorFixtureInterface
+  SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
 import { BoardTypeEnum } from '~utils/board-types.enum';
 

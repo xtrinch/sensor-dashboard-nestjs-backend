@@ -1,7 +1,7 @@
 import {
   ForbiddenException,
   Injectable,
-  NotFoundException
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
@@ -102,7 +102,7 @@ export class SensorService {
     }
     if (data.sensorTypes) {
       sensor.sensorTypes = data.sensorTypes;
-    } 
+    }
     if ('private' in data) {
       sensor.private = data.private;
     }

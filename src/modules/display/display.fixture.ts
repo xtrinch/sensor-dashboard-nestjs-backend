@@ -4,7 +4,7 @@ import { plainToClass } from 'class-transformer';
 import { Display } from '~modules/display/display.entity';
 import {
   DisplayAuthInterface,
-  DisplayRequest
+  DisplayRequest,
 } from '~modules/display/display.interfaces';
 import { DisplayService } from '~modules/display/display.service';
 import { DisplayCreateDto } from '~modules/display/dto/display.create.dto';
@@ -12,7 +12,7 @@ import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import {
   SensorFixture,
-  SensorFixtureInterface
+  SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
 import { BoardTypeEnum } from '~utils/board-types.enum';
 
