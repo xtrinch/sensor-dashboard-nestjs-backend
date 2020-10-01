@@ -1,12 +1,11 @@
 import {
   ForbiddenException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
-import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
 import { SensorUpdateDto } from '~modules/sensor/dto/sensor.update.dto';
 import { UserRequest } from '~modules/user/jwt.guard';
@@ -63,7 +62,7 @@ export class SensorService {
     sensor.location = data.location;
     sensor.name = data.name;
     sensor.displayName = data.displayName;
-    sensor.measurementTypes = Object.values(MeasurementTypeEnum);
+    sensor.measurementTypes = data.measurementTypes;
     sensor.timezone = data.timezone;
     sensor.userId = request.user?.id;
     sensor.user = request.user;
