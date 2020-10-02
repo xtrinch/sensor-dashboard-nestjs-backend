@@ -1,9 +1,10 @@
 FROM node:alpine
-WORKDIR /usr/src/app
-COPY package.json ./
-COPY yarn.lock ./
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json .
+COPY yarn.lock .
 RUN yarn install
-COPY . ./
+COPY . .
 RUN yarn run build
 
 # do not exit if this returns error as it will upon first build
