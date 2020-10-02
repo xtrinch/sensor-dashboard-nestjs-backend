@@ -74,5 +74,5 @@ $ npm run test:cov
 $ docker-compose up -d
 
 # backup database in production
-$ docker exec -t postgres pg_dump --no-owner -U postgres sensor-dashboard > ../sensor-dashboard-database-backups/backup.sql
+$ docker exec -t postgres pg_dump --no-owner -U postgres sensor-dashboard > ../sensor-dashboard-database-backups/backup
 ```

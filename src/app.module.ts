@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MeasurementModule } from '~/modules/measurement/measurement.module';
 import { SensorModule } from '~/modules/sensor/sensor.module';
@@ -16,6 +17,7 @@ import { AppService } from './app.service';
     DisplayModule,
     ForwarderModule,
     TypeOrmModule.forRoot(),
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [AppService],
