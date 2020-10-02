@@ -6,9 +6,9 @@ services:
     build:
       context: .
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-      - /usr/src/app/dist
+      - .:/app
+      - /app/node_modules
+      - /app/dist
     ports:
       - ${DOCKER_MAPPED_PORT}:${SERVER_PORT}
     command: yarn run start
