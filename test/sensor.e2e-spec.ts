@@ -3,13 +3,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '~app.module';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import { BoardTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
+import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
 import {
   SensorFixture,
-  SensorFixtureInterface,
+  SensorFixtureInterface
 } from '~modules/sensor/sensor.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
+import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('SensorController (e2e)', () => {
   let app: INestApplication;
@@ -35,10 +36,12 @@ describe('SensorController (e2e)', () => {
       .send({
         name: 'Test sensor',
         displayName: 'Test sensor',
-        boardType: BoardTypeEnum.BME680,
+        boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
         location: 'Living room',
         measurementTypes: [MeasurementTypeEnum.GAS],
         timezone: 'Europe/Vienna',
+        sensorTypes: [SensorTypeEnum.BME280],
+        private: true,
       })
       .expect(201);
   });
@@ -55,6 +58,7 @@ describe('SensorController (e2e)', () => {
 
     expect(response.body.items.length).toBeGreaterThan(0);
     expect(response.body.items[0].accessToken).toBeDefined();
+    expect(response.body.items[0].userId).toEqual(userAuth.user?.id);
   });
 
   afterAll(async () => {

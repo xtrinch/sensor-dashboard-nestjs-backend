@@ -1,7 +1,7 @@
 import {
   ForbiddenException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
@@ -27,12 +27,10 @@ export class DisplayService {
   ): Promise<Pagination<Display>> {
     const results = await paginate<Display>(
       this.displayRepository,
-      {
-        ...pagination,
-        ...where,
-      },
+      pagination,
       {
         ...options,
+        where,
       },
     );
 
