@@ -1,9 +1,9 @@
 FROM node:alpine
 
-RUN apt-get update && \
-    apt-get install -y postgresql-client openssh-client apt-transport-https ca-certificates software-properties-common && \
+RUN apk update && \
+    apk install -y postgresql-client openssh-client apt-transport-https ca-certificates software-properties-common && \
     update-ca-certificates
-    
+
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json .
