@@ -3,7 +3,7 @@ module.exports = {
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT, 10),
   username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
+  password: process.env.PGPASSWORD,
   database: process.env.DB_DATABASE,
   entities: process.env.DB_ENTITIES.split(' '),
   synchronize: process.env.DB_SYNCHRONIZE === 'true',
