@@ -43,7 +43,7 @@ export class AppService {
 
     const filename = process.env.KOOFR_FILENAME;
 
-    execSync(`${process.env.NODE_ENV === 'production' && 'docker exec -t postgres '} pg_dump -Fc --no-owner -U ${process.env.DB_USERNAME} -h ${process.env.DB_HOST} ${process.env.DB_DATABASE} > ${filename}.dump`);
+    execSync(`pg_dump -Fc --no-owner -U ${process.env.DB_USERNAME} -h ${process.env.DB_HOST} ${process.env.DB_DATABASE} > ${filename}.dump`);
 
     // put the compressed dump on koofr
     const stream = fs.createReadStream(`${filename}.dump`);
