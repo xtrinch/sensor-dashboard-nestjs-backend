@@ -43,12 +43,12 @@ export class AppService {
 
     const filename = process.env.KOOFR_FILENAME;
 
-    execSync(`pg_dump -Fc --no-owner -U ${process.env.DB_USERNAME} -h ${process.env.DB_HOST} ${process.env.DB_DATABASE} > ${filename}.dump`);
+    execSync(`${process.env.NODE_ENV === 'production' && 'docker exec -t postgres '} pg_dump -Fc --no-owner -U ${process.env.DB_USERNAME} -h ${process.env.DB_HOST} ${process.env.DB_DATABASE} > ${filename}.dump`);
 
     // put the compressed dump on koofr
     const stream = fs.createReadStream(`${filename}.dump`);
     
-    const createdFilename = `${filename}-${format(new Date(), "dd-MM-yyyy")}.dump`;
+    const createdFilename = `${filename}-${process.env.NODE_ENV}-${format(new Date(), "dd-MM-yyyy")}.dump`;
     
     this.logger.debug("Creating file " + createdFilename);
     await client.filesPut(mount.id, `/${process.env.KOOFR_FOLDER}`, createdFilename, stream);
