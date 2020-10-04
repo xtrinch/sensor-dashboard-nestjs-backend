@@ -1,8 +1,7 @@
 FROM node:alpine
 
 RUN apk update && \
-    apk add postgresql-client openssh-client apt-transport-https ca-certificates software-properties-common && \
-    update-ca-certificates
+    apk add postgresql-client
 
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
