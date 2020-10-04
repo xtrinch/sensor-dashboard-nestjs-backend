@@ -20,8 +20,8 @@ export class AppService {
   private readonly logger = new Logger(AppService.name);
 
   //@Cron('0 12 * * MON')
-  @Cron('0 16 * * *') // every day at 4pm
-  // @Cron('45 * * * * *') // every 45 seconds
+  // @Cron('0 16 * * *') // every day at 4pm
+  @Cron('45 * * * * *') // every 45 seconds
   async backupDatabase() {
     if (!process.env.KOOFR_API_BASE) {
       this.logger.debug("Skipping KOOFR upload");
