@@ -6,7 +6,7 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
 import {
   SensorFixture,
-  SensorFixtureInterface
+  SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';

@@ -1,4 +1,10 @@
-import { BadRequestException, CanActivate, ExecutionContext, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { AuthService } from '~modules/user/auth.service';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { User } from '~modules/user/user.entity';
@@ -6,7 +12,10 @@ import { UserService } from '~modules/user/user.service';
 
 @Injectable()
 export class GoogleAuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private userService: UserService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<UserRequest>();
@@ -14,7 +23,7 @@ export class GoogleAuthGuard implements CanActivate {
     const idToken = request.headers.authorization;
 
     if (!idToken) {
-      throw new BadRequestException;
+      throw new BadRequestException();
     }
 
     const data = await this.authService.verifyIdToken(idToken);
@@ -23,7 +32,7 @@ export class GoogleAuthGuard implements CanActivate {
       const user = await this.userService.find({ sub: data.sub });
       request.user = user;
       return true;
-    } catch(e) {
+    } catch (e) {
       if (!(e instanceof NotFoundException)) {
         throw e;
       }
@@ -38,11 +47,11 @@ export class GoogleAuthGuard implements CanActivate {
     });
     newUser.sub = data.sub;
     newUser.imageUrl = data.picture;
-    
+
     User.save(newUser);
 
     request.user = newUser;
-    
+
     return true;
   }
 }

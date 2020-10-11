@@ -20,7 +20,7 @@ export class AuthService {
   public async login(user: User): Promise<UserAuthInterface> {
     user.lastSeenAt = new Date();
     User.save(user);
-    
+
     const payload = { username: user.email, sub: user.id };
     return {
       accessToken: this.jwtService.sign(payload),
@@ -47,7 +47,10 @@ export class AuthService {
     }
   }
 
-  public async validateUser(email: string, plaintextPass: string): Promise<User> {
+  public async validateUser(
+    email: string,
+    plaintextPass: string,
+  ): Promise<User> {
     const user = await this.usersService.find({ email });
 
     const isPasswordMatching = await bcrypt.compare(
@@ -65,8 +68,8 @@ export class AuthService {
 
   public async verifyIdToken(token: string) {
     const ticket = await this.client.verifyIdToken({
-        idToken: token,
-        audience: process.env.GOOGLE_CLIENT_ID,
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
     });
     const payload: TokenPayload = ticket.getPayload();
     return payload;

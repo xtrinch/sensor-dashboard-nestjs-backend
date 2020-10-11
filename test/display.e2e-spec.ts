@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '~app.module';
 import {
   DisplayFixture,
-  DisplayFixtureInterface
+  DisplayFixtureInterface,
 } from '~modules/display/display.fixture';
 import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';

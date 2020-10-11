@@ -3,9 +3,7 @@ import { Connection } from 'typeorm';
 
 @Injectable()
 export class TestUtils {
-  constructor(
-    @Inject('Connection') public connection: Connection
-  ) {
+  constructor(@Inject('Connection') public connection: Connection) {
     if (process.env.NODE_ENV !== 'test') {
       throw new Error('ERROR-TEST-UTILS-ONLY-FOR-TESTS');
     }
@@ -13,8 +11,8 @@ export class TestUtils {
 
   async getEntities() {
     const entities = [];
-    (await (await this.connection).entityMetadatas).forEach(
-      x => entities.push({name: x.name, tableName: x.tableName})
+    (await (await this.connection).entityMetadatas).forEach((x) =>
+      entities.push({ name: x.name, tableName: x.tableName }),
     );
     return entities;
   }

@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '~app.module';
 import {
   ForwarderFixture,
-  ForwarderFixtureInterface
+  ForwarderFixtureInterface,
 } from '~modules/forwarder/forwarder.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';

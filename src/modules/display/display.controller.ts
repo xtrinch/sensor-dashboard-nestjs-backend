@@ -8,7 +8,7 @@ import {
   Put,
   Query,
   Request,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { Display, DisplayId } from '~/modules/display/display.entity';
 import { DisplayService } from '~/modules/display/display.service';
@@ -42,8 +42,8 @@ export class DisplayController {
     @Query() pagination: PaginationQueryDto,
     @Request() request: UserRequest,
   ): Promise<PaginationDto<DisplayDetailsDto>> {
-    console.log(request.user?.id)
-    console.log("THEID")
+    console.log(request.user?.id);
+    console.log('THEID');
     const items = await this.displayService.findAll(
       {
         userId: request.user?.id,
