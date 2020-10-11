@@ -5,7 +5,7 @@ import { validateOrReject } from 'class-validator';
 import { Display } from '~modules/display/display.entity';
 import {
   DisplayFixture,
-  DisplayFixtureInterface,
+  DisplayFixtureInterface
 } from '~modules/display/display.fixture';
 import { DisplayModule } from '~modules/display/display.module';
 import { DisplayService } from '~modules/display/display.service';

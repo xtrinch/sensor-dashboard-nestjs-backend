@@ -6,7 +6,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsString,
-  Validate,
+  Validate
 } from 'class-validator';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
@@ -39,11 +39,11 @@ export class SensorCreateDto {
 
   @IsArray()
   @IsEnum(MeasurementTypeEnum, { each: true })
-  @ArrayMinSize(0)
+  @ArrayMinSize(1)
   public measurementTypes: MeasurementTypeEnum[];
 
   @IsArray()
   @IsEnum(SensorTypeEnum, { each: true })
-  @ArrayMinSize(0)
+  @ArrayMinSize(1)
   public sensorTypes: SensorTypeEnum[];
 }

@@ -60,7 +60,10 @@ export class AppService {
     // delete "old" files
     files.map(async (file: KoofrFile) => {
       const dateModified = fromUnixTime(file.modified / 1000);
-      if (differenceInMinutes(new Date(), dateModified) > parseInt(process.env.KOOFR_REMOVE_OLDER_THAN, 10)) {
+      if (
+        differenceInMinutes(new Date(), dateModified) > parseInt(process.env.KOOFR_REMOVE_OLDER_THAN, 10) &&
+        file.name.includes(process.env.NODE_ENV) // make sure we don't delete production files from development
+      ) {
         this.logger.debug("Removing file " + file.name);
         await client.filesRemove(mount.id, `/${process.env.KOOFR_FOLDER}/${file.name}`);
       }

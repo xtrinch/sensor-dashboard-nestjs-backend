@@ -40,6 +40,7 @@
     "class-validator": "^0.12.2",
     "date-fns": "^2.15.0",
     "env-cmd": "^10.1.0",
+    "google-auth-library": "^6.1.1",
     "koofr": "^0.2.0",
     "nestjs-typeorm-paginate": "^2.1.1",
     "passport": "^0.4.1",

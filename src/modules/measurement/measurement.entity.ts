@@ -21,7 +21,7 @@ export class Measurement extends AbstractEntity {
 
   @Column('integer')
   public sensorId: number;
-
+  
   public toString(): string {
     return this.measurementType;
   }

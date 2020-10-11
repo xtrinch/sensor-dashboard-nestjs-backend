@@ -8,29 +8,39 @@ export interface UserWhereInterface {
   username?: string;
   id?: number;
   email?: string;
+  sub?: string;
 }
 
 export type UserId = number;
 
 @Entity()
 export class User extends AbstractEntity {
-  @Column({ length: 128, unique: true, nullable: false })
-  email: string;
+  @Column()
+  public sub: string; // e.g. google ID
+
+  @Column()
+  public imageUrl: string; // e.g. from google
 
   @Column({ length: 128, unique: true, nullable: false })
-  username: string;
+  public email: string;
+
+  @Column({ length: 128, unique: true, nullable: false })
+  public username: string;
 
   @Column({ length: 128, nullable: false })
-  password: string;
+  public password: string;
 
   @Column('boolean', { nullable: true })
-  isAdmin: boolean;
+  public isAdmin: boolean;
 
   @Column()
-  name: string;
+  public name: string;
 
   @Column()
-  surname: string;
+  public surname: string;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  public lastSeenAt: Date;
 
   @OneToMany(() => Sensor, (sensor) => sensor.user)
   public sensors: Sensor[];

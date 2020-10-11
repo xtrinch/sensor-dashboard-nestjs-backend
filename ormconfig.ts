@@ -6,6 +6,7 @@ module.exports = {
   password: process.env.PGPASSWORD,
   database: process.env.DB_DATABASE,
   entities: process.env.DB_ENTITIES.split(' '),
+  dropSchema: process.env.DB_DROP_SCHEMA === 'true',
   synchronize: process.env.DB_SYNCHRONIZE === 'true',
   autoLoadEntities: true,
   logging: process.env.DB_LOGGING === "true",

@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { OAuth2Client, TokenPayload } from 'google-auth-library';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
 import { User } from '~modules/user/user.entity';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
@@ -9,12 +10,17 @@ import { UserService } from './user.service';
 
 @Injectable()
 export class AuthService {
+  private client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
   constructor(
     private usersService: UserService,
     private jwtService: JwtService,
   ) {}
 
-  async login(user: User): Promise<UserAuthInterface> {
+  public async login(user: User): Promise<UserAuthInterface> {
+    user.lastSeenAt = new Date();
+    User.save(user);
+    
     const payload = { username: user.email, sub: user.id };
     return {
       accessToken: this.jwtService.sign(payload),
@@ -41,7 +47,7 @@ export class AuthService {
     }
   }
 
-  async validateUser(email: string, plaintextPass: string): Promise<User> {
+  public async validateUser(email: string, plaintextPass: string): Promise<User> {
     const user = await this.usersService.find({ email });
 
     const isPasswordMatching = await bcrypt.compare(
@@ -55,5 +61,14 @@ export class AuthService {
 
     user.password = undefined;
     return user;
+  }
+
+  public async verifyIdToken(token: string) {
+    const ticket = await this.client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload: TokenPayload = ticket.getPayload();
+    return payload;
   }
 }
