@@ -5,10 +5,6 @@ services:
     container_name: main
     build:
       context: .
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/dist
     ports:
       - ${DOCKER_MAPPED_PORT}:${SERVER_PORT}
     command: yarn run start
