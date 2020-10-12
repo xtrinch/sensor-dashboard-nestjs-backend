@@ -21,6 +21,7 @@ export class AuthController {
     user: UserDto;
   }> {
     const { accessToken, user } = await this.authService.login(req.user);
+    console.log(user.id);
 
     return {
       accessToken,
@@ -31,14 +32,13 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   @Post('google-login')
   async loginWithGoogle(
-    @Body() data: UserLoginDto,
     @Request() req: UserRequest,
   ): Promise<{
     accessToken: string;
     user: UserDto;
   }> {
     const { accessToken, user } = await this.authService.login(req.user);
-
+    console.log(user.id);
     return {
       accessToken,
       user: UserDto.fromUser(user),

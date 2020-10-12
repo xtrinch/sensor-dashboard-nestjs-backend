@@ -15,10 +15,10 @@ export type UserId = number;
 
 @Entity()
 export class User extends AbstractEntity {
-  @Column()
+  @Column({ nullable: true })
   public sub: string; // e.g. google ID
 
-  @Column()
+  @Column({ nullable: true })
   public imageUrl: string; // e.g. from google
 
   @Column({ length: 128, unique: true, nullable: false })
@@ -27,7 +27,7 @@ export class User extends AbstractEntity {
   @Column({ length: 128, unique: true, nullable: false })
   public username: string;
 
-  @Column({ length: 128, nullable: false })
+  @Column({ length: 128, nullable: true })
   public password: string;
 
   @Column('boolean', { nullable: true })

@@ -29,7 +29,7 @@ export class GoogleAuthGuard implements CanActivate {
     const data = await this.authService.verifyIdToken(idToken);
 
     try {
-      const user = await this.userService.find({ sub: data.sub });
+      const user = await this.userService.find({ email: data.email });
       request.user = user;
       return true;
     } catch (e) {
@@ -38,19 +38,16 @@ export class GoogleAuthGuard implements CanActivate {
       }
     }
 
-    const newUser = await this.userService.create({
-      name: data.name,
-      surname: data.family_name,
-      email: data.email,
-      username: data.email,
-      password: null,
-    });
-    newUser.sub = data.sub;
-    newUser.imageUrl = data.picture;
+    const user = new User();
+    user.name = data.name;
+    user.surname = data.family_name;
+    user.email = data.email;
+    user.username = data.email;
+    user.sub = data.sub;
+    user.imageUrl = data.picture;
+    User.save(user);
 
-    User.save(newUser);
-
-    request.user = newUser;
+    request.user = user;
 
     return true;
   }
