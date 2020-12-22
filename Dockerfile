@@ -6,7 +6,7 @@ RUN apk update && \
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY yarn.lock .
-RUN yarn install
+RUN yarn install --frozen-lockfile
 COPY . .
 RUN yarn run build
 
