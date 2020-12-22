@@ -4,7 +4,7 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
-  OneToMany,
+  OneToMany
 } from 'typeorm';
 import { Display } from '~modules/display/display.entity';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
@@ -50,6 +50,9 @@ export class Sensor extends AbstractIOTDeviceEntity {
 
   @Column('boolean', { default: false })
   public private: boolean;
+
+  @Column('text', { nullable: true })
+  public testSquash: string;
 
   public toString(): string {
     return this.name;

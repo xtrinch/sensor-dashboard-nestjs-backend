@@ -76,3 +76,9 @@ $ docker-compose up -d
 # backup database in production
 $ docker exec -t postgres pg_dump --no-owner -U postgres sensor-dashboard > ../sensor-dashboard-database-backups/backup
 ```
+
+## Restore from dump on windows
+
+```bash
+$ pg_restore --host "localhost" --port "5433" --username "postgres" --dbname "sensor-dashboard" --verbose --schema "public" "C:\Users\xtrinch\Downloads\backup-production-21-12-2020.dump"
+```

@@ -15,5 +15,6 @@ module.exports = {
   migrations: ["dist/src/migrations/*.js"], // where migrations are read from on run, has to be .JS!
   cli: {
     migrationsDir: "src/migrations" // where migrations are created
-  }
+  },
+  migrationsRun: true
 };
