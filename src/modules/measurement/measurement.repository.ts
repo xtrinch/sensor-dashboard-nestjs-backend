@@ -4,7 +4,7 @@ import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   DisplayMeasurementAggregateInterface,
   MeasurementAggregateInterface,
-  MeasurementWhereInterface,
+  MeasurementWhereInterface
 } from '~modules/measurement/measurement.interfaces';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { RangeGroupByEnum } from '~utils/date.range';
@@ -108,14 +108,16 @@ export class MeasurementRepository extends Repository<Measurement> {
     const res = r.reduce(
       (acc: MeasurementAggregateInterface, curr: Measurement) => {
         if (!acc[curr.measurementType]) {
-          acc[curr.measurementType] = {};
+          acc[curr.measurementType] = [];
         }
 
-        if (!acc[curr.measurementType][curr.sensorId]) {
-          acc[curr.measurementType][curr.sensorId] = [];
-        }
+        // if (!acc[curr.measurementType][curr.sensorId]) {
+        //   acc[curr.measurementType][curr.sensorId] = [];
+        // }
 
-        acc[curr.measurementType][curr.sensorId].push(curr);
+        //acc[curr.measurementType][curr.sensorId].push(curr);
+        acc[curr.measurementType].push(curr);
+
         return acc;
       },
       {},

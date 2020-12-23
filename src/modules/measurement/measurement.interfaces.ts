@@ -13,9 +13,7 @@ export interface MeasurementWhereInterface {
 }
 
 export interface MeasurementAggregateInterface {
-  [MeasurementTypeEnum: string]: {
-    [SensorId: string]: Measurement[];
-  };
+  [MeasurementTypeEnum: string]: Measurement[];
 }
 
 export interface MeasurementAggregateDto {
