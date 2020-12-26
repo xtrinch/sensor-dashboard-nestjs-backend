@@ -1,13 +1,13 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Sensor } from '~modules/sensor/sensor.entity';
-import { AbstractEntity } from '~utils/abstract.entity';
+import { AbstractSmallEntity } from '~utils/abstract.small.entity';
 
 export type MeasurementId = number;
 
 @Entity()
-export class Measurement extends AbstractEntity {
-  @Column({ type: 'float' })
+export class Measurement extends AbstractSmallEntity {
+  @Column({ type: 'float4' })
   public measurement: number;
 
   @Column()

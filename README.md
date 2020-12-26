@@ -79,6 +79,8 @@ $ docker exec -t postgres pg_dump --no-owner -U postgres sensor-dashboard > ../s
 
 ## Restore from dump on windows
 
+Data only restore, migration inserts will fail but the rest should succeed.
+
 ```bash
 $ pg_restore --host "localhost" --port "5433" --username "postgres" --dbname "sensor-dashboard" --verbose --schema "public" "C:\Users\xtrinch\Downloads\backup-production-21-12-2020.dump"
 ```

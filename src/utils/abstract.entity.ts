@@ -2,7 +2,7 @@ import {
   BaseEntity,
   CreateDateColumn,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 
 export abstract class AbstractEntity extends BaseEntity {
@@ -10,8 +10,8 @@ export abstract class AbstractEntity extends BaseEntity {
   public id: number;
 
   @CreateDateColumn({ type: 'timestamptz' })
-  createdAt: Date;
+  public createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamptz' })
-  updatedAt: Date;
+  public updatedAt: Date;
 }
