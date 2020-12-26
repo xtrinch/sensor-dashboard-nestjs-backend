@@ -84,7 +84,7 @@ describe('MeasurementService', () => {
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[MeasurementTypeEnum.GAS][fixture.sensorOne.id].length).not.toBe(
+    expect(resp[MeasurementTypeEnum.gas].length).not.toBe(
       0,
     );
   });
@@ -100,7 +100,7 @@ describe('MeasurementService', () => {
       },
     );
 
-    expect(resp[MeasurementTypeEnum.GAS][fixture.sensorOne.id].length).not.toBe(
+    expect(resp[MeasurementTypeEnum.gas].length).not.toBe(
       0,
     );
   });
@@ -116,7 +116,7 @@ describe('MeasurementService', () => {
       },
     );
 
-    expect(resp[MeasurementTypeEnum.GAS][fixture.sensorOne.id].length).not.toBe(
+    expect(resp[MeasurementTypeEnum.gas].length).not.toBe(
       0,
     );
   });
@@ -130,7 +130,7 @@ describe('MeasurementService', () => {
       },
     );
 
-    expect(resp[MeasurementTypeEnum.GAS][fixture.sensorOne.id].length).not.toBe(
+    expect(resp[MeasurementTypeEnum.gas].length).not.toBe(
       0,
     );
   });
