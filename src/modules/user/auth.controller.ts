@@ -21,7 +21,6 @@ export class AuthController {
     user: UserDto;
   }> {
     const { accessToken, user } = await this.authService.login(req.user);
-    console.log(user.id);
 
     return {
       accessToken,
@@ -38,7 +37,7 @@ export class AuthController {
     user: UserDto;
   }> {
     const { accessToken, user } = await this.authService.login(req.user);
-    console.log(user.id);
+    
     return {
       accessToken,
       user: UserDto.fromUser(user),
