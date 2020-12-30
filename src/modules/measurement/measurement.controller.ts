@@ -11,6 +11,7 @@ import { MeasurementService } from '~/modules/measurement/measurement.service';
 import { DisplayGuard } from '~modules/display/display.guard';
 import { DisplayRequest } from '~modules/display/display.interfaces';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
+import { MeasurementDisplayDto } from '~modules/measurement/dto/measurement.display.dto';
 import { MeasurementDto } from '~modules/measurement/dto/measurement.dto';
 import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.list.create.dto';
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
@@ -80,7 +81,7 @@ export class MeasurementController {
       Object.keys(measurementTypes).map((measurementTypeKey) => {
         response[sensorIdKey].measurements[
           measurementTypeKey
-        ] = MeasurementDto.fromMeasurement(
+        ] = MeasurementDisplayDto.fromMeasurement(
           measurementTypes[measurementTypeKey],
         );
       });

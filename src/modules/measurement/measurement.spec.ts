@@ -10,11 +10,11 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   MeasurementFixture,
-  MeasurementFixtureInterface,
+  MeasurementFixtureInterface
 } from '~modules/measurement/measurement.fixture';
 import {
   DisplayMeasurementAggregateInterface,
-  MeasurementAggregateInterface,
+  MeasurementAggregateInterface
 } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { MeasurementService } from '~modules/measurement/measurement.service';
@@ -39,8 +39,6 @@ describe('MeasurementService', () => {
         ForwarderModule,
       ],
     }).compile();
-    // let testUtils = module.get<TestUtils>(TestUtils);
-    // await testUtils.reloadFixtures();
 
     measurementService = await module.get<MeasurementService>(
       MeasurementService,
@@ -84,7 +82,7 @@ describe('MeasurementService', () => {
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[MeasurementTypeEnum.gas].length).not.toBe(
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(
       0,
     );
   });
@@ -100,7 +98,7 @@ describe('MeasurementService', () => {
       },
     );
 
-    expect(resp[MeasurementTypeEnum.gas].length).not.toBe(
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(
       0,
     );
   });
@@ -116,7 +114,7 @@ describe('MeasurementService', () => {
       },
     );
 
-    expect(resp[MeasurementTypeEnum.gas].length).not.toBe(
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(
       0,
     );
   });
@@ -130,7 +128,7 @@ describe('MeasurementService', () => {
       },
     );
 
-    expect(resp[MeasurementTypeEnum.gas].length).not.toBe(
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(
       0,
     );
   });
