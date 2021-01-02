@@ -9,7 +9,7 @@ export class MeasurementDisplayDto {
 
   public static fromMeasurement(measurement: Measurement): MeasurementDisplayDto {
     return {
-      measurement: `${measurement.measurement.toFixed(1)}`,
+      measurement: `${Math.round(measurement.measurement)}`,
       measurementType: measurement.measurementType,
       measurementTypeUnit: MeasurementTypeUnitEnum[measurement.measurementType],
     };
