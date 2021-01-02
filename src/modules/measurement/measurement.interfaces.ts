@@ -27,6 +27,7 @@ export interface DisplayMeasurementAggregateInterface {
   [SensorId: string]: {
     info: {
       displayName: string;
+      location: string;
     };
     measurements: {
       [MeasurementTypeEnum: string]: Measurement;

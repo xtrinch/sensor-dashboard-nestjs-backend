@@ -26,7 +26,7 @@ export class MeasurementRepository extends Repository<Measurement> {
         LEFT JOIN "sensor" on "sensor".id = "measurement"."sensorId"
         WHERE "measurementType" = ANY ($2) AND "sensorId" = ANY ($1)
         WINDOW w AS (
-          PARTITION BY "sensorId", "measurementType" ORDER BY "measurement"."createdAt" DESC
+          PARTITION BY "sensorId", "measurementType" ORDER BY "measurement"."createdAt"::timestamptz ASC
           ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
         );
     `,
@@ -42,6 +42,7 @@ export class MeasurementRepository extends Repository<Measurement> {
           acc[curr.sensorId] = {
             info: {
               displayName: curr.displayName,
+              location: curr.location,
             },
             measurements: {},
           };
