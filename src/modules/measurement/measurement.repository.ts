@@ -21,7 +21,8 @@ export class MeasurementRepository extends Repository<Measurement> {
         last_value("measurement") OVER w as "measurement",
         last_value("sensorId") OVER w as "sensorId",
         last_value("measurementType") OVER w as "measurementType",
-        last_value("displayName") OVER w as "displayName"
+        last_value("displayName") OVER w as "displayName",
+        last_value("location") OVER w as "location"
         FROM "measurement"
         LEFT JOIN "sensor" on "sensor".id = "measurement"."sensorId"
         WHERE "measurementType" = ANY ($2) AND "sensorId" = ANY ($1)
