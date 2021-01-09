@@ -8,7 +8,7 @@ import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.l
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
 import {
   DisplayMeasurementAggregateInterface,
-  MeasurementAggregateInterface,
+  MeasurementAggregateInterface
 } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { Sensor } from '~modules/sensor/sensor.entity';
@@ -75,8 +75,9 @@ export class MeasurementService {
   }
 
   public async createMultiple(
-    request: SensorRequest,
+    sensor: Sensor,
     data: MeasurementListCreateDto,
+    forwarder?: Forwarder,
   ): Promise<Measurement[]> {
     const measurements: Measurement[] = [];
 
@@ -84,20 +85,20 @@ export class MeasurementService {
       const measurement = new Measurement();
       measurement.measurement = measurementData.measurement;
       measurement.measurementType = measurementData.measurementType;
-      measurement.sensor = request.sensor;
+      measurement.sensor = sensor;
       measurements.push(measurement);
     }
 
-    request.sensor.lastSeenAt = new Date();
+    sensor.lastSeenAt = new Date();
 
-    if (request.forwarder) {
-      request.forwarder.lastSeenAt = new Date();
-      request.forwarder.numForwarded += 1;
-      await Forwarder.save(request.forwarder);
+    if (forwarder) {
+      forwarder.lastSeenAt = new Date();
+      forwarder.numForwarded += 1;
+      await Forwarder.save(forwarder);
     }
 
     await Measurement.save(measurements);
-    await Sensor.save(request.sensor);
+    await Sensor.save(sensor);
 
     return measurements;
   }

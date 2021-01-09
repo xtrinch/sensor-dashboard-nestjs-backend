@@ -7,6 +7,7 @@ import {
   Request,
   UseGuards
 } from '@nestjs/common';
+import { Ctx, MessagePattern } from '@nestjs/microservices';
 import { MeasurementService } from '~/modules/measurement/measurement.service';
 import { DisplayGuard } from '~modules/display/display.guard';
 import { DisplayRequest } from '~modules/display/display.interfaces';
@@ -21,6 +22,7 @@ import {
   MeasurementAggregateDto
 } from '~modules/measurement/measurement.interfaces';
 import { SensorGuard, SensorRequest } from '~modules/sensor/sensor.guard';
+import { SensorMqttContext, SensorMqttGuard } from '~modules/sensor/sensor.mqtt.guard';
 
 @Controller('measurements')
 export class MeasurementController {
@@ -58,10 +60,21 @@ export class MeasurementController {
     @Request() request: SensorRequest,
   ): Promise<MeasurementDto[]> {
     const measurementList = await this.measurementService.createMultiple(
-      request,
+      request.sensor,
       data,
+      request.forwarder,
     );
     return measurementList.map(MeasurementDto.fromMeasurement);
+  }
+
+  @MessagePattern('measurements/multi/#')
+  @UseGuards(SensorMqttGuard)
+  public async getTemperature(@Ctx() context: SensorMqttContext) {
+    const data: MeasurementListCreateDto = context.payload;
+    const measurementList = await this.measurementService.createMultiple(
+      context.sensor,
+      data,
+    );
   }
 
   @UseGuards(DisplayGuard)

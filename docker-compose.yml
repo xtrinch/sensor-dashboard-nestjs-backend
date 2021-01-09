@@ -55,6 +55,14 @@ services:
       options:
           max-file: "5"
           max-size: "10m"
+  mosquitto:
+    container_name: mosquitto
+    hostname: mosquitto
+    image: eclipse-mosquitto:latest
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - "1883:1883"
 networks:
   webnet:
 volumes:
