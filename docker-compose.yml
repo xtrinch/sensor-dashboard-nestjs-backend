@@ -63,6 +63,8 @@ services:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
     ports:
       - "1883:1883"
+    expose:
+      - "1883"
 networks:
   webnet:
 volumes:
