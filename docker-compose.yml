@@ -15,6 +15,7 @@ services:
     depends_on:
       - postgrestest
       - postgres
+      - mosquitto
     logging:
       driver: "json-file"
       options:
