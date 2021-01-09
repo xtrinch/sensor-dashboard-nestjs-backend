@@ -57,7 +57,6 @@ services:
           max-size: "10m"
   mosquitto:
     container_name: mosquitto
-    hostname: mosquitto
     image: eclipse-mosquitto:latest
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
