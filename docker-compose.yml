@@ -6,7 +6,7 @@ services:
     build:
       context: ./backend
     ports:
-      - 8011:3001
+      - 8010:3001
     command: yarn run start
     depends_on:
       - postgres
