@@ -1,17 +1,15 @@
 version: '3.7'
 
 services:
-  main:
-    container_name: main
+  iotfreezer-backend:
+    container_name: iotfreezer-backend
     build:
-      context: .
+      context: ./backend
     ports:
       - ${DOCKER_MAPPED_PORT}:${SERVER_PORT}
     command: yarn run start
     env_file:
       - .env
-    networks:
-      - webnet
     depends_on:
       - postgrestest
       - postgres
@@ -20,11 +18,13 @@ services:
       options:
           max-file: "5"
           max-size: "10m"
+    networks:
+      - webnet
+    env_file:
+    - ./backend/.env
   postgres:
     container_name: postgres
     image: postgres:12
-    networks:
-      - webnet
     environment:
       POSTGRES_PASSWORD: ${PGPASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
@@ -39,22 +39,27 @@ services:
       options:
           max-file: "5"
           max-size: "10m"
-  postgrestest:
-    container_name: postgrestest
-    image: postgres:12
     networks:
       - webnet
-    environment:
-      POSTGRES_PASSWORD: ${PGPASSWORD}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_DB: ${DB_DATABASE}
+    env_file:
+      - ./backend/.env
+  iotfreezer-frontend:
+    container_name: iotfreezer-frontend
+    build:
+      context: ./frontend
     ports:
-      - 5433:5432
+      - ${SERVER_PORT}:80
+    env_file:
+      - .env
     logging:
       driver: "json-file"
       options:
-          max-file: "5"
-          max-size: "10m"
+        max-file: "5"
+        max-size: "10m"
+    networks:
+      - webnet
+    env_file:
+      - ./frontend/.env
 networks:
   webnet:
 volumes:
