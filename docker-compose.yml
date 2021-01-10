@@ -56,14 +56,13 @@ services:
     networks:
       - webnet
   nginx:
-    user: root
     container_name: iotfreezer-nginx
     image: nginx:1.15-alpine
     ports:
       # - "80:80"
       - "8012:443"
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - ./data/nginx:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
