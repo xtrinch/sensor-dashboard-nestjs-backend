@@ -48,8 +48,6 @@ services:
       context: ./frontend
     ports:
       - ${SERVER_PORT}:80
-    env_file:
-      - .env
     logging:
       driver: "json-file"
       options:
