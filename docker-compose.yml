@@ -44,6 +44,8 @@ services:
       - ./backend/.env
   iotfreezer-frontend:
     container_name: iotfreezer-frontend
+    env_file:
+      - ./frontend/.env
     build:
       context: ./frontend
     ports:
@@ -55,8 +57,6 @@ services:
         max-size: "10m"
     networks:
       - webnet
-    env_file:
-      - ./frontend/.env
 networks:
   webnet:
 volumes:
