@@ -56,6 +56,7 @@ services:
     networks:
       - webnet
   nginx:
+    user: root
     container_name: iotfreezer-nginx
     image: nginx:1.15-alpine
     ports:
