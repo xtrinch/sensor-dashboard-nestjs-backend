@@ -18,7 +18,7 @@ services:
     networks:
       - webnet
     env_file:
-    - ./backend/.env
+      - ./backend/.env
   postgres:
     container_name: postgres
     image: postgres:12
