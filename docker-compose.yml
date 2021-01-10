@@ -6,7 +6,7 @@ services:
     build:
       context: ./backend
     ports:
-      - ${DOCKER_MAPPED_PORT}:${SERVER_PORT}
+      - 8011:3001
     command: yarn run start
     depends_on:
       - postgres
@@ -23,9 +23,9 @@ services:
     container_name: postgres
     image: postgres:12
     environment:
-      POSTGRES_PASSWORD: ${PGPASSWORD}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_DB: ${DB_DATABASE}
+      # POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # POSTGRES_USER: ${POSTGRES_USER}
+      # POSTGRES_DB: ${POSTGRES_DB}
       PG_DATA: /var/lib/postgresql/data
     ports:
       - 5432:5432
@@ -47,7 +47,7 @@ services:
     build:
       context: ./frontend
     ports:
-      - ${SERVER_PORT}:80
+      - 8011:80
     logging:
       driver: "json-file"
       options:

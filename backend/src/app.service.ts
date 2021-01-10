@@ -47,7 +47,7 @@ export class AppService {
     const filename = process.env.KOOFR_FILENAME;
 
     execSync(
-      `pg_dump --column-inserts --data-only -Fc --no-owner -U ${process.env.DB_USERNAME} -h ${process.env.DB_HOST} -p ${process.env.DB_PORT} ${process.env.DB_DATABASE} > ${filename}.dump`,
+      `pg_dump --column-inserts --data-only -Fc --no-owner -U ${process.env.POSTGRES_USER} -h ${process.env.DB_HOST} -p ${process.env.DB_PORT} ${process.env.POSTGRES_DB} > ${filename}.dump`,
     );
 
     // put the compressed dump on koofr
