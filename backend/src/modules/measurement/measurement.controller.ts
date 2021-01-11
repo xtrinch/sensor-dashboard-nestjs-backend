@@ -75,6 +75,8 @@ export class MeasurementController {
       context.sensor,
       data,
     );
+    console.log("MQTT topic: " + context.getTopic());
+    console.log(measurementList);
   }
 
   @UseGuards(DisplayGuard)
