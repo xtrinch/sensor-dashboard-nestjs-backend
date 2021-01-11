@@ -56,7 +56,7 @@ services:
         max-size: "10m"
     networks:
       - webnet
-  # nginx:
+  # nginx: --someday, when we're running on a dedicated VM :)
   #   container_name: iotfreezer-nginx
   #   image: nginx:1.15-alpine
   #   ports:
@@ -75,7 +75,7 @@ services:
   #     - ./data/certbot/www:/var/www/certbot
   #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
   mosquitto:
-    container_name: mosquitto
+    container_name: iotfreezer-mosquitto
     image: eclipse-mosquitto:latest
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
