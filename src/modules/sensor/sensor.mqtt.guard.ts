@@ -1,24 +1,23 @@
 import {
+  BadRequestException,
   CanActivate,
   ExecutionContext,
   Inject,
-  Injectable,
-  NotFoundException
+  Injectable
 } from '@nestjs/common';
-import { Http2ServerRequest } from 'http2';
+import { MqttContext } from '@nestjs/microservices';
 import validator from 'validator';
-import { Forwarder } from '~modules/forwarder/forwarder.entity';
 import { ForwarderService } from '~modules/forwarder/forwarder.service';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { SensorService } from '~modules/sensor/sensor.service';
 
-export interface SensorRequest extends Http2ServerRequest {
+export interface SensorMqttContext extends MqttContext {
   sensor: Sensor;
-  forwarder?: Forwarder;
+  payload: any;
 }
 
 @Injectable()
-export class SensorGuard implements CanActivate {
+export class SensorMqttGuard implements CanActivate {
   constructor(
     @Inject(SensorService)
     readonly sensorService: SensorService,
@@ -27,28 +26,24 @@ export class SensorGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request: SensorRequest = context.switchToHttp().getRequest();
-    const authorization = request.headers.authorization;
-    const forwarder = request.headers.forwarder as string;
+    const mqttContext: SensorMqttContext = context.getArgs()[1];
+    const topic = mqttContext.getTopic();
+    const authorization = topic.split('/').pop();
 
     if (!validator.isUUID(authorization)) {
       return false;
     }
 
-    request.sensor = await this.sensorService.find({
+    mqttContext.sensor = await this.sensorService.find({
       accessToken: authorization,
     });
 
     try {
-      request.forwarder = await this.forwarderService.find({
-        accessToken: forwarder,
-      });
-    } catch (e) {
-      if (!(e instanceof NotFoundException)) {
-        throw e;
-      }
+      mqttContext.payload = JSON.parse(mqttContext.getPacket().payload.toString());
+    } catch(e) {
+      console.log(e);
+      throw new BadRequestException("Invalid format");
     }
-
     return true;
   }
 }
