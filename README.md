@@ -21,14 +21,27 @@ For detailed API documentation (swagger docs) see `http://localhost:3000/swagger
 
 ## Endpoints
 
- Endpoint              | Method | Auth?             | Query params                                 | Description
- --------------------- | ------ | ----------------- | -------------------------------------------- | ------------------------------------------------
- `/sensors`            | GET    | No                |                                              | List all sensor boards
- `/sensors`            | POST   | Yes - Admin auth  |                                              | Create a sensor entry
- `/measurements`       | GET    | No                | createdAtRange, measurementTypes, sensorIds | List all measurements
- `/measurements`       | POST   | Yes - Sensor auth |                                              | Post one measurement for a sensor board
- `/measurements/multi` | POST   | Yes - Sensor auth |                                              | Post multiple measurements for a sensor board
+ Endpoint               | Method | Auth?               | Query params                                 | Description
+ ---------------------- | ------ | ------------------- | -------------------------------------------- | ------------------------------------------------
+ `/sensors`             | GET    | No                  |                                              | List all sensor boards
+ `/sensors/my`          | GET    | Yes - User token    |                                              | List all sensors for user
+ `/sensors`             | POST   | Yes - User token    |                                              | Create a sensor for user
+ `/measurements`        | GET    | No                  | createdAtRange, measurementTypes, sensorIds  | List all measurements
+ `/measurements`        | POST   | Yes - Sensor token  |                                              | Post one measurement for a sensor board
+ `/measurements/multi`  | POST   | Yes - Sensor token  |                                              | Post multiple measurements for a sensor board
+ `/measurements/display`| POST   | Yes - Display token |                                              | Get latest measurements configured for a display
+ `/displays/my`         | GET    | Yes - User token    |                                              | List all displays for user
+ `/displays`            | POST   | Yes - User token    |                                              | Create a display entry
+ `/forwarders/my`       | GET    | Yes - User token    |                                              | List all forwarders for user
+ `/forwarders`          | POST   | Yes - User token    |                                              | Create a forwarder entry
 
+## MQTT
+
+You can also post measurement data (multiple only) via MQTT by publishing to the following topic:
+`/measurements/multi/${your_jwt}`	
+
+Example command:
+`mosquitto_pub -L  'mqtts://iotfreezer.com:8883/measurements/multi/05ba4e87-e61e-4041-bbe5-35333ca4c2bc' -m '{\"measurements\":[{\"measurement\":14,\"measurementType\": \"temperature\"}]}' --cafile .\test.cer`
 ## Running the app
 
 ```bash
