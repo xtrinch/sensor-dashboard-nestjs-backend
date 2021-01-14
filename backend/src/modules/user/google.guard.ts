@@ -3,7 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { AuthService } from '~modules/user/auth.service';
 import { UserRequest } from '~modules/user/jwt.guard';
@@ -38,14 +38,14 @@ export class GoogleAuthGuard implements CanActivate {
       }
     }
 
-    const user = new User();
+    let user = new User();
     user.name = data.name;
     user.surname = data.family_name;
     user.email = data.email;
     user.username = data.email;
     user.sub = data.sub;
     user.imageUrl = data.picture;
-    User.save(user);
+    user = await User.save(user);
 
     request.user = user;
 
