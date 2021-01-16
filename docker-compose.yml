@@ -13,7 +13,7 @@ services:
     networks:
       - webnet
     depends_on:
-      - postgrestest
+      # - postgrestest
       - postgres
       - mosquitto
     logging:
