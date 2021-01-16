@@ -19,12 +19,12 @@ export class AuthService {
 
   public async login(user: User): Promise<UserAuthInterface> {
     user.lastSeenAt = new Date();
-    User.save(user);
+    const newUser = await User.save(user);
 
-    const payload = { username: user.email, sub: user.id };
+    const payload = { username: newUser.email, sub: newUser.id };
     return {
       accessToken: this.jwtService.sign(payload),
-      user: user,
+      user: newUser,
     };
   }
 
