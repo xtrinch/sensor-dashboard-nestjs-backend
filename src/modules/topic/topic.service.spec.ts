@@ -2,19 +2,18 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
+import { CategoryModule } from '~modules/category/category.module';
 import { CommentModule } from '~modules/comment/comment.module';
-import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { TopicCreateDto } from '~modules/topic/dto/topic.create.dto';
 import { TopicUpdateDto } from '~modules/topic/dto/topic.update.dto';
 import { Topic } from '~modules/topic/topic.entity';
 import {
   TopicFixture,
-  TopicFixtureInterface,
+  TopicFixtureInterface
 } from '~modules/topic/topic.fixture';
 import { TopicModule } from '~modules/topic/topic.module';
 import { TopicService } from '~modules/topic/topic.service';
 import { UserModule } from '~modules/user/user.module';
-import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('TopicService', () => {
   let topicService: TopicService;
@@ -28,6 +27,7 @@ describe('TopicService', () => {
         TopicModule,
         UserModule,
         CommentModule,
+        CategoryModule,
         TypeOrmModule.forRoot(),
         TypeOrmModule.forFeature([Topic]),
       ],
@@ -40,9 +40,7 @@ describe('TopicService', () => {
   it('should create a topic', async () => {
     const data = plainToClass(TopicCreateDto, {
       name: 'A topic name',
-      location: 'A location',
-      boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
-      measurementTypes: Object.values(MeasurementTypeEnum),
+      categoryId: fixture.categoryOne.id,
     });
 
     await validateOrReject(data);
@@ -80,7 +78,7 @@ describe('TopicService', () => {
   });
 
   it('should delete a topic', async () => {
-    const success = await topicService.delete(fixture.userRequest, {
+    const success = await topicService.delete({
       id: fixture.topicOne.id,
     });
 

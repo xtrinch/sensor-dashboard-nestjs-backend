@@ -4,11 +4,9 @@ import { plainToClass } from 'class-transformer';
 import { Comment } from '~modules/comment/comment.entity';
 import { CommentService } from '~modules/comment/comment.service';
 import { CommentCreateDto } from '~modules/comment/dto/comment.create.dto';
-import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import { UserFixture, UserFixtureInterface } from '~modules/user/user.fixture';
-import { BoardTypeEnum } from '~utils/board-types.enum';
+import { TopicFixture, TopicFixtureInterface } from '~modules/topic/topic.fixture';
 
-export interface CommentFixtureInterface extends UserFixtureInterface {
+export interface CommentFixtureInterface extends TopicFixtureInterface {
   commentOne: Comment;
 }
 
@@ -17,16 +15,14 @@ export async function CommentFixture(
   dedupe: any | CommentFixtureInterface = {},
 ): Promise<CommentFixtureInterface> {
   if (dedupe.commentOne) return dedupe;
-  const fixture = await UserFixture(module, dedupe);
+  const fixture = await TopicFixture(module, dedupe);
   const commentService = await module.get<CommentService>(CommentService);
 
   const commentOne = await commentService.create(
     fixture.userRequest,
     plainToClass(CommentCreateDto, {
-      name: 'Test comment',
-      location: 'Living room',
-      boardType: BoardTypeEnum.NODEMCU_ESP8266,
-      measurementTypes: Object.values(MeasurementTypeEnum),
+      description: { blocks: [], entityMap: '' },
+      topicId: fixture.topicOne.id,
     }),
   );
 

@@ -10,16 +10,16 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "ts-node --transpile-only -r tsconfig-paths/register src/main.ts",
+    "start:tsnode": "ts-node --transpile-only -r tsconfig-paths/register src/main.ts",
+    "start:dev": "ts-node-dev -r tsconfig-paths/register src/main.ts",
     "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "env-cmd -f .env.test jest --runInBand --verbose",
     "test:watch": "env-cmd -f .env.test jest --watch",
     "test:cov": "env-cmd -f .env.test jest --coverage",
     "test:debug": "env-cmd -f .env.test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "env-cmd -f .env.test jest --runInBand --config ./test/jest-e2e.json --testTimeout 99999999 --verbose",
-    "typeorm": "env-cmd -f .env.local node --require ts-node/register ./node_modules/typeorm/cli.js --config ormconfig.ts",
-    "typeorm-prod": "env-cmd -f .env node --require ts-node/register ./node_modules/typeorm/cli.js --config ormconfig.ts"
+    "test:e2e": "env-cmd -f .env.test jest --runInBand --config ./jest-e2e.json --testTimeout 99999999 --verbose",
+    "typeorm": "node --require ts-node/register --require tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.4",

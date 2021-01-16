@@ -13,7 +13,7 @@ export interface TopicWhereInterface {
 
 @Entity()
 export class Topic extends AbstractEntity {
-  @ManyToOne(() => Category, (category) => category.topics)
+  @ManyToOne(() => Category, (category) => category.topics, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'categoryId' })
   public category: Category;
 

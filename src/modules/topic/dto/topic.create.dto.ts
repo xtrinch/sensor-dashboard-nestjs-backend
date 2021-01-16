@@ -1,11 +1,14 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { CategoryId } from '~modules/category/category.entity';
 
 export class TopicCreateDto {
   @IsString()
   @IsNotEmpty()
   public name: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  public location: string;
+  @Type(() => Number)
+  public categoryId: CategoryId;
 }

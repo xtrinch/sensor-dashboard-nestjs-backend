@@ -1,19 +1,17 @@
 import {
-  ForbiddenException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 import { CategoryCreateDto } from '~modules/category/dto/category.create.dto';
 import { CategoryUpdateDto } from '~modules/category/dto/category.update.dto';
-import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import {
   Category,
   CategoryId,
-  CategoryWhereInterface,
+  CategoryWhereInterface
 } from './category.entity';
 
 @Injectable()
@@ -54,7 +52,6 @@ export class CategoryService {
   }
 
   public async create(
-    request: UserRequest,
     data: CategoryCreateDto,
   ): Promise<Category> {
     const category = new Category();
@@ -66,15 +63,11 @@ export class CategoryService {
   }
 
   public async update(
-    request: UserRequest,
     id: CategoryId,
     data: CategoryUpdateDto,
   ): Promise<Category> {
     const category = await this.categoryRepository.findOneOrFail({ id });
 
-    if (!request.user?.isAdmin) {
-      throw new ForbiddenException();
-    }
     if (data.name) {
       category.name = data.name;
     }
@@ -85,15 +78,9 @@ export class CategoryService {
   }
 
   public async delete(
-    request: UserRequest,
     where: CategoryWhereInterface,
   ): Promise<boolean> {
     const category = await this.find(where);
-
-    if (!request.user?.isAdmin) {
-      throw new ForbiddenException();
-    }
-
     await Category.remove(category);
 
     return true;

@@ -5,7 +5,7 @@ import { validateOrReject } from 'class-validator';
 import { Category } from '~modules/category/category.entity';
 import {
   CategoryFixture,
-  CategoryFixtureInterface,
+  CategoryFixtureInterface
 } from '~modules/category/category.fixture';
 import { CategoryModule } from '~modules/category/category.module';
 import { CategoryService } from '~modules/category/category.service';
@@ -46,7 +46,7 @@ describe('CategoryService', () => {
     });
 
     await validateOrReject(data);
-    const category = await categoryService.create(fixture.userRequest, data);
+    const category = await categoryService.create(data);
     expect(category).toBeDefined();
     expect(category.name).toBeDefined();
   });
@@ -58,7 +58,6 @@ describe('CategoryService', () => {
 
     await validateOrReject(data);
     const category = await categoryService.update(
-      fixture.userRequest,
       fixture.categoryOne.id,
       data,
     );
@@ -80,7 +79,7 @@ describe('CategoryService', () => {
   });
 
   it('should delete a category', async () => {
-    const success = await categoryService.delete(fixture.userRequest, {
+    const success = await categoryService.delete({
       id: fixture.categoryOne.id,
     });
 

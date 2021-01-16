@@ -12,10 +12,10 @@ See also [frontend](https://github.com/xtrinch/sensor-dashboard-react-frontend) 
 
 ```bash
 $ yarn install
-$ cp .env.local.example .env.local
+$ cp .env.example .env
 $ cp .env.test.example .env.test
 ```
-Fill out database credentials in .env files.
+Fill out database credentials in newly created .env files.
 
 For detailed API documentation (swagger docs) see `http://localhost:3000/swagger`.
 
@@ -62,10 +62,7 @@ Generate migrations:
 $ yarn run typeorm migration:generate -n SampleMigrationName
 ```
 
-Run migrations:
-```bash
-$ yarn run typeorm migration:run
-```
+Migrations are run automagically upon server start.
 
 ## Test
 

@@ -8,7 +8,7 @@ import {
   Put,
   Query,
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { Topic, TopicId } from '~/modules/topic/topic.entity';
 import { TopicService } from '~/modules/topic/topic.service';
@@ -64,7 +64,6 @@ export class TopicController {
   ): Promise<TopicDto> {
     const topic = await this.topicService.find(
       { id },
-      // { relations: ['sensors'] },
     );
 
     return TopicDto.fromTopic(topic);
@@ -76,7 +75,7 @@ export class TopicController {
     @Param('id') id: TopicId,
     @Request() request: UserRequest,
   ): Promise<{ status: string }> {
-    await this.topicService.delete(request, { id });
+    await this.topicService.delete({ id, userId: request.user?.id });
 
     return {
       status: '200',

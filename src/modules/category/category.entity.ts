@@ -1,13 +1,11 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { Topic } from '~modules/topic/topic.entity';
-import { UserId } from '~modules/user/user.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
 export type CategoryId = number;
 
 export interface CategoryWhereInterface {
   id?: number;
-  userId?: UserId;
 }
 
 @Entity()

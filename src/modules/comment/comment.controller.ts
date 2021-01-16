@@ -8,7 +8,7 @@ import {
   Put,
   Query,
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { Comment, CommentId } from '~/modules/comment/comment.entity';
 import { CommentService } from '~/modules/comment/comment.service';
@@ -52,7 +52,7 @@ export class CommentController {
     @Param('id') id: CommentId,
     @Request() request: UserRequest,
   ): Promise<CommentDto> {
-    const comment = await this.commentService.update(request, id, data);
+    const comment = await this.commentService.update(id, data);
     return CommentDto.fromComment(comment);
   }
 
@@ -73,7 +73,7 @@ export class CommentController {
     @Param('id') id: CommentId,
     @Request() request: UserRequest,
   ): Promise<{ status: string }> {
-    await this.commentService.delete(request, { id });
+    await this.commentService.delete({ id, userId: request.user?.id });
 
     return {
       status: '200',

@@ -1,7 +1,8 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
@@ -53,6 +54,7 @@ export class TopicService {
     topic.userId = request.user?.id;
     topic.user = request.user;
     topic.name = data.name;
+    topic.categoryId = data.categoryId;
 
     await Topic.save(topic);
 
@@ -78,15 +80,12 @@ export class TopicService {
   }
 
   public async delete(
-    request: UserRequest,
     where: TopicWhereInterface,
   ): Promise<boolean> {
     const topic = await this.find(where);
-
-    if (topic.userId !== request.user?.id) {
-      throw new ForbiddenException();
+    if (!topic) {
+      throw new BadRequestException("Cannot delete topic.");
     }
-
     await Topic.remove(topic);
 
     return true;

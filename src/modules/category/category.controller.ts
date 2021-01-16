@@ -8,7 +8,7 @@ import {
   Put,
   Query,
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { Category, CategoryId } from '~/modules/category/category.entity';
 import { CategoryService } from '~/modules/category/category.service';
@@ -41,7 +41,7 @@ export class CategoryController {
     @Body() data: CategoryCreateDto,
     @Request() request: UserRequest,
   ): Promise<CategoryDto> {
-    const category = await this.categoryService.create(request, data);
+    const category = await this.categoryService.create(data);
     return CategoryDto.fromCategory(category);
   }
 
@@ -52,7 +52,7 @@ export class CategoryController {
     @Param('id') id: CategoryId,
     @Request() request: UserRequest,
   ): Promise<CategoryDto> {
-    const category = await this.categoryService.update(request, id, data);
+    const category = await this.categoryService.update(id, data);
     return CategoryDto.fromCategory(category);
   }
 
@@ -73,7 +73,7 @@ export class CategoryController {
     @Param('id') id: CategoryId,
     @Request() request: UserRequest,
   ): Promise<{ status: string }> {
-    await this.categoryService.delete(request, { id });
+    await this.categoryService.delete({ id });
 
     return {
       status: '200',

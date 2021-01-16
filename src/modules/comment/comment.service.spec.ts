@@ -2,18 +2,18 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
+import { CategoryModule } from '~modules/category/category.module';
 import { Comment } from '~modules/comment/comment.entity';
 import {
   CommentFixture,
-  CommentFixtureInterface,
+  CommentFixtureInterface
 } from '~modules/comment/comment.fixture';
 import { CommentModule } from '~modules/comment/comment.module';
 import { CommentService } from '~modules/comment/comment.service';
 import { CommentCreateDto } from '~modules/comment/dto/comment.create.dto';
 import { CommentUpdateDto } from '~modules/comment/dto/comment.update.dto';
-import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { TopicModule } from '~modules/topic/topic.module';
 import { UserModule } from '~modules/user/user.module';
-import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('CommentService', () => {
   let commentService: CommentService;
@@ -26,6 +26,8 @@ describe('CommentService', () => {
       imports: [
         CommentModule,
         UserModule,
+        TopicModule,
+        CategoryModule,
         TypeOrmModule.forRoot(),
         TypeOrmModule.forFeature([Comment]),
       ],
@@ -37,10 +39,8 @@ describe('CommentService', () => {
 
   it('should create a comment', async () => {
     const data = plainToClass(CommentCreateDto, {
-      name: 'A comment name',
-      description: 'A description',
-      boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
-      measurementTypes: Object.values(MeasurementTypeEnum),
+      description: { entityMap: {}, blocks: [] },
+      topicId: fixture.topicOne.id,
     });
 
     await validateOrReject(data);
@@ -51,17 +51,16 @@ describe('CommentService', () => {
 
   it('should update a comment', async () => {
     const data = plainToClass(CommentUpdateDto, {
-      description: 'A new description',
+      description: { blocks: [], entityMap: {} },
     });
 
     await validateOrReject(data);
     const comment = await commentService.update(
-      fixture.userRequest,
       fixture.commentOne.id,
       data,
     );
     expect(comment).toBeDefined();
-    expect(comment.description).toEqual('A new description');
+    expect(comment.description).toEqual({ blocks: [], entityMap: {} });
   });
 
   it('should list comments', async () => {
@@ -78,7 +77,7 @@ describe('CommentService', () => {
   });
 
   it('should delete a comment', async () => {
-    const success = await commentService.delete(fixture.userRequest, {
+    const success = await commentService.delete({
       id: fixture.commentOne.id,
     });
 

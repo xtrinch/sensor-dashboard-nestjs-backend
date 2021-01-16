@@ -1,7 +1,6 @@
 import {
-  ForbiddenException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
@@ -65,15 +64,11 @@ export class CommentService {
   }
 
   public async update(
-    request: UserRequest,
     id: CommentId,
     data: CommentUpdateDto,
   ): Promise<Comment> {
     const comment = await this.commentRepository.findOneOrFail({ id });
 
-    if (comment.userId !== request.user?.id) {
-      throw new ForbiddenException();
-    }
     if (data.description) {
       comment.description = data.description;
     }
@@ -84,14 +79,9 @@ export class CommentService {
   }
 
   public async delete(
-    request: UserRequest,
     where: CommentWhereInterface,
   ): Promise<boolean> {
     const comment = await this.find(where);
-
-    if (comment.userId !== request.user?.id) {
-      throw new ForbiddenException();
-    }
 
     await Comment.remove(comment);
 
