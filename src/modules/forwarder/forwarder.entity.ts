@@ -16,6 +16,6 @@ export class Forwarder extends AbstractIOTDeviceEntity {
   @JoinColumn({ name: 'userId' })
   public user: User;
 
-  @Column('integer', { default: 0 })
+  @Column({ default: 0, type: 'integer' })
   public numForwarded: number;
 }

@@ -10,7 +10,7 @@ export class Measurement extends AbstractSmallEntity {
   @Column({ type: 'float4' })
   public measurement: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   public measurementType: MeasurementTypeEnum;
 
   @ManyToOne(() => Sensor, (sensor) => sensor.measurements, {
@@ -19,7 +19,7 @@ export class Measurement extends AbstractSmallEntity {
   @JoinColumn({ name: 'sensorId' })
   public sensor: Sensor;
 
-  @Column('integer')
+  @Column({ type: 'integer' })
   public sensorId: number;
 
   public toString(): string {

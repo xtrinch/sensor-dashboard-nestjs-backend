@@ -4,7 +4,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
-  ManyToOne,
+  ManyToOne
 } from 'typeorm';
 import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
@@ -32,7 +32,7 @@ export class Display extends AbstractIOTDeviceEntity {
   @JoinColumn({ name: 'userId' })
   public user: User;
 
-  @Column()
+  @Column({ type: 'varchar' })
   public displayType: DisplayTypeEnum;
 
   @Column('text', { array: true })

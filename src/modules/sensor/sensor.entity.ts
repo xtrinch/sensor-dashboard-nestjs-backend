@@ -4,7 +4,7 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
-  OneToMany,
+  OneToMany
 } from 'typeorm';
 import { Display } from '~modules/display/display.entity';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
@@ -24,7 +24,7 @@ export interface SensorWhereInterface {
 
 @Entity()
 export class Sensor extends AbstractIOTDeviceEntity {
-  @Column()
+  @Column({ type: 'varchar' })
   public displayName: string;
 
   @OneToMany(() => Measurement, (measurement) => measurement.sensor)

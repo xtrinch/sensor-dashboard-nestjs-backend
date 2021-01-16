@@ -15,6 +15,6 @@ export class Category extends AbstractEntity {
   @OneToMany(() => Topic, (topic) => topic.category)
   public topics: Topic[];
 
-  @Column()
+  @Column({ type: 'varchar' })
   public name: string;
 }

@@ -17,14 +17,14 @@ export class Comment extends AbstractEntity {
   @JoinColumn({ name: 'topicId' })
   public topic: Topic;
 
-  @Column('integer')
+  @Column({ type: 'integer' })
   public topicId: TopicId;
 
   @ManyToOne(() => User, (user) => user.comments)
   @JoinColumn({ name: 'userId' })
   public user: User;
 
-  @Column('integer')
+  @Column({ type: 'integer' })
   public userId: UserId;
 
   @Column({ type: 'jsonb' })

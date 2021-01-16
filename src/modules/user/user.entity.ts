@@ -35,10 +35,10 @@ export class User extends AbstractEntity {
   @Column('boolean', { nullable: true })
   public isAdmin: boolean;
 
-  @Column()
+  @Column({ type: 'varchar' })
   public name: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   public surname: string;
 
   @Column({ type: 'timestamptz', nullable: true })

@@ -6,19 +6,19 @@ export abstract class AbstractIOTDeviceEntity extends AbstractEntity {
   @Column({ type: 'timestamptz', nullable: true })
   public lastSeenAt: Date;
 
-  @Column()
+  @Column({ type: 'varchar' })
   @Generated('uuid')
   public accessToken: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   public name: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   public location: string;
 
   @Column('integer')
   public userId: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   public boardType: BoardTypeEnum;
 }

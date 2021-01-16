@@ -30,6 +30,6 @@ export class Topic extends AbstractEntity {
   @Column('integer')
   public userId: UserId;
 
-  @Column()
+  @Column({ type: 'varchar' })
   public name: string;
 }
