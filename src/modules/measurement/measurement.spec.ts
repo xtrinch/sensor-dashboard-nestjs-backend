@@ -69,7 +69,7 @@ describe('MeasurementService', () => {
 
     await validateOrReject(data);
     const measurements = await measurementService.createMultiple(
-      fixture.sensorRequest,
+      fixture.sensorRequest.sensor,
       { measurements: [data] },
     );
     expect(measurements[0]).toBeDefined();
@@ -152,8 +152,9 @@ describe('MeasurementService', () => {
 
     await validateOrReject(data);
     const measurements = await measurementService.createMultiple(
-      fixture.forwarderRequest,
+      fixture.forwarderRequest.sensor,
       { measurements: [data] },
+      fixture.forwarderRequest.forwarder
     );
     expect(measurements[0]).toBeDefined();
     expect(fixture.forwarderRequest.forwarder.numForwarded).toBeGreaterThan(0);
