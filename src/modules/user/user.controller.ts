@@ -14,10 +14,7 @@ export class UserController {
     @Query() pagination: PaginationQueryDto,
   ): Promise<PaginationDto<UserDto>> {
     const items = await this.userService.findAll({}, pagination);
-    
-    return PaginationDto.fromPagination<User, UserDto>(
-      items,
-      UserDto.fromUser,
-    ); 
+
+    return PaginationDto.fromPagination<User, UserDto>(items, UserDto.fromUser);
   }
 }

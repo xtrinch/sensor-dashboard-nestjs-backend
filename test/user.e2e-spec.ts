@@ -24,7 +24,9 @@ describe('SensorController (e2e)', () => {
   });
 
   it('/sensors (GET)', async () => {
-    const response = await request(app.getHttpServer()).get('/users').expect(200);
+    const response = await request(app.getHttpServer())
+      .get('/users')
+      .expect(200);
     expect(response.body.items.length).toEqual(1);
     expect(response.body.items[0].name).toEqual(fixture.userOne.name);
   });

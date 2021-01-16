@@ -4,7 +4,7 @@ import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   DisplayMeasurementAggregateInterface,
   MeasurementAggregateInterface,
-  MeasurementWhereInterface
+  MeasurementWhereInterface,
 } from '~modules/measurement/measurement.interfaces';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { RangeGroupByEnum } from '~utils/date.range';

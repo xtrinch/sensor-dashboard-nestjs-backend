@@ -3,7 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  NotFoundException
+  NotFoundException,
 } from '@nestjs/common';
 import { AuthService } from '~modules/user/auth.service';
 import { UserRequest } from '~modules/user/jwt.guard';

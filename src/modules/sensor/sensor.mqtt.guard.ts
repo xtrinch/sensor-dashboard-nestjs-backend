@@ -3,7 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   Inject,
-  Injectable
+  Injectable,
 } from '@nestjs/common';
 import { MqttContext } from '@nestjs/microservices';
 import validator from 'validator';
@@ -39,10 +39,12 @@ export class SensorMqttGuard implements CanActivate {
     });
 
     try {
-      mqttContext.payload = JSON.parse(mqttContext.getPacket().payload.toString());
-    } catch(e) {
+      mqttContext.payload = JSON.parse(
+        mqttContext.getPacket().payload.toString(),
+      );
+    } catch (e) {
       console.log(e);
-      throw new BadRequestException("Invalid format");
+      throw new BadRequestException('Invalid format');
     }
     return true;
   }

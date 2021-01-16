@@ -5,7 +5,7 @@ import {
   Post,
   Query,
   Request,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { Ctx, MessagePattern } from '@nestjs/microservices';
 import { MeasurementService } from '~/modules/measurement/measurement.service';
@@ -19,10 +19,13 @@ import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import {
   DisplayMeasurementAggregateDto,
-  MeasurementAggregateDto
+  MeasurementAggregateDto,
 } from '~modules/measurement/measurement.interfaces';
 import { SensorGuard, SensorRequest } from '~modules/sensor/sensor.guard';
-import { SensorMqttContext, SensorMqttGuard } from '~modules/sensor/sensor.mqtt.guard';
+import {
+  SensorMqttContext,
+  SensorMqttGuard,
+} from '~modules/sensor/sensor.mqtt.guard';
 
 @Controller('measurements')
 export class MeasurementController {
@@ -35,9 +38,7 @@ export class MeasurementController {
     const items = await this.measurementService.findAll(query);
 
     Object.keys(items).map((measurementTypeKey: MeasurementTypeEnum) =>
-      items[measurementTypeKey].map(
-        MeasurementDto.fromMeasurement,
-      )
+      items[measurementTypeKey].map(MeasurementDto.fromMeasurement),
     );
 
     return (items as unknown) as MeasurementAggregateDto;

@@ -37,7 +37,7 @@ export class AuthController {
     user: UserDto;
   }> {
     const { accessToken, user } = await this.authService.login(req.user);
-    
+
     return {
       accessToken,
       user: UserDto.fromUser(user),

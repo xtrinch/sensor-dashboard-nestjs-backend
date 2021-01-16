@@ -1,7 +1,9 @@
 import { Column, Entity, OneToMany } from 'typeorm';
+import { Comment } from '~modules/comment/comment.entity';
 import { Display } from '~modules/display/display.entity';
 import { Forwarder } from '~modules/forwarder/forwarder.entity';
 import { Sensor } from '~modules/sensor/sensor.entity';
+import { Topic } from '~modules/topic/topic.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
 export interface UserWhereInterface {
@@ -50,4 +52,10 @@ export class User extends AbstractEntity {
 
   @OneToMany(() => Forwarder, (forwarder) => forwarder.user)
   public forwarders: Forwarder[];
+
+  @OneToMany(() => Topic, (topic) => topic.user)
+  public topics: Topic[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  public comments: Comment[];
 }

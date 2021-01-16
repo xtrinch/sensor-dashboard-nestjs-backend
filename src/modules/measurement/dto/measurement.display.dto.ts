@@ -7,7 +7,9 @@ export class MeasurementDisplayDto {
   public measurementType: MeasurementTypeEnum;
   public measurementTypeUnit: MeasurementTypeUnitEnum;
 
-  public static fromMeasurement(measurement: Measurement): MeasurementDisplayDto {
+  public static fromMeasurement(
+    measurement: Measurement,
+  ): MeasurementDisplayDto {
     return {
       measurement: `${Math.round(measurement.measurement)}`,
       measurementType: measurement.measurementType,

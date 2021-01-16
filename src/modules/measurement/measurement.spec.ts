@@ -10,11 +10,11 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   MeasurementFixture,
-  MeasurementFixtureInterface
+  MeasurementFixtureInterface,
 } from '~modules/measurement/measurement.fixture';
 import {
   DisplayMeasurementAggregateInterface,
-  MeasurementAggregateInterface
+  MeasurementAggregateInterface,
 } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { MeasurementService } from '~modules/measurement/measurement.service';
@@ -82,9 +82,7 @@ describe('MeasurementService', () => {
       sensorIds: [fixture.sensorOne.id],
     });
 
-    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(
-      0,
-    );
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
 
   it('should list measurements for current year and current month', async () => {
@@ -98,9 +96,7 @@ describe('MeasurementService', () => {
       },
     );
 
-    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(
-      0,
-    );
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
 
   it('should list measurements for current year, current month and current day', async () => {
@@ -114,9 +110,7 @@ describe('MeasurementService', () => {
       },
     );
 
-    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(
-      0,
-    );
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
 
   it('should list measurements for current year and week', async () => {
@@ -128,9 +122,7 @@ describe('MeasurementService', () => {
       },
     );
 
-    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(
-      0,
-    );
+    expect(resp[MeasurementTypeEnum.GAS].length).not.toBe(0);
   });
 
   it('should list latest measurements for display device', async () => {
@@ -154,7 +146,7 @@ describe('MeasurementService', () => {
     const measurements = await measurementService.createMultiple(
       fixture.forwarderRequest.sensor,
       { measurements: [data] },
-      fixture.forwarderRequest.forwarder
+      fixture.forwarderRequest.forwarder,
     );
     expect(measurements[0]).toBeDefined();
     expect(fixture.forwarderRequest.forwarder.numForwarded).toBeGreaterThan(0);

@@ -1,0 +1,91 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { plainToClass } from 'class-transformer';
+import { validateOrReject } from 'class-validator';
+import { Comment } from '~modules/comment/comment.entity';
+import {
+  CommentFixture,
+  CommentFixtureInterface,
+} from '~modules/comment/comment.fixture';
+import { CommentModule } from '~modules/comment/comment.module';
+import { CommentService } from '~modules/comment/comment.service';
+import { CommentCreateDto } from '~modules/comment/dto/comment.create.dto';
+import { CommentUpdateDto } from '~modules/comment/dto/comment.update.dto';
+import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { UserModule } from '~modules/user/user.module';
+import { BoardTypeEnum } from '~utils/board-types.enum';
+
+describe('CommentService', () => {
+  let commentService: CommentService;
+  let module: TestingModule = null;
+  let fixture: CommentFixtureInterface;
+
+  beforeAll(async () => {
+    module = await Test.createTestingModule({
+      providers: [CommentService],
+      imports: [
+        CommentModule,
+        UserModule,
+        TypeOrmModule.forRoot(),
+        TypeOrmModule.forFeature([Comment]),
+      ],
+    }).compile();
+
+    commentService = module.get<CommentService>(CommentService);
+    fixture = await CommentFixture(module);
+  }, 20000);
+
+  it('should create a comment', async () => {
+    const data = plainToClass(CommentCreateDto, {
+      name: 'A comment name',
+      description: 'A description',
+      boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
+      measurementTypes: Object.values(MeasurementTypeEnum),
+    });
+
+    await validateOrReject(data);
+    const comment = await commentService.create(fixture.userRequest, data);
+    expect(comment).toBeDefined();
+    expect(comment.description).toBeDefined();
+  });
+
+  it('should update a comment', async () => {
+    const data = plainToClass(CommentUpdateDto, {
+      description: 'A new description',
+    });
+
+    await validateOrReject(data);
+    const comment = await commentService.update(
+      fixture.userRequest,
+      fixture.commentOne.id,
+      data,
+    );
+    expect(comment).toBeDefined();
+    expect(comment.description).toEqual('A new description');
+  });
+
+  it('should list comments', async () => {
+    const comments = await commentService.findAll(
+      {},
+      {},
+      {
+        limit: 20,
+        page: 1,
+      },
+    );
+
+    expect(comments.items.length).not.toBe(0);
+  });
+
+  it('should delete a comment', async () => {
+    const success = await commentService.delete(fixture.userRequest, {
+      id: fixture.commentOne.id,
+    });
+
+    expect(success).toEqual(true);
+  });
+
+  afterAll(async () => {
+    await module.close();
+  });
+});

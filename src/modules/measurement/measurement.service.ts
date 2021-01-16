@@ -8,7 +8,7 @@ import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.l
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
 import {
   DisplayMeasurementAggregateInterface,
-  MeasurementAggregateInterface
+  MeasurementAggregateInterface,
 } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { Sensor } from '~modules/sensor/sensor.entity';
