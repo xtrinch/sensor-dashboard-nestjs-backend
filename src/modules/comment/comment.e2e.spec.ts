@@ -2,13 +2,16 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '~app.module';
-import { UserFixture, UserFixtureInterface } from '~modules/user/user.fixture';
+import {
+  CommentFixture,
+  CommentFixtureInterface
+} from '~modules/comment/comment.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
 
-describe('SensorController (e2e)', () => {
+describe('CommentController (e2e)', () => {
   let app: INestApplication;
-  let fixture: UserFixtureInterface;
+  let fixture: CommentFixtureInterface;
   let userAuth: UserAuthInterface;
 
   beforeAll(async () => {
@@ -19,16 +22,23 @@ describe('SensorController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     initPipes(app);
     await app.init();
-    fixture = await UserFixture(app);
+    fixture = await CommentFixture(app);
     userAuth = await fixture.userAuth();
   });
 
-  it('/users (GET)', async () => {
-    const response = await request(app.getHttpServer())
-      .get('/users')
-      .expect(200);
-    expect(response.body.items.length).toEqual(1);
-    expect(response.body.items[0].name).toEqual(fixture.userOne.name);
+  it('/comments (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/comments')
+      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .send({
+        description: { blocks: [], entityMap: {} },
+        topicId: fixture.topicOne.id,
+      })
+      .expect(201);
+  });
+
+  it('/comments (GET)', async () => {
+    await request(app.getHttpServer()).get('/comments').expect(200);
   });
 
   afterAll(async () => {

@@ -66,7 +66,7 @@ export class AuthService {
     return user;
   }
 
-  public async verifyIdToken(token: string) {
+  public async verifyIdToken(token: string): Promise<TokenPayload> {
     const ticket = await this.client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,

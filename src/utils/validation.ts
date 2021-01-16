@@ -12,7 +12,7 @@ export function transform(validationErrors: ValidationError[]): FieldErrors {
   return fieldErrors;
 }
 
-export async function validateObj(object: Object): Promise<FieldErrors> {
+export async function validateObj(object: unknown): Promise<FieldErrors> {
   const validationErrors = await validate(object);
   const errorResponse = transform(validationErrors);
   return errorResponse;

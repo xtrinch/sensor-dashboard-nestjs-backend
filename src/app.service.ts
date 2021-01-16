@@ -22,7 +22,7 @@ export class AppService {
   //@Cron('0 12 * * MON')
   @Cron('0 16 * * *') // every day at 4pm
   // @Cron('45 * * * * *') // every 45 seconds
-  async backupDatabase() {
+  async backupDatabase(): Promise<void> {
     if (!process.env.KOOFR_API_BASE) {
       this.logger.debug('Skipping KOOFR upload');
       return;
@@ -67,7 +67,7 @@ export class AppService {
     );
 
     // list all the files
-    let files: KoofrFile[] = await client.filesList(
+    const files: KoofrFile[] = await client.filesList(
       mount.id,
       `/${process.env.KOOFR_FOLDER}`,
     );

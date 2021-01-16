@@ -11,7 +11,6 @@ import { UserModule } from '~modules/user/user.module';
 import { UserService } from '~modules/user/user.service';
 
 describe('UserService', () => {
-  let userService: UserService;
   let authService: AuthService;
   let module: TestingModule = null;
   let fixture: UserFixtureInterface;
@@ -28,7 +27,6 @@ describe('UserService', () => {
       ],
     }).compile();
 
-    userService = module.get<UserService>(UserService);
     authService = module.get<AuthService>(AuthService);
     fixture = await UserFixture(module, { seed });
   }, 20000);

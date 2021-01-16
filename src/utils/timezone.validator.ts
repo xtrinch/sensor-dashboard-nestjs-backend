@@ -1,12 +1,11 @@
 import {
-  ValidatorConstraint,
-  ValidatorConstraintInterface,
-  ValidationArguments,
+  ValidationArguments, ValidatorConstraint,
+  ValidatorConstraintInterface
 } from 'class-validator';
 
 @ValidatorConstraint({ name: 'timezoneValidator', async: false })
 export class TimezoneValidator implements ValidatorConstraintInterface {
-  validate(timeZone: string, args: ValidationArguments) {
+  validate(timeZone: string, args: ValidationArguments): boolean {
     try {
       Intl.DateTimeFormat(undefined, { timeZone });
       return true;
@@ -14,7 +13,8 @@ export class TimezoneValidator implements ValidatorConstraintInterface {
       return false;
     }
   }
-  defaultMessage(args: ValidationArguments) {
+
+  defaultMessage(args: ValidationArguments): string {
     return 'Not a valid timezone';
   }
 }

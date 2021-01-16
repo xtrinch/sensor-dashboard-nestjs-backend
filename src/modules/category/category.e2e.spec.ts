@@ -2,13 +2,16 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '~app.module';
-import { UserFixture, UserFixtureInterface } from '~modules/user/user.fixture';
+import {
+  CategoryFixture,
+  CategoryFixtureInterface
+} from '~modules/category/category.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
 
-describe('SensorController (e2e)', () => {
+describe('CategoryController (e2e)', () => {
   let app: INestApplication;
-  let fixture: UserFixtureInterface;
+  let fixture: CategoryFixtureInterface;
   let userAuth: UserAuthInterface;
 
   beforeAll(async () => {
@@ -19,16 +22,22 @@ describe('SensorController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     initPipes(app);
     await app.init();
-    fixture = await UserFixture(app);
+    fixture = await CategoryFixture(app);
     userAuth = await fixture.userAuth();
   });
 
-  it('/users (GET)', async () => {
-    const response = await request(app.getHttpServer())
-      .get('/users')
-      .expect(200);
-    expect(response.body.items.length).toEqual(1);
-    expect(response.body.items[0].name).toEqual(fixture.userOne.name);
+  it('/categories (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/categories')
+      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .send({
+        name: "A category",
+      })
+      .expect(201);
+  });
+
+  it('/categories (GET)', async () => {
+    const response = await request(app.getHttpServer()).get('/categories').expect(200);
   });
 
   afterAll(async () => {

@@ -10,17 +10,16 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
   MeasurementFixture,
-  MeasurementFixtureInterface,
+  MeasurementFixtureInterface
 } from '~modules/measurement/measurement.fixture';
 import {
   DisplayMeasurementAggregateInterface,
-  MeasurementAggregateInterface,
+  MeasurementAggregateInterface
 } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { MeasurementService } from '~modules/measurement/measurement.service';
 import { SensorModule } from '~modules/sensor/sensor.module';
 import { UserModule } from '~modules/user/user.module';
-import { TestUtils } from '~utils/test-utils.component';
 
 describe('MeasurementService', () => {
   let measurementService: MeasurementService;
@@ -29,7 +28,7 @@ describe('MeasurementService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [MeasurementService, TestUtils],
+      providers: [MeasurementService],
       imports: [
         TypeOrmModule.forRoot(),
         TypeOrmModule.forFeature([Measurement, MeasurementRepository]),

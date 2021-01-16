@@ -1,10 +1,8 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Http2ServerRequest } from 'http2';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-  constructor() {}
-
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Http2ServerRequest = context.switchToHttp().getRequest();
     if (

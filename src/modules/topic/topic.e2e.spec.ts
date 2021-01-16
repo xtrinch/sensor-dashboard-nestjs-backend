@@ -2,13 +2,16 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '~app.module';
-import { UserFixture, UserFixtureInterface } from '~modules/user/user.fixture';
+import {
+  TopicFixture,
+  TopicFixtureInterface
+} from '~modules/topic/topic.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
 
-describe('SensorController (e2e)', () => {
+describe('TopicController (e2e)', () => {
   let app: INestApplication;
-  let fixture: UserFixtureInterface;
+  let fixture: TopicFixtureInterface;
   let userAuth: UserAuthInterface;
 
   beforeAll(async () => {
@@ -19,16 +22,23 @@ describe('SensorController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     initPipes(app);
     await app.init();
-    fixture = await UserFixture(app);
+    fixture = await TopicFixture(app);
     userAuth = await fixture.userAuth();
   });
 
-  it('/users (GET)', async () => {
-    const response = await request(app.getHttpServer())
-      .get('/users')
-      .expect(200);
-    expect(response.body.items.length).toEqual(1);
-    expect(response.body.items[0].name).toEqual(fixture.userOne.name);
+  it('/topics (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/topics')
+      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .send({
+        name: "Topic name",
+        categoryId: fixture.categoryOne.id,
+      })
+      .expect(201);
+  });
+
+  it('/topics (GET)', async () => {
+    await request(app.getHttpServer()).get('/topics').expect(200);
   });
 
   afterAll(async () => {
