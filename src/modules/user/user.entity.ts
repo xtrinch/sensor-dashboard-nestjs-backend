@@ -4,6 +4,7 @@ import { Display } from '~modules/display/display.entity';
 import { Forwarder } from '~modules/forwarder/forwarder.entity';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { Topic } from '~modules/topic/topic.entity';
+import { GroupEnum } from '~modules/user/enum/group.enum';
 import { AbstractEntity } from '~utils/abstract.entity';
 
 export interface UserWhereInterface {
@@ -37,6 +38,9 @@ export class User extends AbstractEntity {
 
   @Column({ type: 'varchar' })
   public name: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  public group: GroupEnum;
 
   @Column({ type: 'varchar' })
   public surname: string;

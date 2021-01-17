@@ -6,6 +6,8 @@ export class UserDto {
   public email: string;
   public name: string;
   public surname: string;
+  public createdAt: Date;
+  public lastSeenAt: Date;
 
   public static fromUser(user: User): UserDto {
     return {
@@ -14,6 +16,8 @@ export class UserDto {
       name: user.name,
       surname: user.surname,
       id: user.id,
+      createdAt: user.createdAt,
+      lastSeenAt: user.lastSeenAt,
     };
   }
 }

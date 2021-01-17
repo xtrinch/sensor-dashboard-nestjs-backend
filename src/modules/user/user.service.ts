@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
-import { User, UserWhereInterface } from '~modules/user/user.entity';
+import { UserUpdateDto } from '~modules/user/dto/user.update.dto';
+import { User, UserId, UserWhereInterface } from '~modules/user/user.entity';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
 @Injectable()
@@ -42,6 +43,19 @@ export class UserService {
     user.email = data.email;
     user.name = data.name;
     user.surname = data.surname;
+
+    await User.save(user);
+
+    return user;
+  }
+
+  async update(
+    id: UserId,
+    data: UserUpdateDto,
+  ): Promise<User> {
+    const user = await this.userRepository.findOne({ id });
+
+    user.group = data.group;
 
     await User.save(user);
 
