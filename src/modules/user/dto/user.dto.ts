@@ -1,3 +1,4 @@
+import { GroupEnum } from '~modules/user/enum/group.enum';
 import { User } from '~modules/user/user.entity';
 
 export class UserDto {
@@ -8,6 +9,7 @@ export class UserDto {
   public surname: string;
   public createdAt: Date;
   public lastSeenAt: Date;
+  public group: GroupEnum;
 
   public static fromUser(user: User): UserDto {
     return {
@@ -18,6 +20,7 @@ export class UserDto {
       id: user.id,
       createdAt: user.createdAt,
       lastSeenAt: user.lastSeenAt,
+      group: user.group,
     };
   }
 }

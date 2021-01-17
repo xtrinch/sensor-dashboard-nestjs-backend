@@ -20,6 +20,9 @@ export class UserService {
   ): Promise<Pagination<User>> {
     const results = await paginate<User>(this.userRepository, pagination, {
       where,
+      order: {
+        createdAt: 'DESC'
+      }
     });
 
     return results;
