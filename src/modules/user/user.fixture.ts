@@ -4,6 +4,8 @@ import { plainToClass } from 'class-transformer';
 import { v4 } from 'uuid';
 import { AuthService } from '~modules/user/auth.service';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
+import { UserUpdateDto } from '~modules/user/dto/user.update.dto';
+import { GroupEnum } from '~modules/user/enum/group.enum';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { User } from '~modules/user/user.entity';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
@@ -25,7 +27,7 @@ export async function UserFixture(
   const email = `${v4()}email@email.com`;
   const password = 'Test password';
 
-  const userOne = await userService.create(
+  let userOne = await userService.create(
     plainToClass(UserCreateDto, {
       username,
       email,
@@ -34,6 +36,8 @@ export async function UserFixture(
       surname: 'Rojca',
     }),
   );
+
+  userOne = await userService.update(userOne.id, plainToClass(UserUpdateDto, { group: GroupEnum.ADMIN }))
 
   const userAuth = async () => {
     const authService = await module.get<AuthService>(AuthService);

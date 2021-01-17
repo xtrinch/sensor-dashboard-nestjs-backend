@@ -41,7 +41,7 @@ export class Sensor extends AbstractIOTDeviceEntity {
   })
   public timezone: string;
 
-  @ManyToOne(() => User, (user) => user.sensors, { eager: true })
+  @ManyToOne(() => User, (user) => user.sensors, { eager: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   public user: User;
 

@@ -8,7 +8,7 @@ import {
   Put,
   Query,
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { Forwarder, ForwarderId } from '~/modules/forwarder/forwarder.entity';
 import { ForwarderService } from '~/modules/forwarder/forwarder.service';
@@ -18,7 +18,8 @@ import { ForwarderDto } from '~modules/forwarder/dto/forwarder.dto';
 import { ForwarderUpdateDto } from '~modules/forwarder/dto/forwarder.update.dto';
 import { ForwarderGuard } from '~modules/forwarder/forwarder.guard';
 import { ForwarderRequest } from '~modules/forwarder/forwarder.interfaces';
-import { JwtGuard, UserRequest } from '~modules/user/jwt.guard';
+import AuthGuard from '~modules/user/auth.decorator';
+import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
@@ -38,7 +39,7 @@ export class ForwarderController {
     );
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Get('/my')
   public async findMyForwarders(
     @Query() pagination: PaginationQueryDto,
@@ -58,7 +59,7 @@ export class ForwarderController {
     );
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Post()
   public async create(
     @Body() data: ForwarderCreateDto,
@@ -68,7 +69,7 @@ export class ForwarderController {
     return ForwarderDetailsDto.fromForwarder(forwarder);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Put('/:id')
   public async update(
     @Body() data: ForwarderUpdateDto,
@@ -79,7 +80,7 @@ export class ForwarderController {
     return ForwarderDetailsDto.fromForwarder(forwarder);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Get('/:id')
   public async get(
     @Param('id') id: ForwarderId,
@@ -94,7 +95,7 @@ export class ForwarderController {
     return ForwarderDetailsDto.fromForwarder(forwarder);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Delete('/:id')
   public async delete(
     @Param('id') id: ForwarderId,

@@ -12,7 +12,7 @@ export interface ForwarderWhereInterface {
 
 @Entity()
 export class Forwarder extends AbstractIOTDeviceEntity {
-  @ManyToOne(() => User, (user) => user.forwarders)
+  @ManyToOne(() => User, (user) => user.forwarders, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   public user: User;
 

@@ -64,4 +64,13 @@ export class UserService {
 
     return user;
   }
+
+  public async delete(
+    where: UserWhereInterface,
+  ): Promise<boolean> {
+    const display = await this.find(where);
+    await User.remove(display);
+
+    return true;
+  }
 }

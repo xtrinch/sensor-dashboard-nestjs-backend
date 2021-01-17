@@ -7,8 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request,
-  UseGuards,
+  Request
 } from '@nestjs/common';
 import { Sensor, SensorId } from '~/modules/sensor/sensor.entity';
 import { SensorService } from '~/modules/sensor/sensor.service';
@@ -16,7 +15,8 @@ import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
 import { SensorDetailsDto } from '~modules/sensor/dto/sensor.details.dto';
 import { SensorDto } from '~modules/sensor/dto/sensor.dto';
 import { SensorUpdateDto } from '~modules/sensor/dto/sensor.update.dto';
-import { JwtGuard, UserRequest } from '~modules/user/jwt.guard';
+import AuthGuard from '~modules/user/auth.decorator';
+import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
@@ -41,7 +41,7 @@ export class SensorController {
     );
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Get('/my')
   public async findMySensors(
     @Query() pagination: PaginationQueryDto,
@@ -60,7 +60,7 @@ export class SensorController {
     );
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Post()
   public async create(
     @Body() data: SensorCreateDto,
@@ -70,7 +70,7 @@ export class SensorController {
     return SensorDetailsDto.fromSensor(sensor);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Put('/:id')
   public async update(
     @Body() data: SensorUpdateDto,
@@ -81,7 +81,7 @@ export class SensorController {
     return SensorDetailsDto.fromSensor(sensor);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Get('/:id')
   public async get(
     @Param('id') id: SensorId,
@@ -92,7 +92,7 @@ export class SensorController {
     return SensorDetailsDto.fromSensor(sensor);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Delete('/:id')
   public async delete(
     @Param('id') id: SensorId,

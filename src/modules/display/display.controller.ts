@@ -7,8 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request,
-  UseGuards,
+  Request
 } from '@nestjs/common';
 import { Display, DisplayId } from '~/modules/display/display.entity';
 import { DisplayService } from '~/modules/display/display.service';
@@ -16,7 +15,8 @@ import { DisplayCreateDto } from '~modules/display/dto/display.create.dto';
 import { DisplayDetailsDto } from '~modules/display/dto/display.details.dto';
 import { DisplayDto } from '~modules/display/dto/display.dto';
 import { DisplayUpdateDto } from '~modules/display/dto/display.update.dto';
-import { JwtGuard, UserRequest } from '~modules/user/jwt.guard';
+import AuthGuard from '~modules/user/auth.decorator';
+import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
@@ -36,7 +36,7 @@ export class DisplayController {
     );
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Get('/my')
   public async findMyDisplays(
     @Query() pagination: PaginationQueryDto,
@@ -56,7 +56,7 @@ export class DisplayController {
     );
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Post()
   public async create(
     @Body() data: DisplayCreateDto,
@@ -66,7 +66,7 @@ export class DisplayController {
     return DisplayDetailsDto.fromDisplay(display);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Put('/:id')
   public async update(
     @Body() data: DisplayUpdateDto,
@@ -77,7 +77,7 @@ export class DisplayController {
     return DisplayDetailsDto.fromDisplay(display);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Get('/:id')
   public async get(
     @Param('id') id: DisplayId,
@@ -92,7 +92,7 @@ export class DisplayController {
     return DisplayDetailsDto.fromDisplay(display);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Delete('/:id')
   public async delete(
     @Param('id') id: DisplayId,

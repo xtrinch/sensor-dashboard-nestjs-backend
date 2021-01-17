@@ -7,15 +7,15 @@ import {
   Post,
   Put,
   Query,
-  Request,
-  UseGuards
+  Request
 } from '@nestjs/common';
 import { Category, CategoryId } from '~/modules/category/category.entity';
 import { CategoryService } from '~/modules/category/category.service';
 import { CategoryCreateDto } from '~modules/category/dto/category.create.dto';
 import { CategoryDto } from '~modules/category/dto/category.dto';
 import { CategoryUpdateDto } from '~modules/category/dto/category.update.dto';
-import { JwtGuard, UserRequest } from '~modules/user/jwt.guard';
+import AuthGuard from '~modules/user/auth.decorator';
+import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
@@ -35,7 +35,7 @@ export class CategoryController {
     );
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Post()
   public async create(
     @Body() data: CategoryCreateDto,
@@ -45,7 +45,7 @@ export class CategoryController {
     return CategoryDto.fromCategory(category);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Put('/:id')
   public async update(
     @Body() data: CategoryUpdateDto,
@@ -56,7 +56,7 @@ export class CategoryController {
     return CategoryDto.fromCategory(category);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Get('/:id')
   public async get(
     @Param('id') id: CategoryId,
@@ -67,7 +67,7 @@ export class CategoryController {
     return CategoryDto.fromCategory(category);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Delete('/:id')
   public async delete(
     @Param('id') id: CategoryId,

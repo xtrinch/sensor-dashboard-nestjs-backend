@@ -7,15 +7,15 @@ import {
   Post,
   Put,
   Query,
-  Request,
-  UseGuards
+  Request
 } from '@nestjs/common';
 import { Topic, TopicId } from '~/modules/topic/topic.entity';
 import { TopicService } from '~/modules/topic/topic.service';
 import { TopicCreateDto } from '~modules/topic/dto/topic.create.dto';
 import { TopicDto } from '~modules/topic/dto/topic.dto';
 import { TopicUpdateDto } from '~modules/topic/dto/topic.update.dto';
-import { JwtGuard, UserRequest } from '~modules/user/jwt.guard';
+import AuthGuard from '~modules/user/auth.decorator';
+import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
@@ -35,7 +35,7 @@ export class TopicController {
     );
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Post()
   public async create(
     @Body() data: TopicCreateDto,
@@ -45,7 +45,7 @@ export class TopicController {
     return TopicDto.fromTopic(topic);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Put('/:id')
   public async update(
     @Body() data: TopicUpdateDto,
@@ -56,7 +56,7 @@ export class TopicController {
     return TopicDto.fromTopic(topic);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Get('/:id')
   public async get(
     @Param('id') id: TopicId,
@@ -69,7 +69,7 @@ export class TopicController {
     return TopicDto.fromTopic(topic);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Delete('/:id')
   public async delete(
     @Param('id') id: TopicId,

@@ -28,7 +28,7 @@ export class Display extends AbstractIOTDeviceEntity {
   @JoinTable()
   public sensors: Sensor[];
 
-  @ManyToOne(() => User, (user) => user.displays)
+  @ManyToOne(() => User, (user) => user.displays, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   public user: User;
 

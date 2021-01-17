@@ -7,15 +7,15 @@ import {
   Post,
   Put,
   Query,
-  Request,
-  UseGuards
+  Request
 } from '@nestjs/common';
 import { Comment, CommentId } from '~/modules/comment/comment.entity';
 import { CommentService } from '~/modules/comment/comment.service';
 import { CommentCreateDto } from '~modules/comment/dto/comment.create.dto';
 import { CommentDto } from '~modules/comment/dto/comment.dto';
 import { CommentUpdateDto } from '~modules/comment/dto/comment.update.dto';
-import { JwtGuard, UserRequest } from '~modules/user/jwt.guard';
+import AuthGuard from '~modules/user/auth.decorator';
+import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
@@ -35,7 +35,7 @@ export class CommentController {
     );
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Post()
   public async create(
     @Body() data: CommentCreateDto,
@@ -45,7 +45,7 @@ export class CommentController {
     return CommentDto.fromComment(comment);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Put('/:id')
   public async update(
     @Body() data: CommentUpdateDto,
@@ -56,7 +56,7 @@ export class CommentController {
     return CommentDto.fromComment(comment);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Get('/:id')
   public async get(
     @Param('id') id: CommentId,
@@ -67,7 +67,7 @@ export class CommentController {
     return CommentDto.fromComment(comment);
   }
 
-  @UseGuards(JwtGuard)
+  @AuthGuard()
   @Delete('/:id')
   public async delete(
     @Param('id') id: CommentId,
