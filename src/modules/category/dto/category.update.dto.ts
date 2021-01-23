@@ -5,4 +5,9 @@ export class CategoryUpdateDto {
   @IsString()
   @IsNotEmpty()
   public name: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  public description: string;
 }

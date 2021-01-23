@@ -40,7 +40,7 @@ describe('SensorController (e2e)', () => {
       .set({ authorization: `Bearer ${userAuth.accessToken}` })
       .send(plainToClass(UserUpdateDto, { group: GroupEnum.ADMIN }))
       .expect(200);
-      
+
     expect(response.body.group).toEqual(GroupEnum.ADMIN);
   });
 

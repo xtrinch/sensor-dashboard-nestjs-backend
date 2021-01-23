@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  NotFoundException
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
@@ -11,7 +8,7 @@ import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import {
   Category,
   CategoryId,
-  CategoryWhereInterface
+  CategoryWhereInterface,
 } from './category.entity';
 
 @Injectable()
@@ -51,11 +48,10 @@ export class CategoryService {
     return category;
   }
 
-  public async create(
-    data: CategoryCreateDto,
-  ): Promise<Category> {
+  public async create(data: CategoryCreateDto): Promise<Category> {
     const category = new Category();
     category.name = data.name;
+    category.description = data.description;
 
     await Category.save(category);
 
@@ -71,15 +67,16 @@ export class CategoryService {
     if (data.name) {
       category.name = data.name;
     }
+    if (data.description) {
+      category.description = data.description;
+    }
 
     await Category.save(category);
 
     return category;
   }
 
-  public async delete(
-    where: CategoryWhereInterface,
-  ): Promise<boolean> {
+  public async delete(where: CategoryWhereInterface): Promise<boolean> {
     const category = await this.find(where);
     await Category.remove(category);
 

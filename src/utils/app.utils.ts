@@ -1,7 +1,7 @@
 import {
   BadRequestException,
   INestApplication,
-  ValidationPipe
+  ValidationPipe,
 } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
 import { transform } from '~utils/validation';

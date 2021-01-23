@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request
+  Request,
 } from '@nestjs/common';
 import { Display, DisplayId } from '~/modules/display/display.entity';
 import { DisplayService } from '~/modules/display/display.service';

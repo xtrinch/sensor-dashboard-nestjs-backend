@@ -4,7 +4,10 @@ import { plainToClass } from 'class-transformer';
 import { Comment } from '~modules/comment/comment.entity';
 import { CommentService } from '~modules/comment/comment.service';
 import { CommentCreateDto } from '~modules/comment/dto/comment.create.dto';
-import { TopicFixture, TopicFixtureInterface } from '~modules/topic/topic.fixture';
+import {
+  TopicFixture,
+  TopicFixtureInterface,
+} from '~modules/topic/topic.fixture';
 
 export interface CommentFixtureInterface extends TopicFixtureInterface {
   commentOne: Comment;

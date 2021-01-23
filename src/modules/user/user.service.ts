@@ -21,8 +21,8 @@ export class UserService {
     const results = await paginate<User>(this.userRepository, pagination, {
       where,
       order: {
-        createdAt: 'DESC'
-      }
+        createdAt: 'DESC',
+      },
     });
 
     return results;
@@ -52,10 +52,7 @@ export class UserService {
     return user;
   }
 
-  async update(
-    id: UserId,
-    data: UserUpdateDto,
-  ): Promise<User> {
+  async update(id: UserId, data: UserUpdateDto): Promise<User> {
     const user = await this.userRepository.findOne({ id });
 
     user.group = data.group;
@@ -65,9 +62,7 @@ export class UserService {
     return user;
   }
 
-  public async delete(
-    where: UserWhereInterface,
-  ): Promise<boolean> {
+  public async delete(where: UserWhereInterface): Promise<boolean> {
     const display = await this.find(where);
     await User.remove(display);
 

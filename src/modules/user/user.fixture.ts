@@ -37,7 +37,10 @@ export async function UserFixture(
     }),
   );
 
-  userOne = await userService.update(userOne.id, plainToClass(UserUpdateDto, { group: GroupEnum.ADMIN }))
+  userOne = await userService.update(
+    userOne.id,
+    plainToClass(UserUpdateDto, { group: GroupEnum.ADMIN }),
+  );
 
   const userAuth = async () => {
     const authService = await module.get<AuthService>(AuthService);

@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Put, Query, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Put,
+  Query,
+  Request,
+} from '@nestjs/common';
 import AuthGuard from '~modules/user/auth.decorator';
 import { UserDto } from '~modules/user/dto/user.dto';
 import { UserUpdateDto } from '~modules/user/dto/user.update.dto';
@@ -23,7 +32,7 @@ export class UserController {
   }
 
   @AuthGuard({
-    permissions: [PermissionsEnum.User__update]
+    permissions: [PermissionsEnum.User__update],
   })
   @Put('/:id')
   public async update(
@@ -36,7 +45,7 @@ export class UserController {
   }
 
   @AuthGuard({
-    permissions: [PermissionsEnum.User__delete]
+    permissions: [PermissionsEnum.User__delete],
   })
   @Delete('/:id')
   public async delete(
@@ -46,7 +55,7 @@ export class UserController {
     await this.userService.delete({ id });
 
     return {
-      status: '200'
+      status: '200',
     };
   }
 }

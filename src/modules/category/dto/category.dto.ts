@@ -6,6 +6,7 @@ import { AbstractDto } from '~utils/abstract.dto';
 export class CategoryDto implements AbstractDto {
   public id: number;
   public name: string;
+  public description: string;
   public createdAt: Date;
   public updatedAt: Date;
   public topicIds: TopicId[];
@@ -15,6 +16,7 @@ export class CategoryDto implements AbstractDto {
     return {
       id: category.id,
       name: category.name,
+      description: category.description,
       createdAt: category.createdAt,
       updatedAt: category.updatedAt,
       topics: (category.topics || []).map((s) => TopicDto.fromTopic(s)),

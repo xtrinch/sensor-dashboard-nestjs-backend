@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '~app.module';
 import {
   TopicFixture,
-  TopicFixtureInterface
+  TopicFixtureInterface,
 } from '~modules/topic/topic.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
@@ -31,7 +31,7 @@ describe('TopicController (e2e)', () => {
       .post('/topics')
       .set({ authorization: `Bearer ${userAuth.accessToken}` })
       .send({
-        name: "Topic name",
+        name: 'Topic name',
         categoryId: fixture.categoryOne.id,
       })
       .expect(201);

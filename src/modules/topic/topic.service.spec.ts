@@ -9,7 +9,7 @@ import { TopicUpdateDto } from '~modules/topic/dto/topic.update.dto';
 import { Topic } from '~modules/topic/topic.entity';
 import {
   TopicFixture,
-  TopicFixtureInterface
+  TopicFixtureInterface,
 } from '~modules/topic/topic.fixture';
 import { TopicModule } from '~modules/topic/topic.module';
 import { TopicService } from '~modules/topic/topic.service';
@@ -41,6 +41,7 @@ describe('TopicService', () => {
     const data = plainToClass(TopicCreateDto, {
       name: 'A topic name',
       categoryId: fixture.categoryOne.id,
+      description: {},
     });
 
     await validateOrReject(data);
@@ -52,14 +53,11 @@ describe('TopicService', () => {
   it('should update a topic', async () => {
     const data = plainToClass(TopicUpdateDto, {
       name: 'A new location',
+      description: {},
     });
 
     await validateOrReject(data);
-    const topic = await topicService.update(
-      fixture.userRequest,
-      fixture.topicOne.id,
-      data,
-    );
+    const topic = await topicService.update({ id: fixture.topicOne.id }, data);
     expect(topic).toBeDefined();
     expect(topic.name).toEqual('A new location');
   });

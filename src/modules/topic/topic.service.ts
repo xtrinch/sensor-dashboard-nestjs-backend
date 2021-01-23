@@ -1,8 +1,7 @@
 import {
   BadRequestException,
-  ForbiddenException,
   Injectable,
-  NotFoundException
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
@@ -11,7 +10,7 @@ import { TopicCreateDto } from '~modules/topic/dto/topic.create.dto';
 import { TopicUpdateDto } from '~modules/topic/dto/topic.update.dto';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
-import { Topic, TopicId, TopicWhereInterface } from './topic.entity';
+import { Topic, TopicWhereInterface } from './topic.entity';
 
 @Injectable()
 export class TopicService {
@@ -55,6 +54,7 @@ export class TopicService {
     topic.user = request.user;
     topic.name = data.name;
     topic.categoryId = data.categoryId;
+    topic.description = data.description;
 
     await Topic.save(topic);
 
@@ -62,29 +62,23 @@ export class TopicService {
   }
 
   public async update(
-    request: UserRequest,
-    id: TopicId,
+    where: TopicWhereInterface,
     data: TopicUpdateDto,
   ): Promise<Topic> {
-    const topic = await this.topicRepository.findOneOrFail({ id });
+    const topic = await this.find(where);
 
-    if (topic.userId !== request.user?.id) {
-      throw new ForbiddenException();
-    }
-    if (data.name) {
-      topic.name = data.name;
-    }
+    topic.name = data.name;
+    topic.description = data.description;
+
     await Topic.save(topic);
 
     return topic;
   }
 
-  public async delete(
-    where: TopicWhereInterface,
-  ): Promise<boolean> {
+  public async delete(where: TopicWhereInterface): Promise<boolean> {
     const topic = await this.find(where);
     if (!topic) {
-      throw new BadRequestException("Cannot delete topic.");
+      throw new BadRequestException('Cannot delete topic.');
     }
     await Topic.remove(topic);
 

@@ -1,4 +1,5 @@
-import { GroupEnum } from '~modules/user/enum/group.enum';
+import { GroupEnum, GroupPermissions } from '~modules/user/enum/group.enum';
+import { PermissionsEnum } from '~modules/user/enum/permissions.enum';
 import { User } from '~modules/user/user.entity';
 
 export class UserDto {
@@ -10,6 +11,7 @@ export class UserDto {
   public createdAt: Date;
   public lastSeenAt: Date;
   public group: GroupEnum;
+  public permissions: PermissionsEnum[];
 
   public static fromUser(user: User): UserDto {
     return {
@@ -21,6 +23,7 @@ export class UserDto {
       createdAt: user.createdAt,
       lastSeenAt: user.lastSeenAt,
       group: user.group,
+      permissions: GroupPermissions[user.group],
     };
   }
 }

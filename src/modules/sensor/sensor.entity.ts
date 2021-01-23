@@ -4,7 +4,7 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
-  OneToMany
+  OneToMany,
 } from 'typeorm';
 import { Display } from '~modules/display/display.entity';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
@@ -41,7 +41,10 @@ export class Sensor extends AbstractIOTDeviceEntity {
   })
   public timezone: string;
 
-  @ManyToOne(() => User, (user) => user.sensors, { eager: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.sensors, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'userId' })
   public user: User;
 

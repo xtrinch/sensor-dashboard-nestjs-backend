@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '~app.module';
 import {
   CategoryFixture,
-  CategoryFixtureInterface
+  CategoryFixtureInterface,
 } from '~modules/category/category.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
@@ -31,13 +31,15 @@ describe('CategoryController (e2e)', () => {
       .post('/categories')
       .set({ authorization: `Bearer ${userAuth.accessToken}` })
       .send({
-        name: "A category",
+        name: 'A category',
       })
       .expect(201);
   });
 
   it('/categories (GET)', async () => {
-    const response = await request(app.getHttpServer()).get('/categories').expect(200);
+    const response = await request(app.getHttpServer())
+      .get('/categories')
+      .expect(200);
   });
 
   afterAll(async () => {

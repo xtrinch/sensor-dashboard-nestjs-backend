@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  NotFoundException
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
@@ -63,10 +60,7 @@ export class CommentService {
     return comment;
   }
 
-  public async update(
-    id: CommentId,
-    data: CommentUpdateDto,
-  ): Promise<Comment> {
+  public async update(id: CommentId, data: CommentUpdateDto): Promise<Comment> {
     const comment = await this.commentRepository.findOneOrFail({ id });
 
     if (data.description) {
@@ -78,9 +72,7 @@ export class CommentService {
     return comment;
   }
 
-  public async delete(
-    where: CommentWhereInterface,
-  ): Promise<boolean> {
+  public async delete(where: CommentWhereInterface): Promise<boolean> {
     const comment = await this.find(where);
 
     await Comment.remove(comment);

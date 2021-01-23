@@ -1,6 +1,7 @@
 import {
-  ValidationArguments, ValidatorConstraint,
-  ValidatorConstraintInterface
+  ValidationArguments,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
 } from 'class-validator';
 
 @ValidatorConstraint({ name: 'timezoneValidator', async: false })

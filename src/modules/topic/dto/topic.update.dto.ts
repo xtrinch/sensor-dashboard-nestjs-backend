@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { RawDraftContentState } from 'draft-js';
 
 export class TopicUpdateDto {
   @IsOptional()
@@ -10,4 +11,7 @@ export class TopicUpdateDto {
   @IsString()
   @IsNotEmpty()
   public location: string;
+
+  @IsNotEmpty()
+  public description: RawDraftContentState;
 }

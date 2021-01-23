@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '~app.module';
 import {
   CommentFixture,
-  CommentFixtureInterface
+  CommentFixtureInterface,
 } from '~modules/comment/comment.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';

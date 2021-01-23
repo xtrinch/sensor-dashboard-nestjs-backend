@@ -5,10 +5,16 @@ export enum GroupEnum {
   MODERATOR = 'moderator',
 }
 
-export const GroupPermissions = {
+export const GroupPermissions: { [key: string]: PermissionsEnum[] } = {
   admin: [
     PermissionsEnum.User__delete,
     PermissionsEnum.User__update,
+    PermissionsEnum.Category__create,
+    PermissionsEnum.Category__delete,
+    PermissionsEnum.Category__update,
+    PermissionsEnum.Topic__create,
+    PermissionsEnum.Topic__delete,
+    PermissionsEnum.Topic__update,
   ],
-  moderator: {},
-}
+  moderator: [] as PermissionsEnum[],
+};

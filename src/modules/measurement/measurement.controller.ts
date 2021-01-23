@@ -5,7 +5,7 @@ import {
   Post,
   Query,
   Request,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { Ctx, MessagePattern } from '@nestjs/microservices';
 import { MeasurementService } from '~/modules/measurement/measurement.service';
@@ -19,12 +19,12 @@ import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import {
   DisplayMeasurementAggregateDto,
-  MeasurementAggregateDto
+  MeasurementAggregateDto,
 } from '~modules/measurement/measurement.interfaces';
 import { SensorGuard, SensorRequest } from '~modules/sensor/sensor.guard';
 import {
   SensorMqttContext,
-  SensorMqttGuard
+  SensorMqttGuard,
 } from '~modules/sensor/sensor.mqtt.guard';
 
 @Controller('measurements')
@@ -72,10 +72,7 @@ export class MeasurementController {
   @UseGuards(SensorMqttGuard)
   public async getTemperature(@Ctx() context: SensorMqttContext) {
     const data: MeasurementListCreateDto = context.payload;
-    await this.measurementService.createMultiple(
-      context.sensor,
-      data,
-    );
+    await this.measurementService.createMultiple(context.sensor, data);
   }
 
   @UseGuards(DisplayGuard)

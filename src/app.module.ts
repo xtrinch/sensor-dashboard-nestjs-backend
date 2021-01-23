@@ -19,7 +19,9 @@ import { AppService } from './app.service';
     UserModule,
     DisplayModule,
     ForwarderModule,
-    TypeOrmModule.forRoot({ keepConnectionAlive: process.env.TYPEORM_KEEP_CONNECTION_ALIVE === 'true' }),
+    TypeOrmModule.forRoot({
+      keepConnectionAlive: process.env.TYPEORM_KEEP_CONNECTION_ALIVE === 'true',
+    }),
     ScheduleModule.forRoot(),
     CategoryModule,
     TopicModule,

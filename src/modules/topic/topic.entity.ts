@@ -1,3 +1,4 @@
+import { RawDraftContentState } from 'draft-js';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Category, CategoryId } from '~modules/category/category.entity';
 import { Comment } from '~modules/comment/comment.entity';
@@ -9,11 +10,14 @@ export type TopicId = number;
 export interface TopicWhereInterface {
   id?: number;
   userId?: UserId;
+  categoryId?: CategoryId;
 }
 
 @Entity()
 export class Topic extends AbstractEntity {
-  @ManyToOne(() => Category, (category) => category.topics, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Category, (category) => category.topics, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'categoryId' })
   public category: Category;
 
@@ -32,4 +36,7 @@ export class Topic extends AbstractEntity {
 
   @Column({ type: 'varchar' })
   public name: string;
+
+  @Column({ type: 'jsonb' })
+  description?: RawDraftContentState;
 }

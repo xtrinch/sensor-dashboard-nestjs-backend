@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request
+  Request,
 } from '@nestjs/common';
 import { Sensor, SensorId } from '~/modules/sensor/sensor.entity';
 import { SensorService } from '~/modules/sensor/sensor.service';

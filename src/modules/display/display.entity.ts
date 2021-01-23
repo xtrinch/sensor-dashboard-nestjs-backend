@@ -4,7 +4,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
-  ManyToOne
+  ManyToOne,
 } from 'typeorm';
 import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';

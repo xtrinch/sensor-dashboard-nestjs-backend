@@ -1,3 +1,5 @@
+import { RawDraftContentState } from 'draft-js';
+import { CategoryId } from '~modules/category/category.entity';
 import { Comment, CommentId } from '~modules/comment/comment.entity';
 import { CommentDto } from '~modules/comment/dto/comment.dto';
 import { Topic } from '~modules/topic/topic.entity';
@@ -14,6 +16,8 @@ export class TopicDto implements AbstractDto {
   public updatedAt: Date;
   public commentIds: CommentId[];
   public comments: CommentDto[];
+  public description: RawDraftContentState;
+  public categoryId: CategoryId;
 
   public static fromTopic(topic: Topic): TopicDto {
     return {
@@ -25,6 +29,8 @@ export class TopicDto implements AbstractDto {
       updatedAt: topic.updatedAt,
       comments: (topic.comments || []).map((s) => CommentDto.fromComment(s)),
       commentIds: (topic.comments || []).map((s: Comment) => s.id),
+      description: topic.description,
+      categoryId: topic.categoryId,
     };
   }
 }

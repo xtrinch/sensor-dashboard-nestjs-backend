@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request
+  Request,
 } from '@nestjs/common';
 import { Category, CategoryId } from '~/modules/category/category.entity';
 import { CategoryService } from '~/modules/category/category.service';
@@ -15,6 +15,7 @@ import { CategoryCreateDto } from '~modules/category/dto/category.create.dto';
 import { CategoryDto } from '~modules/category/dto/category.dto';
 import { CategoryUpdateDto } from '~modules/category/dto/category.update.dto';
 import AuthGuard from '~modules/user/auth.decorator';
+import { PermissionsEnum } from '~modules/user/enum/permissions.enum';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
@@ -35,7 +36,9 @@ export class CategoryController {
     );
   }
 
-  @AuthGuard()
+  @AuthGuard({
+    permissions: [PermissionsEnum.Category__create],
+  })
   @Post()
   public async create(
     @Body() data: CategoryCreateDto,
@@ -45,7 +48,9 @@ export class CategoryController {
     return CategoryDto.fromCategory(category);
   }
 
-  @AuthGuard()
+  @AuthGuard({
+    permissions: [PermissionsEnum.Category__update],
+  })
   @Put('/:id')
   public async update(
     @Body() data: CategoryUpdateDto,
@@ -67,7 +72,9 @@ export class CategoryController {
     return CategoryDto.fromCategory(category);
   }
 
-  @AuthGuard()
+  @AuthGuard({
+    permissions: [PermissionsEnum.Category__delete],
+  })
   @Delete('/:id')
   public async delete(
     @Param('id') id: CategoryId,

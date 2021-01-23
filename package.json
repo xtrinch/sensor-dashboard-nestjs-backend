@@ -8,7 +8,8 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "yarn run prettier && yarn run lint",
+    "prettier": "prettier --write \"src/**/*.ts\"",
     "start": "nest start",
     "start:tsnode": "env-cmd -f .env ts-node --transpile-only -r tsconfig-paths/register src/main.ts",
     "start:dev": "env-cmd -f .env ts-node-dev -r tsconfig-paths/register src/main.ts",
@@ -32,6 +33,7 @@
     "@nestjs/swagger": "^4.7.8",
     "@nestjs/typeorm": "^7.1.5",
     "@types/bcrypt": "^3.0.0",
+    "@types/draft-js": "^0.10.44",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
     "@types/tar": "^4.0.4",

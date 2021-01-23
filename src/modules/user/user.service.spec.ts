@@ -51,7 +51,10 @@ describe('UserService', () => {
   });
 
   it('update a user', async () => {
-    const user = await userService.update(fixture.userOne.id, plainToClass(UserUpdateDto, { group: GroupEnum.MODERATOR }));
+    const user = await userService.update(
+      fixture.userOne.id,
+      plainToClass(UserUpdateDto, { group: GroupEnum.MODERATOR }),
+    );
     expect(user.group).toEqual(GroupEnum.MODERATOR);
   });
 
