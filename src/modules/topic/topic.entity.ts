@@ -38,5 +38,8 @@ export class Topic extends AbstractEntity {
   public name: string;
 
   @Column({ type: 'jsonb' })
-  description?: RawDraftContentState;
+  public description?: RawDraftContentState;
+
+  @Column({ type: 'varchar', nullable: true })
+  public tag: string;
 }

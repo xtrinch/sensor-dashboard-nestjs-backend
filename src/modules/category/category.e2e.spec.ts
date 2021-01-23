@@ -32,6 +32,7 @@ describe('CategoryController (e2e)', () => {
       .set({ authorization: `Bearer ${userAuth.accessToken}` })
       .send({
         name: 'A category',
+        protected: false,
       })
       .expect(201);
   });

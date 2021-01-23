@@ -18,4 +18,7 @@ export class Category extends AbstractEntity {
 
   @Column({ type: 'varchar', nullable: true })
   public description: string;
+
+  @Column({ type: 'boolean', nullable: true })
+  public protected: boolean;
 }

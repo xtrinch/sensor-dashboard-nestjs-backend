@@ -33,12 +33,15 @@ describe('TopicController (e2e)', () => {
       .send({
         name: 'Topic name',
         categoryId: fixture.categoryOne.id,
+        description: {},
       })
       .expect(201);
   });
 
   it('/topics (GET)', async () => {
-    await request(app.getHttpServer()).get('/topics').expect(200);
+    await request(app.getHttpServer())
+      .get(`/topics?categoryId=${fixture.categoryOne.id}`)
+      .expect(200);
   });
 
   afterAll(async () => {

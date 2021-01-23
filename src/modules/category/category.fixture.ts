@@ -22,6 +22,7 @@ export async function CategoryFixture(
   const categoryOne = await categoryService.create(
     plainToClass(CategoryCreateDto, {
       name: 'Test category',
+      protected: false,
     }),
   );
 

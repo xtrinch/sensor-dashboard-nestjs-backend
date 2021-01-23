@@ -48,6 +48,12 @@ export class CategoryController {
     return CategoryDto.fromCategory(category);
   }
 
+  @Get('/:id')
+  public async getCategory(@Param('id') id: CategoryId): Promise<CategoryDto> {
+    const category = await this.categoryService.find({ id });
+    return CategoryDto.fromCategory(category);
+  }
+
   @AuthGuard({
     permissions: [PermissionsEnum.Category__update],
   })

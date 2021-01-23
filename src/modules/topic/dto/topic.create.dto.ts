@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { RawDraftContentState } from 'draft-js';
 import { CategoryId } from '~modules/category/category.entity';
 
@@ -15,4 +15,7 @@ export class TopicCreateDto {
 
   @IsNotEmpty()
   public description: RawDraftContentState;
+
+  @IsOptional()
+  public tag: string;
 }

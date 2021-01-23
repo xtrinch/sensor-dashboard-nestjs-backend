@@ -14,4 +14,7 @@ export class TopicUpdateDto {
 
   @IsNotEmpty()
   public description: RawDraftContentState;
+
+  @IsOptional()
+  public tag: string;
 }

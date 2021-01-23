@@ -42,6 +42,12 @@ export class TopicController {
     );
   }
 
+  @Get('/:id')
+  public async getTopic(@Param('id') id: TopicId): Promise<TopicDto> {
+    const topic = await this.topicService.find({ id });
+    return TopicDto.fromTopic(topic);
+  }
+
   @AuthGuard()
   @Post()
   public async create(

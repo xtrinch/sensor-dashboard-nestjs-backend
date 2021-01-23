@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CategoryUpdateDto {
   @IsOptional()
@@ -10,4 +11,8 @@ export class CategoryUpdateDto {
   @IsString()
   @IsNotEmpty()
   public description: string;
+
+  @IsBoolean()
+  @Type(() => Boolean)
+  public protected: boolean;
 }

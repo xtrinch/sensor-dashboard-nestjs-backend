@@ -11,10 +11,8 @@ import { CategoryModule } from '~modules/category/category.module';
 import { CategoryService } from '~modules/category/category.service';
 import { CategoryCreateDto } from '~modules/category/dto/category.create.dto';
 import { CategoryUpdateDto } from '~modules/category/dto/category.update.dto';
-import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { TopicModule } from '~modules/topic/topic.module';
 import { UserModule } from '~modules/user/user.module';
-import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('CategoryService', () => {
   let categoryService: CategoryService;
@@ -40,9 +38,7 @@ describe('CategoryService', () => {
   it('should create a category', async () => {
     const data = plainToClass(CategoryCreateDto, {
       name: 'A category name',
-      location: 'A location',
-      boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
-      measurementTypes: Object.values(MeasurementTypeEnum),
+      protected: false,
     });
 
     await validateOrReject(data);
@@ -54,6 +50,7 @@ describe('CategoryService', () => {
   it('should update a category', async () => {
     const data = plainToClass(CategoryUpdateDto, {
       name: 'A new location',
+      protected: false,
     });
 
     await validateOrReject(data);

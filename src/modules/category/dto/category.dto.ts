@@ -11,6 +11,7 @@ export class CategoryDto implements AbstractDto {
   public updatedAt: Date;
   public topicIds: TopicId[];
   public topics: TopicDto[];
+  public protected: boolean;
 
   public static fromCategory(category: Category): CategoryDto {
     return {
@@ -21,6 +22,7 @@ export class CategoryDto implements AbstractDto {
       updatedAt: category.updatedAt,
       topics: (category.topics || []).map((s) => TopicDto.fromTopic(s)),
       topicIds: (category.topics || []).map((s) => s.id),
+      protected: category.protected,
     };
   }
 }

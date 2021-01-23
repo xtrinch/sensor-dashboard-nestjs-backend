@@ -18,6 +18,7 @@ export class TopicDto implements AbstractDto {
   public comments: CommentDto[];
   public description: RawDraftContentState;
   public categoryId: CategoryId;
+  public tag: string;
 
   public static fromTopic(topic: Topic): TopicDto {
     return {
@@ -31,6 +32,7 @@ export class TopicDto implements AbstractDto {
       commentIds: (topic.comments || []).map((s: Comment) => s.id),
       description: topic.description,
       categoryId: topic.categoryId,
+      tag: topic.tag,
     };
   }
 }

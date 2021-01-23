@@ -52,6 +52,7 @@ export class CategoryService {
     const category = new Category();
     category.name = data.name;
     category.description = data.description;
+    category.protected = data.protected;
 
     await Category.save(category);
 
@@ -64,12 +65,9 @@ export class CategoryService {
   ): Promise<Category> {
     const category = await this.categoryRepository.findOneOrFail({ id });
 
-    if (data.name) {
-      category.name = data.name;
-    }
-    if (data.description) {
-      category.description = data.description;
-    }
+    category.name = data.name;
+    category.description = data.description;
+    category.protected = data.protected;
 
     await Category.save(category);
 

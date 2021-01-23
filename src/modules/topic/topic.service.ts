@@ -55,6 +55,7 @@ export class TopicService {
     topic.name = data.name;
     topic.categoryId = data.categoryId;
     topic.description = data.description;
+    topic.tag = data.tag;
 
     await Topic.save(topic);
 
@@ -69,6 +70,7 @@ export class TopicService {
 
     topic.name = data.name;
     topic.description = data.description;
+    topic.tag = data.tag;
 
     await Topic.save(topic);
 
