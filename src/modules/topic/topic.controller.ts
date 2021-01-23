@@ -32,7 +32,7 @@ export class TopicController {
   ): Promise<PaginationDto<TopicDto>> {
     const items = await this.topicService.findAll(
       { categoryId: query.categoryId },
-      {},
+      { relations: ['user'] },
       pagination,
     );
 
@@ -44,7 +44,7 @@ export class TopicController {
 
   @Get('/:id')
   public async getTopic(@Param('id') id: TopicId): Promise<TopicDto> {
-    const topic = await this.topicService.find({ id });
+    const topic = await this.topicService.find({ id }, { relations: ['user'] });
     return TopicDto.fromTopic(topic);
   }
 
@@ -54,8 +54,14 @@ export class TopicController {
     @Body() data: TopicCreateDto,
     @Request() request: UserRequest,
   ): Promise<TopicDto> {
-    const topic = await this.topicService.create(request, data);
-    return TopicDto.fromTopic(topic);
+    let newTopic = await this.topicService.create(request, data);
+
+    // refetch with relations
+    newTopic = await this.topicService.find(
+      { id: newTopic.id },
+      { relations: ['user'] },
+    );
+    return TopicDto.fromTopic(newTopic);
   }
 
   @AuthGuard()
@@ -65,11 +71,17 @@ export class TopicController {
     @Param('id') id: TopicId,
     @Request() request: UserRequest,
   ): Promise<TopicDto> {
-    const topic = await this.topicService.update(
+    let updatedTopic = await this.topicService.update(
       { id, userId: request.user?.id },
       data,
     );
-    return TopicDto.fromTopic(topic);
+
+    // refetch with relations
+    updatedTopic = await this.topicService.find(
+      { id: updatedTopic.id },
+      { relations: ['user'] },
+    );
+    return TopicDto.fromTopic(updatedTopic);
   }
 
   @AuthGuard()
