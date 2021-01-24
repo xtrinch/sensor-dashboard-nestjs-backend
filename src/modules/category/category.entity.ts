@@ -1,5 +1,5 @@
-import { Column, Entity, OneToMany } from 'typeorm';
-import { Comment } from '~modules/comment/comment.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Comment, CommentId } from '~modules/comment/comment.entity';
 import { Topic } from '~modules/topic/topic.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
@@ -29,4 +29,11 @@ export class Category extends AbstractEntity {
   public numTopics: number;
 
   public numComments: number;
+
+  @Column({ type: 'integer', nullable: true })
+  public lastCommentId: CommentId;
+
+  @ManyToOne(() => Comment)
+  @JoinColumn({ name: 'lastCommentId' })
+  public lastComment: Comment;
 }

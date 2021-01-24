@@ -1,7 +1,7 @@
 import { RawDraftContentState } from 'draft-js';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Category, CategoryId } from '~modules/category/category.entity';
-import { Comment } from '~modules/comment/comment.entity';
+import { Comment, CommentId } from '~modules/comment/comment.entity';
 import { User, UserId } from '~modules/user/user.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
@@ -44,4 +44,11 @@ export class Topic extends AbstractEntity {
 
   @Column({ type: 'varchar', nullable: true })
   public tag: string;
+
+  @Column({ type: 'integer', nullable: true })
+  public lastCommentId: CommentId;
+
+  @ManyToOne(() => Comment)
+  @JoinColumn({ name: 'lastCommentId' })
+  public lastComment: Comment;
 }

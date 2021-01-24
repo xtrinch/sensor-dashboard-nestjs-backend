@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request,
+  Request
 } from '@nestjs/common';
 import { Category, CategoryId } from '~/modules/category/category.entity';
 import { CategoryService } from '~/modules/category/category.service';
@@ -28,7 +28,7 @@ export class CategoryController {
   public async findAll(
     @Query() pagination: PaginationQueryDto,
   ): Promise<PaginationDto<CategoryDto>> {
-    const items = await this.categoryService.findAll({}, {}, pagination);
+    const items = await this.categoryService.findAll({}, { relations: ['lastComment', 'lastComment.user'] }, pagination);
 
     return PaginationDto.fromPagination<Category, CategoryDto>(
       items,

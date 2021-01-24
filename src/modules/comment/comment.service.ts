@@ -2,8 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
+import { CategoryRepository } from '~modules/category/category.repository';
 import { CommentCreateDto } from '~modules/comment/dto/comment.create.dto';
 import { CommentUpdateDto } from '~modules/comment/dto/comment.update.dto';
+import { Topic } from '~modules/topic/topic.entity';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import { Comment, CommentId, CommentWhereInterface } from './comment.entity';
@@ -13,6 +15,10 @@ export class CommentService {
   constructor(
     @InjectRepository(Comment)
     private commentRepository: Repository<Comment>,
+    @InjectRepository(Topic)
+    public topicRepository: Repository<Topic>,
+    @InjectRepository(CategoryRepository)
+    public categoryRepository: CategoryRepository,
   ) {}
 
   public async findAll(
@@ -49,7 +55,7 @@ export class CommentService {
     request: UserRequest,
     data: CommentCreateDto,
   ): Promise<Comment> {
-    const comment = new Comment();
+    let comment = new Comment();
     comment.userId = request.user?.id;
     comment.user = request.user;
     comment.description = data.description;
@@ -57,7 +63,10 @@ export class CommentService {
     comment.categoryId = data.categoryId;
     comment.name = data.name;
 
-    await Comment.save(comment);
+    comment = await Comment.save(comment);
+
+    await this.topicRepository.update({ id: comment.topicId }, { lastCommentId: comment.id });
+    await this.categoryRepository.update({ id: comment.categoryId }, { lastCommentId: comment.id });
 
     return comment;
   }

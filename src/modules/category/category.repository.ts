@@ -2,7 +2,7 @@ import { Pagination } from 'nestjs-typeorm-paginate';
 import { EntityRepository, Repository } from 'typeorm';
 import {
   Category,
-  CategoryWhereInterface,
+  CategoryWhereInterface
 } from '~modules/category/category.entity';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
@@ -15,7 +15,7 @@ export class CategoryRepository extends Repository<Category> {
   ): Promise<Pagination<Category>> {
     const { page, limit } = pagination;
 
-    const query = this.createQueryBuilder('category')
+    let query = this.createQueryBuilder('category')
       .where(where)
       .skip(page * limit || 0)
       .take(limit || 1000)
@@ -23,8 +23,17 @@ export class CategoryRepository extends Repository<Category> {
       .loadRelationCountAndMap('category.numComments', 'category.comments')
       .orderBy('category.createdAt', 'DESC');
 
+    for (const relation of options?.relations) {
+      if (relation.split('.').length > 1) {
+        const parts = relation.split('.');
+        query = query.leftJoinAndSelect(relation, parts[1]);
+      } else {
+        query = query.leftJoinAndSelect(`category.${relation}`, relation);
+      }
+    }
+    
     const [items, totalItems] = await query.getManyAndCount();
-
+    console.log(items);
     return {
       items,
       meta: {

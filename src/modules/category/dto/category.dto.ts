@@ -1,4 +1,6 @@
 import { Category } from '~modules/category/category.entity';
+import { CommentId } from '~modules/comment/comment.entity';
+import { CommentDto } from '~modules/comment/dto/comment.dto';
 import { TopicDto } from '~modules/topic/dto/topic.dto';
 import { TopicId } from '~modules/topic/topic.entity';
 import { AbstractDto } from '~utils/abstract.dto';
@@ -14,6 +16,8 @@ export class CategoryDto implements AbstractDto {
   public protected: boolean;
   public numTopics: number;
   public numComments: number;
+  public lastComment: CommentDto;
+  public lastCommentId: CommentId;
 
   public static fromCategory(category: Category): CategoryDto {
     return {
@@ -27,6 +31,8 @@ export class CategoryDto implements AbstractDto {
       protected: category.protected,
       numTopics: category.numTopics,
       numComments: category.numComments,
+      lastComment: category.lastComment ? CommentDto.fromComment(category.lastComment) : null,
+      lastCommentId: category.lastCommentId,
     };
   }
 }
