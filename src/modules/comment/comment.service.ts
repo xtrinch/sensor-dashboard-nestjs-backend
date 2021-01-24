@@ -8,7 +8,7 @@ import { CommentUpdateDto } from '~modules/comment/dto/comment.update.dto';
 import { Topic } from '~modules/topic/topic.entity';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
-import { Comment, CommentId, CommentWhereInterface } from './comment.entity';
+import { Comment, CommentWhereInterface } from './comment.entity';
 
 @Injectable()
 export class CommentService {
@@ -71,8 +71,8 @@ export class CommentService {
     return comment;
   }
 
-  public async update(id: CommentId, data: CommentUpdateDto): Promise<Comment> {
-    const comment = await this.commentRepository.findOneOrFail({ id });
+  public async update(where: CommentWhereInterface, data: CommentUpdateDto): Promise<Comment> {
+    const comment = await this.commentRepository.findOneOrFail(where);
 
     comment.description = data.description;
     comment.name = data.name;

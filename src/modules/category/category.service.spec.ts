@@ -5,7 +5,7 @@ import { validateOrReject } from 'class-validator';
 import { Category } from '~modules/category/category.entity';
 import {
   CategoryFixture,
-  CategoryFixtureInterface,
+  CategoryFixtureInterface
 } from '~modules/category/category.fixture';
 import { CategoryModule } from '~modules/category/category.module';
 import { CategoryService } from '~modules/category/category.service';

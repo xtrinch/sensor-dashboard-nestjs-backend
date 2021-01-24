@@ -28,7 +28,11 @@ export class CategoryController {
   public async findAll(
     @Query() pagination: PaginationQueryDto,
   ): Promise<PaginationDto<CategoryDto>> {
-    const items = await this.categoryService.findAll({}, { relations: ['lastComment', 'lastComment.user'] }, pagination);
+    const items = await this.categoryService.findAll(
+      {}, 
+      { relations: ['lastComment', 'lastComment.user', 'lastTopic', 'lastTopic.user'] }, 
+      pagination
+    );
 
     return PaginationDto.fromPagination<Category, CategoryDto>(
       items,

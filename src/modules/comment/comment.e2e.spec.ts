@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '~app.module';
 import {
   CommentFixture,
-  CommentFixtureInterface,
+  CommentFixtureInterface
 } from '~modules/comment/comment.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
@@ -33,12 +33,14 @@ describe('CommentController (e2e)', () => {
       .send({
         description: { blocks: [], entityMap: {} },
         topicId: fixture.topicOne.id,
+        categoryId: fixture.categoryOne.id,
+        name: 'Re: comment'
       })
       .expect(201);
   });
 
   it('/comments (GET)', async () => {
-    await request(app.getHttpServer()).get('/comments').expect(200);
+    await request(app.getHttpServer()).get(`/comments?categoryId=${fixture.categoryOne.id}&topicId=${fixture.topicOne.id}`).expect(200);
   });
 
   afterAll(async () => {

@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '~app.module';
 import {
   CategoryFixture,
-  CategoryFixtureInterface,
+  CategoryFixtureInterface
 } from '~modules/category/category.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
@@ -39,7 +39,7 @@ describe('CategoryController (e2e)', () => {
 
   it('/categories (GET)', async () => {
     const response = await request(app.getHttpServer())
-      .get('/categories')
+      .get('/categories?offset=0&page=1')
       .expect(200);
   });
 

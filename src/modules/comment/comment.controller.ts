@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request,
+  Request
 } from '@nestjs/common';
 import { Comment, CommentId } from '~/modules/comment/comment.entity';
 import { CommentService } from '~/modules/comment/comment.service';
@@ -58,7 +58,7 @@ export class CommentController {
     @Param('id') id: CommentId,
     @Request() request: UserRequest,
   ): Promise<CommentDto> {
-    const comment = await this.commentService.update(id, data);
+    const comment = await this.commentService.update({ id, userId: request.user?.id }, data);
     return CommentDto.fromComment(comment);
   }
 

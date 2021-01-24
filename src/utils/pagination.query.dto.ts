@@ -10,12 +10,9 @@ export class PaginationQueryDto implements IPaginationOptions {
 
   @Type(() => Number)
   @IsInt()
-  @Min(0)
+  @Min(1)
   @IsOptional()
   page: number;
 
-  /**
-   * a babasesic route for generating links (i.e., WITHOUT query params)
-   */
   route?: string;
 }

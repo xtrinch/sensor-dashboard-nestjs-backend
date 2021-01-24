@@ -18,6 +18,8 @@ export class CategoryDto implements AbstractDto {
   public numComments: number;
   public lastComment: CommentDto;
   public lastCommentId: CommentId;
+  public lastTopic: TopicDto;
+  public lastTopicId: TopicId;
 
   public static fromCategory(category: Category): CategoryDto {
     return {
@@ -33,6 +35,8 @@ export class CategoryDto implements AbstractDto {
       numComments: category.numComments,
       lastComment: category.lastComment ? CommentDto.fromComment(category.lastComment) : null,
       lastCommentId: category.lastCommentId,
+      lastTopic: category.lastTopic ? TopicDto.fromTopic(category.lastTopic) : null,
+      lastTopicId: category.lastTopicId,
     };
   }
 }

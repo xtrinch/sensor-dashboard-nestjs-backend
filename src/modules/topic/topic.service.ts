@@ -1,11 +1,12 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
+import { CategoryRepository } from '~modules/category/category.repository';
 import { TopicCreateDto } from '~modules/topic/dto/topic.create.dto';
 import { TopicUpdateDto } from '~modules/topic/dto/topic.update.dto';
 import { UserRequest } from '~modules/user/jwt.guard';
@@ -17,6 +18,8 @@ export class TopicService {
   constructor(
     @InjectRepository(Topic)
     private topicRepository: Repository<Topic>,
+    @InjectRepository(CategoryRepository)
+    public categoryRepository: CategoryRepository,
   ) {}
 
   public async findAll(
@@ -49,7 +52,7 @@ export class TopicService {
     request: UserRequest,
     data: TopicCreateDto,
   ): Promise<Topic> {
-    const topic = new Topic();
+    let topic = new Topic();
     topic.userId = request.user?.id;
     topic.user = request.user;
     topic.name = data.name;
@@ -57,7 +60,9 @@ export class TopicService {
     topic.description = data.description;
     topic.tag = data.tag;
 
-    await Topic.save(topic);
+    topic = await Topic.save(topic);
+
+    await this.categoryRepository.update({ id: topic.categoryId }, { lastTopicId: topic.id });
 
     return topic;
   }

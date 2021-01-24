@@ -17,23 +17,22 @@ export class CategoryRepository extends Repository<Category> {
 
     let query = this.createQueryBuilder('category')
       .where(where)
-      .skip(page * limit || 0)
+      .skip(((page-1) * limit) || 0)
       .take(limit || 1000)
       .loadRelationCountAndMap('category.numTopics', 'category.topics')
       .loadRelationCountAndMap('category.numComments', 'category.comments')
       .orderBy('category.createdAt', 'DESC');
 
-    for (const relation of options?.relations) {
+    for (const relation of (options?.relations || [])) {
       if (relation.split('.').length > 1) {
         const parts = relation.split('.');
-        query = query.leftJoinAndSelect(relation, parts[1]);
+        query = query.leftJoinAndSelect(relation, relation.split('.').join('_'));
       } else {
         query = query.leftJoinAndSelect(`category.${relation}`, relation);
       }
     }
     
     const [items, totalItems] = await query.getManyAndCount();
-    console.log(items);
     return {
       items,
       meta: {

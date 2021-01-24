@@ -48,7 +48,7 @@ export class Topic extends AbstractEntity {
   @Column({ type: 'integer', nullable: true })
   public lastCommentId: CommentId;
 
-  @ManyToOne(() => Comment)
+  @ManyToOne(() => Comment, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'lastCommentId' })
   public lastComment: Comment;
 }
