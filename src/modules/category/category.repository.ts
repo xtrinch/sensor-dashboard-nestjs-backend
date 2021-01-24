@@ -20,6 +20,7 @@ export class CategoryRepository extends Repository<Category> {
       .skip(page * limit || 0)
       .take(limit || 1000)
       .loadRelationCountAndMap('category.numTopics', 'category.topics')
+      .loadRelationCountAndMap('category.numComments', 'category.comments')
       .orderBy('category.createdAt', 'DESC');
 
     const [items, totalItems] = await query.getManyAndCount();

@@ -27,7 +27,9 @@ export class Topic extends AbstractEntity {
   @OneToMany(() => Comment, (comment) => comment.topic)
   public comments: Comment[];
 
-  @ManyToOne(() => User, (user) => user.topics)
+  @ManyToOne(() => User, (user) => user.topics, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'userId' })
   public user: User;
 

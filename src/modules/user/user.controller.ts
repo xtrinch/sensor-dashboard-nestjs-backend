@@ -31,6 +31,12 @@ export class UserController {
     return PaginationDto.fromPagination<User, UserDto>(items, UserDto.fromUser);
   }
 
+  @Get('/:id')
+  public async getUser(@Param('id') id: UserId): Promise<UserDto> {
+    const category = await this.userService.find({ id });
+    return UserDto.fromUser(category);
+  }
+
   @AuthGuard({
     permissions: [PermissionsEnum.User__update],
   })

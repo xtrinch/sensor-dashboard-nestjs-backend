@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
+import { Comment } from '~modules/comment/comment.entity';
 import { Topic } from '~modules/topic/topic.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
@@ -13,6 +14,9 @@ export class Category extends AbstractEntity {
   @OneToMany(() => Topic, (topic) => topic.category)
   public topics: Topic[];
 
+  @OneToMany(() => Comment, (comment) => comment.category)
+  public comments: Comment[];
+
   @Column({ type: 'varchar' })
   public name: string;
 
@@ -23,4 +27,6 @@ export class Category extends AbstractEntity {
   public protected: boolean;
 
   public numTopics: number;
+
+  public numComments: number;
 }
