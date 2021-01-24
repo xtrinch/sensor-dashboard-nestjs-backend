@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, ValidateNested } from 'class-validator';
+import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { DescriptionDto } from '~modules/comment/dto/description.dto';
 
 export class CommentUpdateDto {
@@ -7,4 +7,8 @@ export class CommentUpdateDto {
   @Type(() => DescriptionDto)
   @ValidateNested()
   public description: DescriptionDto;
+
+  @IsString()
+  @IsNotEmpty()
+  public name: string;
 }

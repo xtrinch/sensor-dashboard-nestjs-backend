@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { Repository } from 'typeorm';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { CategoryRepository } from '~modules/category/category.repository';
 import { CategoryCreateDto } from '~modules/category/dto/category.create.dto';
 import { CategoryUpdateDto } from '~modules/category/dto/category.update.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
@@ -14,8 +14,8 @@ import {
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
+    @InjectRepository(CategoryRepository)
+    private categoryRepository: CategoryRepository,
   ) {}
 
   public async findAll(
@@ -23,16 +23,7 @@ export class CategoryService {
     options: { relations?: string[] },
     pagination: PaginationQueryDto,
   ): Promise<Pagination<Category>> {
-    const results = await paginate<Category>(
-      this.categoryRepository,
-      pagination,
-      {
-        ...options,
-        where,
-      },
-    );
-
-    return results;
+    return this.categoryRepository.findAll(where, options, pagination);
   }
 
   public async find(

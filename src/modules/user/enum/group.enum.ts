@@ -15,6 +15,9 @@ export const GroupPermissions: { [key: string]: PermissionsEnum[] } = {
     PermissionsEnum.Topic__create,
     PermissionsEnum.Topic__delete,
     PermissionsEnum.Topic__update,
+    PermissionsEnum.Comment__create,
+    PermissionsEnum.Comment__delete,
+    PermissionsEnum.Comment__update,
   ],
   moderator: [] as PermissionsEnum[],
 };

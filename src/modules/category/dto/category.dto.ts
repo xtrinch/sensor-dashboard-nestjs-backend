@@ -12,6 +12,7 @@ export class CategoryDto implements AbstractDto {
   public topicIds: TopicId[];
   public topics: TopicDto[];
   public protected: boolean;
+  public numTopics: number;
 
   public static fromCategory(category: Category): CategoryDto {
     return {
@@ -23,6 +24,7 @@ export class CategoryDto implements AbstractDto {
       topics: (category.topics || []).map((s) => TopicDto.fromTopic(s)),
       topicIds: (category.topics || []).map((s) => s.id),
       protected: category.protected,
+      numTopics: category.numTopics,
     };
   }
 }

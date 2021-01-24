@@ -13,6 +13,7 @@ import { Comment, CommentId } from '~/modules/comment/comment.entity';
 import { CommentService } from '~/modules/comment/comment.service';
 import { CommentCreateDto } from '~modules/comment/dto/comment.create.dto';
 import { CommentDto } from '~modules/comment/dto/comment.dto';
+import { CommentQueryDto } from '~modules/comment/dto/comment.query.dto';
 import { CommentUpdateDto } from '~modules/comment/dto/comment.update.dto';
 import AuthGuard from '~modules/user/auth.decorator';
 import { UserRequest } from '~modules/user/jwt.guard';
@@ -25,9 +26,14 @@ export class CommentController {
 
   @Get()
   public async findAll(
+    @Query() query: CommentQueryDto,
     @Query() pagination: PaginationQueryDto,
   ): Promise<PaginationDto<CommentDto>> {
-    const items = await this.commentService.findAll({}, {}, pagination);
+    const items = await this.commentService.findAll(
+      { categoryId: query.categoryId, topicId: query.topicId },
+      { relations: ['user'] },
+      pagination,
+    );
 
     return PaginationDto.fromPagination<Comment, CommentDto>(
       items,
@@ -62,7 +68,10 @@ export class CommentController {
     @Param('id') id: CommentId,
     @Request() request: UserRequest,
   ): Promise<CommentDto> {
-    const comment = await this.commentService.find({ id });
+    const comment = await this.commentService.find(
+      { id },
+      { relations: ['user'] },
+    );
 
     return CommentDto.fromComment(comment);
   }

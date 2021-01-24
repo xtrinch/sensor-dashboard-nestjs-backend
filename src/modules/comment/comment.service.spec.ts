@@ -41,6 +41,7 @@ describe('CommentService', () => {
     const data = plainToClass(CommentCreateDto, {
       description: { entityMap: {}, blocks: [] },
       topicId: fixture.topicOne.id,
+      categoryId: fixture.categoryOne.id,
     });
 
     await validateOrReject(data);
@@ -52,6 +53,7 @@ describe('CommentService', () => {
   it('should update a comment', async () => {
     const data = plainToClass(CommentUpdateDto, {
       description: { blocks: [], entityMap: {} },
+      name: 'Test',
     });
 
     await validateOrReject(data);

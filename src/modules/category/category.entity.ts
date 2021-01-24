@@ -13,12 +13,14 @@ export class Category extends AbstractEntity {
   @OneToMany(() => Topic, (topic) => topic.category)
   public topics: Topic[];
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar' })
   public name: string;
 
   @Column({ type: 'varchar', nullable: true })
   public description: string;
 
-  @Column({ type: 'boolean', nullable: false })
+  @Column({ type: 'boolean' })
   public protected: boolean;
+
+  public numTopics: number;
 }

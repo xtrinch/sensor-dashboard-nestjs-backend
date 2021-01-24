@@ -26,6 +26,8 @@ export async function CommentFixture(
     plainToClass(CommentCreateDto, {
       description: { blocks: [], entityMap: '' },
       topicId: fixture.topicOne.id,
+      name: 'Test comment',
+      categoryId: fixture.categoryOne.id,
     }),
   );
 

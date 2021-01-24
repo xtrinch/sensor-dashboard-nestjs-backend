@@ -54,6 +54,8 @@ export class CommentService {
     comment.user = request.user;
     comment.description = data.description;
     comment.topicId = data.topicId;
+    comment.categoryId = data.categoryId;
+    comment.name = data.name;
 
     await Comment.save(comment);
 
@@ -63,9 +65,8 @@ export class CommentService {
   public async update(id: CommentId, data: CommentUpdateDto): Promise<Comment> {
     const comment = await this.commentRepository.findOneOrFail({ id });
 
-    if (data.description) {
-      comment.description = data.description;
-    }
+    comment.description = data.description;
+    comment.name = data.name;
 
     await Comment.save(comment);
 

@@ -7,4 +7,7 @@ export enum PermissionsEnum {
   'Topic__create' = 'Topic__create',
   'Topic__delete' = 'Topic__delete',
   'Topic__update' = 'Topic__update',
+  'Comment__create' = 'Comment__create',
+  'Comment__delete' = 'Comment__delete',
+  'Comment__update' = 'Comment__update',
 }
