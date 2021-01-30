@@ -3,11 +3,11 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Post,
   Put,
-  Query,
-  Request
+  Query
 } from '@nestjs/common';
 import { Category, CategoryId } from '~/modules/category/category.entity';
 import { CategoryService } from '~/modules/category/category.service';
@@ -16,7 +16,6 @@ import { CategoryDto } from '~modules/category/dto/category.dto';
 import { CategoryUpdateDto } from '~modules/category/dto/category.update.dto';
 import AuthGuard from '~modules/user/auth.decorator';
 import { PermissionsEnum } from '~modules/user/enum/permissions.enum';
-import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
@@ -29,9 +28,16 @@ export class CategoryController {
     @Query() pagination: PaginationQueryDto,
   ): Promise<PaginationDto<CategoryDto>> {
     const items = await this.categoryService.findAll(
-      {}, 
-      { relations: ['lastComment', 'lastComment.user', 'lastTopic', 'lastTopic.user'] }, 
-      pagination
+      {},
+      {
+        relations: [
+          'lastComment',
+          'lastComment.user',
+          'lastTopic',
+          'lastTopic.user',
+        ],
+      },
+      { ...pagination, orderBy: 'sequenceNo', orderDir: 'ASC' },
     );
 
     return PaginationDto.fromPagination<Category, CategoryDto>(
@@ -46,7 +52,6 @@ export class CategoryController {
   @Post()
   public async create(
     @Body() data: CategoryCreateDto,
-    @Request() request: UserRequest,
   ): Promise<CategoryDto> {
     const category = await this.categoryService.create(data);
     return CategoryDto.fromCategory(category);
@@ -65,7 +70,6 @@ export class CategoryController {
   public async update(
     @Body() data: CategoryUpdateDto,
     @Param('id') id: CategoryId,
-    @Request() request: UserRequest,
   ): Promise<CategoryDto> {
     const category = await this.categoryService.update(id, data);
     return CategoryDto.fromCategory(category);
@@ -75,7 +79,6 @@ export class CategoryController {
   @Get('/:id')
   public async get(
     @Param('id') id: CategoryId,
-    @Request() request: UserRequest,
   ): Promise<CategoryDto> {
     const category = await this.categoryService.find({ id });
 
@@ -88,12 +91,35 @@ export class CategoryController {
   @Delete('/:id')
   public async delete(
     @Param('id') id: CategoryId,
-    @Request() request: UserRequest,
   ): Promise<{ status: string }> {
     await this.categoryService.delete({ id });
 
     return {
       status: '200',
     };
+  }
+
+  @AuthGuard({
+    permissions: [PermissionsEnum.Category__update],
+  })
+  @Put('/:id/increaseInSequence')
+  @HttpCode(200)
+  public async increaseInSequence(
+    @Param('id') id: CategoryId,
+  ): Promise<CategoryDto> {
+    const category = await this.categoryService.increaseInSequence(id);
+    return CategoryDto.fromCategory(category);
+  }
+
+  @AuthGuard({
+    permissions: [PermissionsEnum.Category__update],
+  })
+  @Put('/:id/decreaseInSequence')
+  @HttpCode(200)
+  public async decreaseInSequence(
+    @Param('id') id: CategoryId,
+  ): Promise<CategoryDto> {
+    const category = await this.categoryService.decreaseInSequence(id);
+    return CategoryDto.fromCategory(category);
   }
 }

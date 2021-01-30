@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, Min } from 'class-validator';
+import { IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { IPaginationOptions } from 'nestjs-typeorm-paginate';
 
 export class PaginationQueryDto implements IPaginationOptions {
@@ -13,6 +13,14 @@ export class PaginationQueryDto implements IPaginationOptions {
   @Min(1)
   @IsOptional()
   page: number;
+
+  @IsString()
+  @IsOptional()
+  orderBy?: string;
+
+  @IsString()
+  @IsOptional()
+  orderDir?: 'ASC' | 'DESC';
 
   route?: string;
 }

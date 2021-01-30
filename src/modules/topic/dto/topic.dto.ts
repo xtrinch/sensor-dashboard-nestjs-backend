@@ -36,7 +36,9 @@ export class TopicDto implements AbstractDto {
       categoryId: topic.categoryId,
       tag: topic.tag,
       lastCommentId: topic.lastCommentId,
-      lastComment: topic.lastComment ? CommentDto.fromComment(topic.lastComment) : null,
+      lastComment: topic.lastComment
+        ? CommentDto.fromComment(topic.lastComment)
+        : null,
     };
   }
 }

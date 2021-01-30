@@ -8,6 +8,7 @@ import { UserFixture, UserFixtureInterface } from '~modules/user/user.fixture';
 
 export interface CategoryFixtureInterface extends UserFixtureInterface {
   categoryOne: Category;
+  categoryTwo: Category;
 }
 
 export async function CategoryFixture(
@@ -26,5 +27,12 @@ export async function CategoryFixture(
     }),
   );
 
-  return { ...fixture, categoryOne };
+  const categoryTwo = await categoryService.create(
+    plainToClass(CategoryCreateDto, {
+      name: 'Test category1',
+      protected: false,
+    }),
+  );
+
+  return { ...fixture, categoryOne, categoryTwo };
 }

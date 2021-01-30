@@ -72,6 +72,18 @@ describe('CategoryService', () => {
     expect(categories.items.length).not.toBe(0);
   });
 
+  it('should move a category up', async () => {
+    const category = await categoryService.increaseInSequence(fixture.categoryOne.id);
+
+    expect(category.sequenceNo).toEqual(fixture.categoryOne.sequenceNo + 1);
+  });
+
+  it('should move a category down', async () => {
+    const category = await categoryService.decreaseInSequence(fixture.categoryOne.id);
+
+    expect(category.sequenceNo).toEqual(fixture.categoryOne.sequenceNo);
+  });
+
   it('should delete a category', async () => {
     const success = await categoryService.delete({
       id: fixture.categoryOne.id,

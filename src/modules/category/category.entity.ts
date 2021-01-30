@@ -43,4 +43,7 @@ export class Category extends AbstractEntity {
   @ManyToOne(() => Topic, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'lastTopicId' })
   public lastTopic: Topic;
+
+  @Column({ type: 'integer', default: 0 })
+  public sequenceNo: number;
 }

@@ -38,7 +38,7 @@ describe('CategoryController (e2e)', () => {
   });
 
   it('/categories (GET)', async () => {
-    const response = await request(app.getHttpServer())
+    await request(app.getHttpServer())
       .get('/categories?offset=0&page=1')
       .expect(200);
   });

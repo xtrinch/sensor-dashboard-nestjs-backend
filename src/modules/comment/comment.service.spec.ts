@@ -6,7 +6,7 @@ import { CategoryModule } from '~modules/category/category.module';
 import { Comment } from '~modules/comment/comment.entity';
 import {
   CommentFixture,
-  CommentFixtureInterface
+  CommentFixtureInterface,
 } from '~modules/comment/comment.fixture';
 import { CommentModule } from '~modules/comment/comment.module';
 import { CommentService } from '~modules/comment/comment.service';
@@ -58,7 +58,10 @@ describe('CommentService', () => {
     });
 
     await validateOrReject(data);
-    const comment = await commentService.update({ id: fixture.commentOne.id }, data);
+    const comment = await commentService.update(
+      { id: fixture.commentOne.id },
+      data,
+    );
     expect(comment).toBeDefined();
     expect(comment.description).toEqual({ blocks: [], entityMap: {} });
   });

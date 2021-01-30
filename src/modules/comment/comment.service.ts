@@ -65,13 +65,22 @@ export class CommentService {
 
     comment = await Comment.save(comment);
 
-    await this.topicRepository.update({ id: comment.topicId }, { lastCommentId: comment.id });
-    await this.categoryRepository.update({ id: comment.categoryId }, { lastCommentId: comment.id });
+    await this.topicRepository.update(
+      { id: comment.topicId },
+      { lastCommentId: comment.id },
+    );
+    await this.categoryRepository.update(
+      { id: comment.categoryId },
+      { lastCommentId: comment.id },
+    );
 
     return comment;
   }
 
-  public async update(where: CommentWhereInterface, data: CommentUpdateDto): Promise<Comment> {
+  public async update(
+    where: CommentWhereInterface,
+    data: CommentUpdateDto,
+  ): Promise<Comment> {
     const comment = await this.commentRepository.findOneOrFail(where);
 
     comment.description = data.description;

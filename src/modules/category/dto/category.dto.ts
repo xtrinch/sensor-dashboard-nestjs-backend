@@ -20,6 +20,7 @@ export class CategoryDto implements AbstractDto {
   public lastCommentId: CommentId;
   public lastTopic: TopicDto;
   public lastTopicId: TopicId;
+  public sequenceNo: number;
 
   public static fromCategory(category: Category): CategoryDto {
     return {
@@ -33,10 +34,15 @@ export class CategoryDto implements AbstractDto {
       protected: category.protected,
       numTopics: category.numTopics,
       numComments: category.numComments,
-      lastComment: category.lastComment ? CommentDto.fromComment(category.lastComment) : null,
+      lastComment: category.lastComment
+        ? CommentDto.fromComment(category.lastComment)
+        : null,
       lastCommentId: category.lastCommentId,
-      lastTopic: category.lastTopic ? TopicDto.fromTopic(category.lastTopic) : null,
+      lastTopic: category.lastTopic
+        ? TopicDto.fromTopic(category.lastTopic)
+        : null,
       lastTopicId: category.lastTopicId,
+      sequenceNo: category.sequenceNo,
     };
   }
 }

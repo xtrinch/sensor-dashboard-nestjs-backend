@@ -1,7 +1,7 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
@@ -62,7 +62,10 @@ export class TopicService {
 
     topic = await Topic.save(topic);
 
-    await this.categoryRepository.update({ id: topic.categoryId }, { lastTopicId: topic.id });
+    await this.categoryRepository.update(
+      { id: topic.categoryId },
+      { lastTopicId: topic.id },
+    );
 
     return topic;
   }

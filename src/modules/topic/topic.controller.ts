@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request
+  Request,
 } from '@nestjs/common';
 import { Topic, TopicId } from '~/modules/topic/topic.entity';
 import { TopicService } from '~/modules/topic/topic.service';
@@ -32,7 +32,7 @@ export class TopicController {
   ): Promise<PaginationDto<TopicDto>> {
     const items = await this.topicService.findAll(
       { categoryId: query.categoryId },
-      { relations: [ 'user', 'lastComment', 'lastComment.user' ] },
+      { relations: ['user', 'lastComment', 'lastComment.user'] },
       pagination,
     );
 

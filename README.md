@@ -62,6 +62,11 @@ Generate migrations:
 $ yarn run typeorm migration:generate -n SampleMigrationName
 ```
 
+Revert last migration:
+```bash
+$ yarn run typeorm migration:revert
+```
+
 Migrations are run automagically upon server start.
 
 ## Test
