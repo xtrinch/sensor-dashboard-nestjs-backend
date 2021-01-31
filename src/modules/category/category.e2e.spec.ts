@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '~app.module';
 import {
   CategoryFixture,
-  CategoryFixtureInterface
+  CategoryFixtureInterface,
 } from '~modules/category/category.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';

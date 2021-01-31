@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  Query
+  Query,
 } from '@nestjs/common';
 import { Category, CategoryId } from '~/modules/category/category.entity';
 import { CategoryService } from '~/modules/category/category.service';
@@ -50,9 +50,7 @@ export class CategoryController {
     permissions: [PermissionsEnum.Category__create],
   })
   @Post()
-  public async create(
-    @Body() data: CategoryCreateDto,
-  ): Promise<CategoryDto> {
+  public async create(@Body() data: CategoryCreateDto): Promise<CategoryDto> {
     const category = await this.categoryService.create(data);
     return CategoryDto.fromCategory(category);
   }
@@ -77,9 +75,7 @@ export class CategoryController {
 
   @AuthGuard()
   @Get('/:id')
-  public async get(
-    @Param('id') id: CategoryId,
-  ): Promise<CategoryDto> {
+  public async get(@Param('id') id: CategoryId): Promise<CategoryDto> {
     const category = await this.categoryService.find({ id });
 
     return CategoryDto.fromCategory(category);

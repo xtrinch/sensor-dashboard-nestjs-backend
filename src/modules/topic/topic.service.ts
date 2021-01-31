@@ -4,11 +4,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { Repository } from 'typeorm';
+import { Pagination } from 'nestjs-typeorm-paginate';
 import { CategoryRepository } from '~modules/category/category.repository';
 import { TopicCreateDto } from '~modules/topic/dto/topic.create.dto';
 import { TopicUpdateDto } from '~modules/topic/dto/topic.update.dto';
+import { TopicRepository } from '~modules/topic/topic.repository';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import { Topic, TopicWhereInterface } from './topic.entity';
@@ -16,8 +16,8 @@ import { Topic, TopicWhereInterface } from './topic.entity';
 @Injectable()
 export class TopicService {
   constructor(
-    @InjectRepository(Topic)
-    private topicRepository: Repository<Topic>,
+    @InjectRepository(TopicRepository)
+    private topicRepository: TopicRepository,
     @InjectRepository(CategoryRepository)
     public categoryRepository: CategoryRepository,
   ) {}
@@ -27,12 +27,7 @@ export class TopicService {
     options: { relations?: string[] },
     pagination: PaginationQueryDto,
   ): Promise<Pagination<Topic>> {
-    const results = await paginate<Topic>(this.topicRepository, pagination, {
-      ...options,
-      where,
-    });
-
-    return results;
+    return this.topicRepository.findAll(where, options, pagination);
   }
 
   public async find(

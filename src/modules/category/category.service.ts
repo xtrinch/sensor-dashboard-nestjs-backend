@@ -1,7 +1,7 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -12,7 +12,7 @@ import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import {
   Category,
   CategoryId,
-  CategoryWhereInterface
+  CategoryWhereInterface,
 } from './category.entity';
 
 @Injectable()
@@ -48,7 +48,8 @@ export class CategoryService {
     category.name = data.name;
     category.description = data.description;
     category.protected = data.protected;
-    category.sequenceNo = (await this.categoryRepository.getLastSequenceNo()) + 1;
+    category.sequenceNo =
+      (await this.categoryRepository.getLastSequenceNo()) + 1;
 
     await Category.save(category);
 

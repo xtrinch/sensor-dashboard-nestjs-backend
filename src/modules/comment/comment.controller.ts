@@ -67,10 +67,7 @@ export class CommentController {
 
   @AuthGuard()
   @Get('/:id')
-  public async get(
-    @Param('id') id: CommentId,
-    @Request() request: UserRequest,
-  ): Promise<CommentDto> {
+  public async get(@Param('id') id: CommentId): Promise<CommentDto> {
     const comment = await this.commentService.find(
       { id },
       { relations: ['user'] },

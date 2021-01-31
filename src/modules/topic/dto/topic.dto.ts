@@ -21,6 +21,7 @@ export class TopicDto implements AbstractDto {
   public tag: string;
   public lastCommentId: CommentId;
   public lastComment: CommentDto;
+  public numComments: number;
 
   public static fromTopic(topic: Topic): TopicDto {
     return {
@@ -39,6 +40,7 @@ export class TopicDto implements AbstractDto {
       lastComment: topic.lastComment
         ? CommentDto.fromComment(topic.lastComment)
         : null,
+      numComments: topic.numComments,
     };
   }
 }

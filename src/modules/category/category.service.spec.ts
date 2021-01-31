@@ -5,7 +5,7 @@ import { validateOrReject } from 'class-validator';
 import { Category } from '~modules/category/category.entity';
 import {
   CategoryFixture,
-  CategoryFixtureInterface
+  CategoryFixtureInterface,
 } from '~modules/category/category.fixture';
 import { CategoryModule } from '~modules/category/category.module';
 import { CategoryService } from '~modules/category/category.service';
@@ -73,13 +73,17 @@ describe('CategoryService', () => {
   });
 
   it('should move a category up', async () => {
-    const category = await categoryService.increaseInSequence(fixture.categoryOne.id);
+    const category = await categoryService.increaseInSequence(
+      fixture.categoryOne.id,
+    );
 
     expect(category.sequenceNo).toEqual(fixture.categoryOne.sequenceNo + 1);
   });
 
   it('should move a category down', async () => {
-    const category = await categoryService.decreaseInSequence(fixture.categoryOne.id);
+    const category = await categoryService.decreaseInSequence(
+      fixture.categoryOne.id,
+    );
 
     expect(category.sequenceNo).toEqual(fixture.categoryOne.sequenceNo);
   });

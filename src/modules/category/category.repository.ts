@@ -2,7 +2,7 @@ import { Pagination } from 'nestjs-typeorm-paginate';
 import { EntityRepository, MoreThan, Repository } from 'typeorm';
 import {
   Category,
-  CategoryWhereInterface
+  CategoryWhereInterface,
 } from '~modules/category/category.entity';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 
@@ -21,11 +21,13 @@ export class CategoryRepository extends Repository<Category> {
       .take(limit || 1000)
       .loadRelationCountAndMap('category.numTopics', 'category.topics')
       .loadRelationCountAndMap('category.numComments', 'category.comments')
-      .orderBy(`category.${pagination.orderBy || 'createdAt'}`, pagination.orderDir || 'DESC');
+      .orderBy(
+        `category.${pagination.orderBy || 'createdAt'}`,
+        pagination.orderDir || 'DESC',
+      );
 
     for (const relation of options?.relations || []) {
       if (relation.split('.').length > 1) {
-        const parts = relation.split('.');
         query = query.leftJoinAndSelect(
           relation,
           relation.split('.').join('_'),
@@ -42,25 +44,25 @@ export class CategoryRepository extends Repository<Category> {
         totalItems: totalItems,
         itemCount: totalItems,
         itemsPerPage: limit,
-        totalPages: totalItems / limit,
+        totalPages: totalItems / limit || 1,
         currentPage: page,
       },
     };
   }
 
   async getLastSequenceNo(): Promise<number> {
-    const query = this.createQueryBuilder("category");
-    query.select(`MAX(category."sequenceNo")`, "max");
-    
+    const query = this.createQueryBuilder('category');
+    query.select(`MAX(category."sequenceNo")`, 'max');
+
     const result = await query.getRawOne();
-    
+
     return (result as { max: number }).max;
   }
 
   async reSequenceNumbersAbove(num: number): Promise<void> {
     const reSequenceIds = await this.find({ sequenceNo: MoreThan(num) });
-    
-    await this.createQueryBuilder("category")
+
+    await this.createQueryBuilder('category')
       .update(Category)
       .set({ sequenceNo: () => `"sequenceNo" - 1` })
       .whereInIds(reSequenceIds)

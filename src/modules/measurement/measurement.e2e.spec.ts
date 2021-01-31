@@ -30,9 +30,7 @@ describe('MeasurementController (e2e)', () => {
   });
 
   it('/measurements (GET)', async () => {
-    const resp = await request(app.getHttpServer())
-      .get('/measurements')
-      .expect(400);
+    await request(app.getHttpServer()).get('/measurements').expect(400);
   });
 
   it('/measurements/display (GET)', async () => {

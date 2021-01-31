@@ -86,10 +86,7 @@ export class TopicController {
 
   @AuthGuard()
   @Get('/:id')
-  public async get(
-    @Param('id') id: TopicId,
-    @Request() request: UserRequest,
-  ): Promise<TopicDto> {
+  public async get(@Param('id') id: TopicId): Promise<TopicDto> {
     const topic = await this.topicService.find({ id });
 
     return TopicDto.fromTopic(topic);

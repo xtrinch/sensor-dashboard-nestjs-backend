@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Post,
   Query,
   Request,
@@ -70,7 +71,10 @@ export class MeasurementController {
 
   @MessagePattern('measurements/multi/#')
   @UseGuards(SensorMqttGuard)
-  public async getTemperature(@Ctx() context: SensorMqttContext) {
+  @HttpCode(200)
+  public async getTemperature(
+    @Ctx() context: SensorMqttContext,
+  ): Promise<void> {
     const data: MeasurementListCreateDto = context.payload;
     await this.measurementService.createMultiple(context.sensor, data);
   }
