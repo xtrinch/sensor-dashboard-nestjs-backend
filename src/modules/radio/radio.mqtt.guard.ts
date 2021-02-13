@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   CanActivate,
   ExecutionContext,
   Inject,
@@ -42,8 +41,7 @@ export class RadioMqttGuard implements CanActivate {
         mqttContext.getPacket().payload.toString(),
       );
     } catch (e) {
-      console.log(e);
-      throw new BadRequestException('Invalid format');
+      mqttContext.payload = null;
     }
     return true;
   }
