@@ -142,9 +142,8 @@ export class RadioService {
     const radio = await this.radioRepository.findOne(id);
 
     console.log(`radios/config-downstream/${radio.accessToken}`);
-    this.mqttClient.publish(`test`, 'test message');
-    this.mqttClient.publish(`radios/${radio.accessToken}/config-downstream`, JSON.stringify(radio.config));
-    //this.mqttClient.emit(`radios/config-downstream/${radio.accessToken}`, JSON.stringify(radio.config));
+    this.mqttClient.emit(`test`, 'test message');
+    this.mqttClient.emit(`radios/config-downstream/${radio.accessToken}`, JSON.stringify(radio.config));
   }
 
   public async requestConfigFromRadio(id: RadioId): Promise<void> {
