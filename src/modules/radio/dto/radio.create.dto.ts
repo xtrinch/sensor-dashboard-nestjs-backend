@@ -1,4 +1,4 @@
-import { IsEnum, IsJSON, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator';
 import { BoardTypeEnum } from '~utils/board-types.enum';
 
 export class RadioCreateDto {
@@ -14,6 +14,6 @@ export class RadioCreateDto {
   public boardType: BoardTypeEnum;
 
   @IsOptional()
-  @IsJSON()
-  public config: string;
+  @IsObject()
+  public config: any;
 }

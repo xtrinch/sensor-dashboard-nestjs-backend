@@ -143,8 +143,10 @@ export class RadioController {
     switch(data.type) {
       case 'ping':
         this.radioService.registerPing(context.radio);
+        break;
       case 'config':
         this.radioService.patch(context.radio, { config: JSON.parse(data.payload) });
+        break;
     }
   }
 }
