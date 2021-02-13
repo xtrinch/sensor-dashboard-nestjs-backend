@@ -8,6 +8,7 @@ import { CategoryModule } from '~modules/category/category.module';
 import { CommentModule } from '~modules/comment/comment.module';
 import { DisplayModule } from '~modules/display/display.module';
 import { ForwarderModule } from '~modules/forwarder/forwarder.module';
+import { RadioModule } from '~modules/radio/radio.module';
 import { TopicModule } from '~modules/topic/topic.module';
 import { LoggerMiddleware } from '~utils/logger.middleware';
 import { AppService } from './app.service';
@@ -26,6 +27,7 @@ import { AppService } from './app.service';
     CategoryModule,
     TopicModule,
     CommentModule,
+    RadioModule,
   ],
   controllers: [],
   providers: [AppService],

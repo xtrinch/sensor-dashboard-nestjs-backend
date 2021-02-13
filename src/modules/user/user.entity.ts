@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { Comment } from '~modules/comment/comment.entity';
 import { Display } from '~modules/display/display.entity';
 import { Forwarder } from '~modules/forwarder/forwarder.entity';
+import { Radio } from '~modules/radio/radio.entity';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { Topic } from '~modules/topic/topic.entity';
 import { GroupEnum } from '~modules/user/enum/group.enum';
@@ -53,6 +54,9 @@ export class User extends AbstractEntity {
 
   @OneToMany(() => Display, (display) => display.user)
   public displays: Display[];
+
+  @OneToMany(() => Radio, (radio) => radio.user)
+  public radios: Radio[];
 
   @OneToMany(() => Forwarder, (forwarder) => forwarder.user)
   public forwarders: Forwarder[];
