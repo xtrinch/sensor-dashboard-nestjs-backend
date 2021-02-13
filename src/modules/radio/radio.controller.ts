@@ -139,7 +139,7 @@ export class RadioController {
     @Ctx() context: RadioMqttContext,
   ): Promise<void> {
     const data = context.payload as { type: string, payload: any };
-
+    console.log(data);
     switch(data.type) {
       case 'ping':
         this.radioService.registerPing(context.radio);

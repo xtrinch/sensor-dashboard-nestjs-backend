@@ -40,6 +40,7 @@ export class RadioMqttGuard implements CanActivate {
         mqttContext.getPacket().payload.toString(),
       );
     } catch (e) {
+      console.log(e);
       throw new BadRequestException();
     }
     return true;
