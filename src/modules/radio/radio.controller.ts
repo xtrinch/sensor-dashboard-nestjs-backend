@@ -114,7 +114,6 @@ export class RadioController {
   public async ping(
     @Ctx() context: RadioMqttContext,
   ): Promise<void> {  
-    console.log("Received a ping from radios.")
     context.radio.lastSeenAt = new Date();
     await Radio.save(context.radio);
   }

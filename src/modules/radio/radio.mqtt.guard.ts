@@ -22,8 +22,6 @@ export class RadioMqttGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    console.log("Radio MQTT guard running");
-
     const mqttContext: RadioMqttContext = context.getArgs()[1];
     const topic = mqttContext.getTopic();
     const authorization = topic.split('/').pop();
