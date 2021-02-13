@@ -144,7 +144,7 @@ export class RadioController {
       case 'ping':
         this.radioService.registerPing(context.radio);
       case 'config':
-        this.radioService.patch(context.radio, { config: data['payload'] });
+        this.radioService.patch(context.radio, { config: JSON.parse(data.payload) });
     }
   }
 }
