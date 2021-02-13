@@ -9,7 +9,13 @@ import { Radio } from '~modules/radio/radio.entity';
   imports: [
     TypeOrmModule.forFeature([Radio]),
     ClientsModule.register([
-      { name: 'MQTT_CLIENT', transport: Transport.MQTT },
+      { 
+        name: 'MQTT_CLIENT', 
+        transport: Transport.MQTT,
+        options: {
+          url: process.env.MQTT_BROKER_URL,
+        } 
+      },
     ]),
   ],
   providers: [RadioService],
