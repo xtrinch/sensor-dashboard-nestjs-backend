@@ -148,7 +148,6 @@ export class RadioService {
       `radios/config-downstream/${radio.accessToken}`, 
       JSON.stringify(radio.config)
     );
-    // this.mqttClient.emit(`radios/config-downstream/${radio.accessToken}`, JSON.stringify(radio.config));
   }
 
   public async requestConfigFromRadio(id: RadioId): Promise<void> {
@@ -156,6 +155,6 @@ export class RadioService {
 
     // @ts-ignore
     this.mqttClient.connect();
-    this.mqttClient.emit(`radios/config-request/${radio.accessToken}`, JSON.stringify(radio.config));
+    this.mqttClient.publish(`radios/config-request/${radio.accessToken}`, JSON.stringify(radio.config));
   }
 }
