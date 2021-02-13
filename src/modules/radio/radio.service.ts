@@ -10,7 +10,6 @@ import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 import { RadioCreateDto } from '~modules/radio/dto/radio.create.dto';
 import { RadioUpdateDto } from '~modules/radio/dto/radio.update.dto';
-import { RadioRequest } from '~modules/radio/radio.interfaces';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
 import {
@@ -88,16 +87,10 @@ export class RadioService {
     return radio;
   }
 
-  public async update(
-    request: UserRequest,
-    id: RadioId,
-    data: RadioUpdateDto,
+  public async patch(
+    radio: Radio,
+    data: Partial<RadioUpdateDto>,
   ): Promise<Radio> {
-    const radio = await this.radioRepository.findOneOrFail({ id });
-
-    if (radio.userId !== request.user?.id) {
-      throw new ForbiddenException();
-    }
     if (data.location) {
       radio.location = data.location;
     }
@@ -110,6 +103,20 @@ export class RadioService {
     if (data.config) {
       radio.config = data.config;
     }
+
+    await Radio.save(radio);
+
+    return radio;
+  }
+
+  public async update(
+    radio: Radio,
+    data: RadioUpdateDto,
+  ): Promise<Radio> {
+    radio.location = data.location;
+    radio.name = data.name;
+    radio.boardType = data.boardType;
+    radio.config = data.config;
 
     await Radio.save(radio);
 
@@ -131,9 +138,9 @@ export class RadioService {
     return true;
   }
 
-  public async registerPing(request: RadioRequest): Promise<boolean> {
-    request.radio.lastSeenAt = new Date();
-    Radio.save(request.radio);
+  public async registerPing(radio: Radio): Promise<boolean> {
+    radio.lastSeenAt = new Date();
+    Radio.save(radio);
 
     return true;
   }
@@ -141,16 +148,15 @@ export class RadioService {
   public async sendConfigToRadio(id: RadioId): Promise<void> {
     const radio = await this.radioRepository.findOne(id);
 
-    console.log(`radios/config-downstream/${radio.accessToken}`);
     this.mqttClient.emit(
-      `radios/config-downstream/${radio.accessToken}`, 
-      JSON.stringify(radio.config)
+      `radios/downstream/${radio.accessToken}`, 
+      JSON.stringify({ type: 'config', payload: radio.config })
     );
   }
 
   public async requestConfigFromRadio(id: RadioId): Promise<void> {
     const radio = await this.radioRepository.findOne(id);
 
-    this.mqttClient.emit(`radios/config-request/${radio.accessToken}`, JSON.stringify(radio.config));
+    this.mqttClient.emit(`radios/downstream/${radio.accessToken}`, JSON.stringify({ type: 'config-request' }));
   }
 }

@@ -1,8 +1,8 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   HttpCode,
   Param,
@@ -13,7 +13,6 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { Ctx, MessagePattern } from '@nestjs/microservices';
-import { isJSON } from 'class-validator';
 import { Radio, RadioId } from '~/modules/radio/radio.entity';
 import { RadioService } from '~/modules/radio/radio.service';
 import { RadioCreateDto } from '~modules/radio/dto/radio.create.dto';
@@ -79,7 +78,12 @@ export class RadioController {
     @Param('id') id: RadioId,
     @Request() request: UserRequest,
   ): Promise<RadioDetailsDto> {
-    const radio = await this.radioService.update(request, id, data);
+    let radio = await this.radioService.find({id});
+    if (radio.userId !== request.user?.id) {
+      throw new ForbiddenException();
+    }
+
+    radio = await this.radioService.update(radio, data);
     return RadioDetailsDto.fromRadio(radio);
   }
 
@@ -108,16 +112,6 @@ export class RadioController {
     await this.radioService.delete(request, { id });
   }
 
-  // accept pings from radio
-  @MessagePattern('radios/ping/#')
-  @UseGuards(RadioMqttGuard)
-  public async ping(
-    @Ctx() context: RadioMqttContext,
-  ): Promise<void> {  
-    context.radio.lastSeenAt = new Date();
-    await Radio.save(context.radio);
-  }
-
   // send config to radio
   @AuthGuard()
   @Post('/:id/send-config')
@@ -138,20 +132,19 @@ export class RadioController {
     await this.radioService.requestConfigFromRadio(id);
   }
 
-  // accept config from radio
-  @MessagePattern('radios/#/config-upstream')
+  // accept data from radio
+  @MessagePattern('radios/upstream/#')
   @UseGuards(RadioMqttGuard)
   public async configureRadio(
     @Ctx() context: RadioMqttContext,
   ): Promise<void> {
-    const data: string = context.payload;
+    const data = context.payload as { type: string, payload: any };
 
-    // check if valid json
-    if (!isJSON(data)) {
-      throw new BadRequestException();
+    switch(data.type) {
+      case 'ping':
+        this.radioService.registerPing(context.radio);
+      case 'config':
+        this.radioService.patch(context.radio, { config: data['payload'] });
     }
-    
-    context.radio.config = data;
-    await Radio.save(context.radio);
   }
 }
