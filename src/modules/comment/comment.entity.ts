@@ -1,6 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Category, CategoryId } from '~modules/category/category.entity';
-import { Description } from '~modules/comment/comment.interfaces';
 import { Topic, TopicId } from '~modules/topic/topic.entity';
 import { User, UserId } from '~modules/user/user.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
@@ -41,8 +40,8 @@ export class Comment extends AbstractEntity {
   @Column({ type: 'integer' })
   public userId: UserId;
 
-  @Column({ type: 'jsonb' })
-  public description: Description;
+  @Column({ type: 'varchar' })
+  public description: string;
 
   @Column({ type: 'varchar' })
   public name: string;

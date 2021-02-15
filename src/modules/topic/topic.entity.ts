@@ -1,4 +1,3 @@
-import { RawDraftContentState } from 'draft-js';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Category, CategoryId } from '~modules/category/category.entity';
 import { Comment, CommentId } from '~modules/comment/comment.entity';
@@ -39,8 +38,8 @@ export class Topic extends AbstractEntity {
   @Column({ type: 'varchar' })
   public name: string;
 
-  @Column({ type: 'jsonb' })
-  public description?: RawDraftContentState;
+  @Column({ type: 'varchar' })
+  public description?: string;
 
   @Column({ type: 'varchar', nullable: true })
   public tag: string;

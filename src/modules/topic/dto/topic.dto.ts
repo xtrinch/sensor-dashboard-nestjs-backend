@@ -1,4 +1,3 @@
-import { RawDraftContentState } from 'draft-js';
 import { CategoryId } from '~modules/category/category.entity';
 import { Comment, CommentId } from '~modules/comment/comment.entity';
 import { CommentDto } from '~modules/comment/dto/comment.dto';
@@ -16,7 +15,7 @@ export class TopicDto implements AbstractDto {
   public updatedAt: Date;
   public commentIds: CommentId[];
   public comments: CommentDto[];
-  public description: RawDraftContentState;
+  public description: string;
   public categoryId: CategoryId;
   public tag: string;
   public lastCommentId: CommentId;

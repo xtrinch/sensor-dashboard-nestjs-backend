@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException
 } from '@nestjs/common';
-import { MqttClient } from '@nestjs/microservices/external/mqtt-client.interface';
+import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
@@ -23,7 +23,7 @@ export class RadioService {
   constructor(
     @InjectRepository(Radio)
     private radioRepository: Repository<Radio>,
-    @Inject('MQTT_CLIENT') private mqttClient: MqttClient,
+    @Inject('MQTT_CLIENT') private mqttClient: ClientProxy,
   ) {}
 
   public async findAll(
