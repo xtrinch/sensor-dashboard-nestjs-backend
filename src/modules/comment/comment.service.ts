@@ -26,12 +26,16 @@ export class CommentService {
     options: { relations?: string[] },
     pagination: PaginationQueryDto,
   ): Promise<Pagination<Comment>> {
+    const order = {};
+    order[pagination.orderBy] = pagination.orderDir;
+
     const results = await paginate<Comment>(
       this.commentRepository,
       pagination,
       {
         ...options,
         where,
+        order,
       },
     );
 

@@ -1,7 +1,9 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
-  NotFoundException,
+
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -55,8 +57,15 @@ export class TopicService {
     topic.description = data.description;
     topic.tag = data.tag;
 
-    topic = await Topic.save(topic);
-
+    try {
+      topic = await Topic.save(topic);
+    } catch(e) {
+      if (e.code === '23505') {
+        throw new ForbiddenException('Tag already exists');
+      }
+      return;
+    }
+    
     await this.categoryRepository.update(
       { id: topic.categoryId },
       { lastTopicId: topic.id },
@@ -69,13 +78,20 @@ export class TopicService {
     where: TopicWhereInterface,
     data: TopicUpdateDto,
   ): Promise<Topic> {
-    const topic = await this.find(where);
+    let topic = await this.find(where);
 
     topic.name = data.name;
     topic.description = data.description;
     topic.tag = data.tag;
 
-    await Topic.save(topic);
+    try {
+      topic = await Topic.save(topic);
+    } catch(e) {
+      if (e.code === '23505') {
+        throw new ForbiddenException('Tag already exists');
+      }
+      return;
+    }
 
     return topic;
   }

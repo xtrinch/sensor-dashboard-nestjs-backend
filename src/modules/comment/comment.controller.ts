@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request,
+  Request
 } from '@nestjs/common';
 import { Comment, CommentId } from '~/modules/comment/comment.entity';
 import { CommentService } from '~/modules/comment/comment.service';
@@ -32,7 +32,7 @@ export class CommentController {
     const items = await this.commentService.findAll(
       { categoryId: query.categoryId, topicId: query.topicId },
       { relations: ['user'] },
-      pagination,
+      { ...pagination, orderBy: 'createdAt', orderDir: 'ASC' },
     );
 
     return PaginationDto.fromPagination<Comment, CommentDto>(

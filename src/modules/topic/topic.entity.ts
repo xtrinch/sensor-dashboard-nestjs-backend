@@ -10,6 +10,7 @@ export interface TopicWhereInterface {
   id?: number;
   userId?: UserId;
   categoryId?: CategoryId;
+  tag?: string;
 }
 
 @Entity()
@@ -41,7 +42,7 @@ export class Topic extends AbstractEntity {
   @Column({ type: 'varchar' })
   public description?: string;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', nullable: true, unique: true })
   public tag: string;
 
   @Column({ type: 'integer', nullable: true })

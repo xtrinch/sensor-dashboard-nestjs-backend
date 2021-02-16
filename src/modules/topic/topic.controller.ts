@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request,
+  Request
 } from '@nestjs/common';
 import { Topic, TopicId } from '~/modules/topic/topic.entity';
 import { TopicService } from '~/modules/topic/topic.service';
