@@ -48,6 +48,12 @@ export class TopicController {
     return TopicDto.fromTopic(topic);
   }
 
+  @Get('/tag/:tag')
+  public async getTopicByTag(@Param('tag') tag: string): Promise<TopicDto> {
+    const topic = await this.topicService.find({ tag }, { relations: ['user'] });
+    return TopicDto.fromTopic(topic);
+  }
+
   @AuthGuard()
   @Post()
   public async create(
