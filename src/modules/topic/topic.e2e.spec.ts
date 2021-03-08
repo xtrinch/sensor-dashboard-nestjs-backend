@@ -33,7 +33,7 @@ describe('TopicController (e2e)', () => {
       .send({
         name: 'Topic name',
         categoryId: fixture.categoryOne.id,
-        description: {},
+        description: "A description",
       })
       .expect(201);
   });

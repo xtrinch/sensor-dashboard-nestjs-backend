@@ -31,7 +31,7 @@ describe('CommentController (e2e)', () => {
       .post('/comments')
       .set({ authorization: `Bearer ${userAuth.accessToken}` })
       .send({
-        description: { blocks: [], entityMap: {} },
+        description: "A description",
         topicId: fixture.topicOne.id,
         categoryId: fixture.categoryOne.id,
         name: 'Re: comment',

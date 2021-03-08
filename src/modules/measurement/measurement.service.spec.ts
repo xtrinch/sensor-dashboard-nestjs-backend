@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
-import { getWeek } from 'date-fns';
+import { addSeconds, getWeek } from 'date-fns';
 import { DisplayModule } from '~modules/display/display.module';
 import { ForwarderModule } from '~modules/forwarder/forwarder.module';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
@@ -63,6 +63,22 @@ describe('MeasurementService', () => {
     const data = plainToClass(MeasurementCreateDto, {
       measurement: 12.2,
       measurementType: MeasurementTypeEnum.GAS,
+    });
+    await validateOrReject(data);
+
+    await validateOrReject(data);
+    const measurements = await measurementService.createMultiple(
+      fixture.sensorRequest.sensor,
+      { measurements: [data] },
+    );
+    expect(measurements[0]).toBeDefined();
+  });
+
+  it('should create multiple measurements with timeAgo', async () => {
+    const data = plainToClass(MeasurementCreateDto, {
+      measurement: 12.2,
+      measurementType: MeasurementTypeEnum.GAS,
+      timeAgo: 60*60, // 1hr
     });
     await validateOrReject(data);
 

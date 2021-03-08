@@ -41,7 +41,7 @@ describe('TopicService', () => {
     const data = plainToClass(TopicCreateDto, {
       name: 'A topic name',
       categoryId: fixture.categoryOne.id,
-      description: {},
+      description: "A description",
     });
 
     await validateOrReject(data);
@@ -53,7 +53,7 @@ describe('TopicService', () => {
   it('should update a topic', async () => {
     const data = plainToClass(TopicUpdateDto, {
       name: 'A new location',
-      description: {},
+      description: "A different description",
     });
 
     await validateOrReject(data);

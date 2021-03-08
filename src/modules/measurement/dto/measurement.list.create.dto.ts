@@ -1,5 +1,5 @@
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
-import { ValidateNested, ArrayMinSize } from 'class-validator';
+import { ValidateNested, ArrayMinSize, IsOptional, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class MeasurementListCreateDto {

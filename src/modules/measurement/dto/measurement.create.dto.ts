@@ -1,5 +1,5 @@
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import { IsNumber, IsEnum, IsNotEmpty } from 'class-validator';
+import { IsNumber, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class MeasurementCreateDto {
   @IsNotEmpty()
@@ -8,4 +8,8 @@ export class MeasurementCreateDto {
 
   @IsEnum(MeasurementTypeEnum)
   public measurementType: MeasurementTypeEnum;
+
+  @IsOptional()
+  @IsNumber()
+  public timeAgo?: number; // seconds between measurements
 }

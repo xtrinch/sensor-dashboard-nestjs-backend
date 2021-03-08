@@ -47,8 +47,7 @@ describe('RadioService', () => {
 
     await validateOrReject(data);
     const radio = await radioService.update(
-      fixture.userRequest,
-      fixture.radioOne.id,
+      fixture.radioOne,
       data,
     );
     expect(radio).toBeDefined();
@@ -78,7 +77,7 @@ describe('RadioService', () => {
 
   it('should ping as a radio', async () => {
     const success = await radioService.registerPing(
-      fixture.radioRequest,
+      fixture.radioOne,
     );
 
     expect(success).toEqual(true);

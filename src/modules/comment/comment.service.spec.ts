@@ -39,7 +39,7 @@ describe('CommentService', () => {
 
   it('should create a comment', async () => {
     const data = plainToClass(CommentCreateDto, {
-      description: { entityMap: {}, blocks: [] },
+      description: "A markdown comment",
       topicId: fixture.topicOne.id,
       categoryId: fixture.categoryOne.id,
       name: 'Re: comment',
@@ -53,7 +53,7 @@ describe('CommentService', () => {
 
   it('should update a comment', async () => {
     const data = plainToClass(CommentUpdateDto, {
-      description: { blocks: [], entityMap: {} },
+      description: "A markdown comment",
       name: 'Test',
     });
 
@@ -63,12 +63,15 @@ describe('CommentService', () => {
       data,
     );
     expect(comment).toBeDefined();
-    expect(comment.description).toEqual({ blocks: [], entityMap: {} });
+    expect(comment.description).toEqual("A markdown comment");
   });
 
   it('should list comments', async () => {
     const comments = await commentService.findAll(
-      {},
+      {
+        topicId: fixture.topicOne.id,
+        categoryId: fixture.categoryOne.id,
+      },
       {},
       {
         limit: 20,

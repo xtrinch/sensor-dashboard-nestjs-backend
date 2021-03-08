@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { addSeconds } from 'date-fns';
 import { Display } from '~modules/display/display.entity';
 import { DisplayRequest } from '~modules/display/display.interfaces';
 import { Forwarder } from '~modules/forwarder/forwarder.entity';
@@ -81,12 +82,17 @@ export class MeasurementService {
   ): Promise<Measurement[]> {
     const measurements: Measurement[] = [];
 
-    for (const measurementData of data.measurements) {
+    let idx = 0;
+    for (const measurementData of data.measurements.reverse()) {
       const measurement = new Measurement();
       measurement.measurement = measurementData.measurement;
       measurement.measurementType = measurementData.measurementType;
       measurement.sensor = sensor;
+      if (measurementData.timeAgo) {
+        measurement.createdAt = addSeconds(new Date(), -measurementData.timeAgo);
+      }
       measurements.push(measurement);
+      idx++;
     }
 
     sensor.lastSeenAt = new Date();
