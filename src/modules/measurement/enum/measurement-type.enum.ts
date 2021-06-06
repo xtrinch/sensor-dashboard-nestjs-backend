@@ -5,4 +5,5 @@ export enum MeasurementTypeEnum {
   PRESSURE = 'pressure',
   ALTITUDE = 'altitude',
   BATTERY_VOLTAGE = 'battery-voltage',
+  RAW_BATTERY_VOLTAGE = 'raw-battery-voltage',
 }
