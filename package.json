@@ -56,7 +56,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "swagger-ui-express": "^4.1.6",
-    "tar": "^6.1.2",
+    "tar": "^6.1.9",
     "typeorm": "^0.2.29",
     "uuid": "^8.3.2",
     "validator": "^13.7.0"
