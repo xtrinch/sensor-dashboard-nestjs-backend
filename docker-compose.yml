@@ -33,8 +33,6 @@ services:
       PG_DATA: /var/lib/postgresql/data
     expose:
       - ${TYPEORM_PORT} # Publishes 5433 to other containers but NOT to host machine
-    ports:
-      - ${TYPEORM_PORT}:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
     logging:
