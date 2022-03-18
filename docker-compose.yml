@@ -14,8 +14,8 @@ services:
       - webnet
     depends_on:
       # - postgrestest
-      - iotfreezer-postgres
-      - iotfreezer-mosquitto
+      - postgres
+      - mosquitto
     logging:
       driver: "json-file"
       options:
