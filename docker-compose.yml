@@ -15,7 +15,6 @@ services:
     depends_on:
       # - postgrestest
       - postgres
-      - mosquitto
     logging:
       driver: "json-file"
       options:
@@ -48,6 +47,8 @@ services:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
     ports:
       - 1883:1883
+    networks:
+      - webnet
   # postgrestest:
   #   container_name: postgrestest
   #   image: postgres:12
