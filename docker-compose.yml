@@ -41,6 +41,14 @@ services:
           max-file: "5"
           max-size: "10m"
     command: -p ${TYPEORM_PORT}
+    
+  mosquitto:
+    image: eclipse-mosquitto
+    volumes:
+      - ./:/mosquitto/:rw
+    ports:
+      - 1883:1883
+      - 9001:9001
   # postgrestest:
   #   container_name: postgrestest
   #   image: postgres:12
