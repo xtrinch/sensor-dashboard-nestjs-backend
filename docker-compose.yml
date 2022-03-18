@@ -22,7 +22,7 @@ services:
           max-file: "5"
           max-size: "10m"
   postgres:
-    container_name: postgres
+    container_name: iotfreezer-postgres
     image: postgres:12
     networks:
       - webnet
