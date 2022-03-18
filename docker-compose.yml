@@ -31,6 +31,8 @@ services:
       POSTGRES_USER: ${TYPEORM_USERNAME}
       POSTGRES_DB: ${TYPEORM_DATABASE}
       PG_DATA: /var/lib/postgresql/data
+    expose:
+      - ${TYPEORM_PORT} # Publishes 5433 to other containers but NOT to host machine
     ports:
       - ${TYPEORM_PORT}:5432
     volumes:
@@ -40,6 +42,7 @@ services:
       options:
           max-file: "5"
           max-size: "10m"
+    command: -p 5433
   # postgrestest:
   #   container_name: postgrestest
   #   image: postgres:12
