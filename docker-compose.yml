@@ -41,14 +41,6 @@ services:
           max-file: "5"
           max-size: "10m"
     command: -p ${TYPEORM_PORT}
-  mosquitto:
-    container_name: iotfreezer-mosquitto
-    image: eclipse-mosquitto
-    volumes:
-      - ./:/mosquitto/:rw
-    ports:
-      - 1883:1883
-      - 9001:9001
   # postgrestest:
   #   container_name: postgrestest
   #   image: postgres:12
@@ -66,12 +58,13 @@ services:
   #         max-file: "5"
   #         max-size: "10m"
   mosquitto:
-    container_name: mosquitto
+    container_name: iotfreezer-mosquitto
     image: eclipse-mosquitto:latest
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
     ports:
-      - "1883:1883"
+      - 1883:1883
+      - 9001:9001
     networks:
       - webnet
 networks:
