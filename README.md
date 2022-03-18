@@ -85,6 +85,9 @@ $ yarn run test:cov
 ## Production setup
  
 ```bash
+
+$ cp .prod.env.example .env
+
 # spin up postgres, node and test container
 $ docker-compose up -d
 
