@@ -93,6 +93,7 @@ $ cp .prod.env.example .env
 # - KOOFR_PASSWORD (generate a new koofr password on their dashboard)
 # - JWT_SECRET (generate random)
 # - ADMIN_TOKEN (generate random)
+# - GOOGLE_CLIENT_ID
 
 # spin up postgres, node and test container
 $ docker-compose up -d
