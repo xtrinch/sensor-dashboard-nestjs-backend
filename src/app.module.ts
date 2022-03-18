@@ -22,6 +22,7 @@ import { AppService } from './app.service';
     ForwarderModule,
     TypeOrmModule.forRoot({
       keepConnectionAlive: process.env.TYPEORM_KEEP_CONNECTION_ALIVE === 'true',
+      autoLoadEntities: true,
     }),
     ScheduleModule.forRoot(),
     CategoryModule,
