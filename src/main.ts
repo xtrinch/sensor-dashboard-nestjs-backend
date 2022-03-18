@@ -7,12 +7,14 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.MQTT,
-    options: {
-      url: process.env.MQTT_BROKER_URL,
-    },
-  });
+  if (process.env.DISABLE_MQTT !== 'true') {
+    app.connectMicroservice<MicroserviceOptions>({
+      transport: Transport.MQTT,
+      options: {
+        url: process.env.MQTT_BROKER_URL,
+      },
+    });
+  }
   app.setGlobalPrefix('api');
 
   initPipes(app);
@@ -26,7 +28,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('swagger', app, document);
 
-  await app.startAllMicroservicesAsync();
+  if (process.env.DISABLE_MQTT !== 'true') {
+    await app.startAllMicroservicesAsync();
+  }
   await app.listen(process.env.SERVER_PORT);
 }
 bootstrap();
