@@ -42,7 +42,7 @@ services:
       options:
           max-file: "5"
           max-size: "10m"
-    command: -p 5433
+    command: -p ${TYPEORM_PORT}
   # postgrestest:
   #   container_name: postgrestest
   #   image: postgres:12
