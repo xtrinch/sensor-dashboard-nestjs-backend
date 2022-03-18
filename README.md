@@ -105,6 +105,8 @@ $ sudo docker inspect iotfreezer-postgres | grep "IPAddress"
 $ psql -h 172.25.0.2 -p 5433 -U postgres --dbname=sensor-dashboard
 $ pg_restore --host "172.24.0.3" --port "5433" --username "postgres" --dbname "sensor-dashboard" --verbose --schema "public" backup-production-28-02-2022.dump --disable-triggers --exit-on-error
 
+# use the nginx.default.conf and voila
+
 # backup database in production
 $ docker exec -t postgres pg_dump --no-owner -U postgres sensor-dashboard > ../sensor-dashboard-database-backups/backup
 ```
