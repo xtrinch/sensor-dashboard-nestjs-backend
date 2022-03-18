@@ -41,8 +41,8 @@ services:
           max-file: "5"
           max-size: "10m"
     command: -p ${TYPEORM_PORT}
-    
   mosquitto:
+    container_name: iotfreezer-mosquitto
     image: eclipse-mosquitto
     volumes:
       - ./:/mosquitto/:rw
