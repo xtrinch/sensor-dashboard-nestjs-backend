@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 import { CategoryId } from '~modules/category/category.entity';
 
 export class TopicCreateDto {
@@ -7,9 +7,8 @@ export class TopicCreateDto {
   @IsNotEmpty()
   public name: string;
 
-  @IsNumber()
+  @IsUUID()
   @IsNotEmpty()
-  @Type(() => Number)
   public categoryId: CategoryId;
 
   @IsNotEmpty()

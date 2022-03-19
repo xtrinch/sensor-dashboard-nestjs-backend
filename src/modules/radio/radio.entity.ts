@@ -2,10 +2,10 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User, UserId } from '~modules/user/user.entity';
 import { AbstractIOTDeviceEntity } from '~utils/abstract.iot-device.entity';
 
-export type RadioId = number;
+export type RadioId = string;
 
 export interface RadioWhereInterface {
-  id?: number;
+  id?: string;
   accessToken?: string;
   userId?: UserId;
 }

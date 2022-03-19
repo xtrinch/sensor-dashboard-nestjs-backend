@@ -20,7 +20,11 @@
     "test:cov": "env-cmd -f .env.test jest --coverage",
     "test:debug": "env-cmd -f .env.test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "env-cmd -f .env.test jest --runInBand --config ./jest-e2e.json --testTimeout 99999999 --verbose",
-    "typeorm": "node --require ts-node/register --require tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "typeorm": "node --require ts-node/register --require tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "db:migration:create": "yarn run typeorm migration:create -n",
+		"db:migration:generate": "yarn run typeorm migration:generate -n",
+		"db:migration:run": "yarn run typeorm migration:run",
+		"db:migration:revert": "yarn run typeorm migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.4",

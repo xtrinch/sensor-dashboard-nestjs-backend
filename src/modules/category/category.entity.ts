@@ -3,10 +3,10 @@ import { Comment, CommentId } from '~modules/comment/comment.entity';
 import { Topic, TopicId } from '~modules/topic/topic.entity';
 import { AbstractEntity } from '~utils/abstract.entity';
 
-export type CategoryId = number;
+export type CategoryId = string;
 
 export interface CategoryWhereInterface {
-  id?: number;
+  id?: string;
 }
 
 @Entity()
@@ -30,14 +30,14 @@ export class Category extends AbstractEntity {
 
   public numComments: number;
 
-  @Column({ type: 'integer', nullable: true })
+  @Column({ type: 'uuid', nullable: true })
   public lastCommentId: CommentId;
 
   @ManyToOne(() => Comment, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'lastCommentId' })
   public lastComment: Comment;
 
-  @Column({ type: 'integer', nullable: true })
+  @Column({ type: 'uuid', nullable: true })
   public lastTopicId: TopicId;
 
   @ManyToOne(() => Topic, { onDelete: 'SET NULL' })

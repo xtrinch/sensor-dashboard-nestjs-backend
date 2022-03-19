@@ -6,7 +6,7 @@ import { UserId } from '~modules/user/user.entity';
 import { BoardTypeEnum } from '~utils/board-types.enum';
 
 export class SensorDto {
-  public id: number;
+  public id: string;
   public name: string;
   public displayName: string;
   public boardType: BoardTypeEnum;

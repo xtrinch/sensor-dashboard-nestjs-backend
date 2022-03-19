@@ -5,7 +5,7 @@ import { AbstractDto } from '~utils/abstract.dto';
 import { BoardTypeEnum } from '~utils/board-types.enum';
 
 export class ForwarderDto implements AbstractDto {
-  public id: number;
+  public id: string;
   public name: string;
   public location: string;
   public userId: UserId;

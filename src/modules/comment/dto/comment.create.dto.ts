@@ -2,7 +2,8 @@ import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsNumber,
-  IsString
+  IsString,
+  IsUUID
 } from 'class-validator';
 import { CategoryId } from '~modules/category/category.entity';
 import { TopicId } from '~modules/topic/topic.entity';
@@ -12,12 +13,10 @@ export class CommentCreateDto {
   @IsString()
   public description: string;
 
-  @IsNumber()
-  @Type(() => Number)
+  @IsUUID()
   public topicId?: TopicId;
 
-  @IsNumber()
-  @Type(() => Number)
+  @IsUUID()
   public categoryId?: CategoryId;
 
   @IsString()

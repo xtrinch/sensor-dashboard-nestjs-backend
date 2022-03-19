@@ -6,7 +6,7 @@ import { TopicId } from '~modules/topic/topic.entity';
 import { AbstractDto } from '~utils/abstract.dto';
 
 export class CategoryDto implements AbstractDto {
-  public id: number;
+  public id: string;
   public name: string;
   public description: string;
   public createdAt: Date;

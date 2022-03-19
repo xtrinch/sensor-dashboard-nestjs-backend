@@ -27,7 +27,7 @@ export class CommentService {
     pagination: PaginationQueryDto,
   ): Promise<Pagination<Comment>> {
     const order = {};
-    order[pagination.orderBy] = pagination.orderDir;
+    order[pagination.orderBy || 'createdAt'] = pagination.orderDir || "DESC";
 
     const results = await paginate<Comment>(
       this.commentRepository,

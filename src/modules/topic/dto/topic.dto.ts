@@ -7,7 +7,7 @@ import { UserId } from '~modules/user/user.entity';
 import { AbstractDto } from '~utils/abstract.dto';
 
 export class TopicDto implements AbstractDto {
-  public id: number;
+  public id: string;
   public name: string;
   public userId: UserId;
   public user: UserDto;

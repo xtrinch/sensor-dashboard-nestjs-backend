@@ -3,7 +3,7 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { AbstractSmallEntity } from '~utils/abstract.small.entity';
 
-export type MeasurementId = number;
+export type MeasurementId = string;
 
 @Entity()
 export class Measurement extends AbstractSmallEntity {
@@ -19,8 +19,8 @@ export class Measurement extends AbstractSmallEntity {
   @JoinColumn({ name: 'sensorId' })
   public sensor: Sensor;
 
-  @Column({ type: 'integer' })
-  public sensorId: number;
+  @Column({ type: 'uuid' })
+  public sensorId: string;;
 
   public toString(): string {
     return this.measurementType;

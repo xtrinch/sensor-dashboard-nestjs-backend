@@ -10,12 +10,12 @@ import { AbstractEntity } from '~utils/abstract.entity';
 
 export interface UserWhereInterface {
   username?: string;
-  id?: number;
+  id?: string;
   email?: string;
   sub?: string;
 }
 
-export type UserId = number;
+export type UserId = string;
 
 @Entity()
 export class User extends AbstractEntity {

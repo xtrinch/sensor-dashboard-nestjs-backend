@@ -16,8 +16,8 @@ export abstract class AbstractIOTDeviceEntity extends AbstractEntity {
   @Column({ type: 'varchar' })
   public location: string;
 
-  @Column('integer')
-  public userId: number;
+  @Column({type: 'uuid'})
+  public userId: string;;
 
   @Column({ type: 'varchar' })
   public boardType: BoardTypeEnum;

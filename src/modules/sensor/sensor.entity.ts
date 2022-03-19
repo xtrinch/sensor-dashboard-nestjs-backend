@@ -13,10 +13,10 @@ import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
 import { User, UserId } from '~modules/user/user.entity';
 import { AbstractIOTDeviceEntity } from '~utils/abstract.iot-device.entity';
 
-export type SensorId = number;
+export type SensorId = string;
 
 export interface SensorWhereInterface {
-  id?: number;
+  id?: string;
   accessToken?: string;
   userId?: UserId;
   private?: boolean;

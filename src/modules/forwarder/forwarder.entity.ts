@@ -2,10 +2,10 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User, UserId } from '~modules/user/user.entity';
 import { AbstractIOTDeviceEntity } from '~utils/abstract.iot-device.entity';
 
-export type ForwarderId = number;
+export type ForwarderId = string;
 
 export interface ForwarderWhereInterface {
-  id?: number;
+  id?: string;
   accessToken?: string;
   userId?: UserId;
 }

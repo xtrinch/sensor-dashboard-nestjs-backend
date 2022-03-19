@@ -1,5 +1,5 @@
 export interface AbstractDto {
-  id: number;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
 }

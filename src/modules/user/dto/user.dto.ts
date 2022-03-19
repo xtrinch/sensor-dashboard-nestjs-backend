@@ -3,7 +3,7 @@ import { PermissionsEnum } from '~modules/user/enum/permissions.enum';
 import { User } from '~modules/user/user.entity';
 
 export class UserDto {
-  public id: number;
+  public id: string;
   public username: string;
   public email: string;
   public name: string;
