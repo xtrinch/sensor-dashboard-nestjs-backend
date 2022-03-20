@@ -1,19 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
-import { CategoryModule } from '~modules/category/category.module';
-import { CommentModule } from '~modules/comment/comment.module';
+import { AppModule } from '~app.module';
 import { TopicCreateDto } from '~modules/topic/dto/topic.create.dto';
 import { TopicUpdateDto } from '~modules/topic/dto/topic.update.dto';
-import { Topic } from '~modules/topic/topic.entity';
 import {
   TopicFixture,
   TopicFixtureInterface,
 } from '~modules/topic/topic.fixture';
-import { TopicModule } from '~modules/topic/topic.module';
 import { TopicService } from '~modules/topic/topic.service';
-import { UserModule } from '~modules/user/user.module';
 
 describe('TopicService', () => {
   let topicService: TopicService;
@@ -22,15 +17,7 @@ describe('TopicService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [TopicService],
-      imports: [
-        TopicModule,
-        UserModule,
-        CommentModule,
-        CategoryModule,
-        TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([Topic]),
-      ],
+      imports: [AppModule],
     }).compile();
 
     topicService = module.get<TopicService>(TopicService);
@@ -41,7 +28,7 @@ describe('TopicService', () => {
     const data = plainToClass(TopicCreateDto, {
       name: 'A topic name',
       categoryId: fixture.categoryOne.id,
-      description: "A description",
+      description: 'A description',
     });
 
     await validateOrReject(data);
@@ -53,7 +40,7 @@ describe('TopicService', () => {
   it('should update a topic', async () => {
     const data = plainToClass(TopicUpdateDto, {
       name: 'A new location',
-      description: "A different description",
+      description: 'A different description',
     });
 
     await validateOrReject(data);

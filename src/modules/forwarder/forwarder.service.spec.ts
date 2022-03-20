@@ -1,18 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
+import { AppModule } from '~app.module';
 import { ForwarderCreateDto } from '~modules/forwarder/dto/forwarder.create.dto';
 import { ForwarderUpdateDto } from '~modules/forwarder/dto/forwarder.update.dto';
-import { Forwarder } from '~modules/forwarder/forwarder.entity';
 import {
   ForwarderFixture,
   ForwarderFixtureInterface,
 } from '~modules/forwarder/forwarder.fixture';
-import { ForwarderModule } from '~modules/forwarder/forwarder.module';
 import { ForwarderService } from '~modules/forwarder/forwarder.service';
-import { SensorModule } from '~modules/sensor/sensor.module';
-import { UserModule } from '~modules/user/user.module';
 import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('ForwarderService', () => {
@@ -22,14 +18,7 @@ describe('ForwarderService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [ForwarderService],
-      imports: [
-        ForwarderModule,
-        UserModule,
-        SensorModule,
-        TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([Forwarder]),
-      ],
+      imports: [AppModule],
     }).compile();
 
     forwarderService = module.get<ForwarderService>(ForwarderService);

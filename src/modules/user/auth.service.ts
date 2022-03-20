@@ -19,11 +19,11 @@ export class AuthService {
 
   public async login(user: User, res: Response): Promise<UserAuthInterface> {
     if (!user) {
-      res.cookie('access-token', 'none', {
+      res?.cookie('access-token', 'none', {
         maxAge: -1,
         domain: this.config.domain,
       });
-      res.cookie('refresh-token', 'none', {
+      res?.cookie('refresh-token', 'none', {
         maxAge: -1,
         domain: this.config.domain,
       });
@@ -37,7 +37,7 @@ export class AuthService {
     const payload = { username: newUser.email, sub: newUser.id };
     const accessToken = this.jwtService.sign(payload);
 
-    res.cookie('access-token', accessToken, {
+    res?.cookie('access-token', accessToken, {
       secure: !this.config.isLocal,
       httpOnly: true,
       // expires: new Date(Date.now() + 3600000),
@@ -45,7 +45,7 @@ export class AuthService {
     });
 
     // TODO: actual refresh token
-    res.cookie('refresh-token', accessToken, {
+    res?.cookie('refresh-token', accessToken, {
       secure: !this.config.isLocal,
       // expires: new Date(Date.now() + 3600000 * 24 * 180),
       httpOnly: true,

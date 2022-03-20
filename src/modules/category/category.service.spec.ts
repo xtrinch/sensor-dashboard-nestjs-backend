@@ -1,18 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
-import { Category } from '~modules/category/category.entity';
+import { AppModule } from '~app.module';
 import {
   CategoryFixture,
   CategoryFixtureInterface,
 } from '~modules/category/category.fixture';
-import { CategoryModule } from '~modules/category/category.module';
 import { CategoryService } from '~modules/category/category.service';
 import { CategoryCreateDto } from '~modules/category/dto/category.create.dto';
 import { CategoryUpdateDto } from '~modules/category/dto/category.update.dto';
-import { TopicModule } from '~modules/topic/topic.module';
-import { UserModule } from '~modules/user/user.module';
 
 describe('CategoryService', () => {
   let categoryService: CategoryService;
@@ -21,14 +17,7 @@ describe('CategoryService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [CategoryService],
-      imports: [
-        CategoryModule,
-        UserModule,
-        TopicModule,
-        TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([Category]),
-      ],
+      imports: [AppModule],
     }).compile();
 
     categoryService = module.get<CategoryService>(CategoryService);

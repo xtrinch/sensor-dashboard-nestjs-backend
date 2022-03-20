@@ -1,19 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
-import { CategoryModule } from '~modules/category/category.module';
-import { Comment } from '~modules/comment/comment.entity';
+import { AppModule } from '~app.module';
 import {
   CommentFixture,
   CommentFixtureInterface,
 } from '~modules/comment/comment.fixture';
-import { CommentModule } from '~modules/comment/comment.module';
 import { CommentService } from '~modules/comment/comment.service';
 import { CommentCreateDto } from '~modules/comment/dto/comment.create.dto';
 import { CommentUpdateDto } from '~modules/comment/dto/comment.update.dto';
-import { TopicModule } from '~modules/topic/topic.module';
-import { UserModule } from '~modules/user/user.module';
 
 describe('CommentService', () => {
   let commentService: CommentService;
@@ -22,15 +17,7 @@ describe('CommentService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [CommentService],
-      imports: [
-        CommentModule,
-        UserModule,
-        TopicModule,
-        CategoryModule,
-        TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([Comment]),
-      ],
+      imports: [AppModule],
     }).compile();
 
     commentService = module.get<CommentService>(CommentService);
@@ -39,7 +26,7 @@ describe('CommentService', () => {
 
   it('should create a comment', async () => {
     const data = plainToClass(CommentCreateDto, {
-      description: "A markdown comment",
+      description: 'A markdown comment',
       topicId: fixture.topicOne.id,
       categoryId: fixture.categoryOne.id,
       name: 'Re: comment',
@@ -53,7 +40,7 @@ describe('CommentService', () => {
 
   it('should update a comment', async () => {
     const data = plainToClass(CommentUpdateDto, {
-      description: "A markdown comment",
+      description: 'A markdown comment',
       name: 'Test',
     });
 
@@ -63,7 +50,7 @@ describe('CommentService', () => {
       data,
     );
     expect(comment).toBeDefined();
-    expect(comment.description).toEqual("A markdown comment");
+    expect(comment.description).toEqual('A markdown comment');
   });
 
   it('should list comments', async () => {

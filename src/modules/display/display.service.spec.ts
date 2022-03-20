@@ -1,20 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
-import { Display } from '~modules/display/display.entity';
+import { AppModule } from '~app.module';
 import {
   DisplayFixture,
   DisplayFixtureInterface,
 } from '~modules/display/display.fixture';
-import { DisplayModule } from '~modules/display/display.module';
 import { DisplayService } from '~modules/display/display.service';
 import { DisplayCreateDto } from '~modules/display/dto/display.create.dto';
 import { DisplayUpdateDto } from '~modules/display/dto/display.update.dto';
 import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import { SensorModule } from '~modules/sensor/sensor.module';
-import { UserModule } from '~modules/user/user.module';
 import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('DisplayService', () => {
@@ -24,14 +20,7 @@ describe('DisplayService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [DisplayService],
-      imports: [
-        DisplayModule,
-        UserModule,
-        SensorModule,
-        TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([Display]),
-      ],
+      imports: [AppModule],
     }).compile();
 
     displayService = module.get<DisplayService>(DisplayService);

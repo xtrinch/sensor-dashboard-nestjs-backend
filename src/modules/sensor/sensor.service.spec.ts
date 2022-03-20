@@ -1,18 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
+import { AppModule } from '~app.module';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
 import { SensorUpdateDto } from '~modules/sensor/dto/sensor.update.dto';
 import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
-import { Sensor } from '~modules/sensor/sensor.entity';
 import {
   SensorFixture,
   SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
 import { SensorService } from '~modules/sensor/sensor.service';
-import { UserModule } from '~modules/user/user.module';
 import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('SensorService', () => {
@@ -22,12 +20,7 @@ describe('SensorService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [SensorService],
-      imports: [
-        UserModule,
-        TypeOrmModule.forRoot(),
-        TypeOrmModule.forFeature([Sensor]),
-      ],
+      imports: [AppModule],
     }).compile();
 
     sensorService = module.get<SensorService>(SensorService);
