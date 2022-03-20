@@ -2,7 +2,6 @@ import { INestApplication } from '@nestjs/common';
 import { NestApplicationContext } from '@nestjs/core';
 import { plainToClass } from 'class-transformer';
 import { v4 } from 'uuid';
-import { AuthService } from '~modules/user/auth.service';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
 import { UserUpdateDto } from '~modules/user/dto/user.update.dto';
 import { GroupEnum } from '~modules/user/enum/group.enum';
@@ -43,8 +42,9 @@ export async function UserFixture(
   );
 
   const userAuth = async () => {
-    const authService = await module.get<AuthService>(AuthService);
-    return authService.login(userOne);
+    return {
+      user: userOne,
+    };
   };
 
   const userRequest = {
