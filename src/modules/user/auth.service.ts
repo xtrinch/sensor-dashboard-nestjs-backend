@@ -1,7 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { OAuth2Client, TokenPayload } from 'google-auth-library';
+import { Response } from 'express';
+import { CONFIG, Config } from '~modules/config/config.factory';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
 import { User } from '~modules/user/user.entity';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
@@ -10,20 +11,48 @@ import { UserService } from './user.service';
 
 @Injectable()
 export class AuthService {
-  private client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
   constructor(
     private usersService: UserService,
     private jwtService: JwtService,
+    @Inject(CONFIG) private config: Config,
   ) {}
 
-  public async login(user: User): Promise<UserAuthInterface> {
+  public async login(user: User, res: Response): Promise<UserAuthInterface> {
+    if (!user) {
+      res.cookie('access-token', 'none', {
+        maxAge: -1,
+        domain: this.config.domain,
+      });
+      res.cookie('refresh-token', 'none', {
+        maxAge: -1,
+        domain: this.config.domain,
+      });
+
+      return;
+    }
+
     user.lastSeenAt = new Date();
     const newUser = await User.save(user);
 
     const payload = { username: newUser.email, sub: newUser.id };
+    const accessToken = this.jwtService.sign(payload);
+
+    res.cookie('access-token', accessToken, {
+      secure: !this.config.isLocal,
+      httpOnly: true,
+      // expires: new Date(Date.now() + 3600000),
+      domain: this.config.domain,
+    });
+
+    // TODO: actual refresh token
+    res.cookie('refresh-token', accessToken, {
+      secure: !this.config.isLocal,
+      // expires: new Date(Date.now() + 3600000 * 24 * 180),
+      httpOnly: true,
+      domain: this.config.domain,
+    });
+
     return {
-      accessToken: this.jwtService.sign(payload),
       user: newUser,
     };
   }
@@ -64,14 +93,5 @@ export class AuthService {
 
     user.password = undefined;
     return user;
-  }
-
-  public async verifyIdToken(token: string): Promise<TokenPayload> {
-    const ticket = await this.client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-    const payload: TokenPayload = ticket.getPayload();
-    return payload;
   }
 }

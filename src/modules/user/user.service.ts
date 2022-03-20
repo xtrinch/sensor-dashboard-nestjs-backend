@@ -39,6 +39,16 @@ export class UserService {
     }
   }
 
+  async getOrCreateUser(where: UserWhereInterface): Promise<User> {
+    let user = await this.userRepository.findOne(where);
+
+    if (!user) {
+      user = await this.userRepository.create(where);
+    }
+
+    return user;
+  }
+
   async create(data: UserCreateDto): Promise<User> {
     const user = new User();
     user.username = data.username;

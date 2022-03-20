@@ -13,6 +13,7 @@ export interface UserWhereInterface {
   id?: string;
   email?: string;
   sub?: string;
+  name?: string;
 }
 
 export type UserId = string;

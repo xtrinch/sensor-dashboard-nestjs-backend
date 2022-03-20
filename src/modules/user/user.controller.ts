@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Query,
+  Request,
 } from '@nestjs/common';
 import AuthGuard from '~modules/user/auth.decorator';
 import { UserDto } from '~modules/user/dto/user.dto';
@@ -15,10 +16,18 @@ import { User, UserId } from '~modules/user/user.entity';
 import { UserService } from '~modules/user/user.service';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
+import { UserRequest } from './jwt.guard';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @AuthGuard()
+  @Get('/me')
+  public async getMe(@Request() request: UserRequest): Promise<UserDto> {
+    const category = await this.userService.find({ id: request.user.id });
+    return UserDto.fromUser(category);
+  }
 
   @Get()
   public async findAll(

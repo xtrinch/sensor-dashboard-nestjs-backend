@@ -10,7 +10,7 @@ import {
   Put,
   Query,
   Request,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { Ctx, MessagePattern } from '@nestjs/microservices';
 import { Radio, RadioId } from '~/modules/radio/radio.entity';
@@ -19,7 +19,10 @@ import { RadioCreateDto } from '~modules/radio/dto/radio.create.dto';
 import { RadioDetailsDto } from '~modules/radio/dto/radio.details.dto';
 import { RadioDto } from '~modules/radio/dto/radio.dto';
 import { RadioUpdateDto } from '~modules/radio/dto/radio.update.dto';
-import { RadioMqttContext, RadioMqttGuard } from '~modules/radio/radio.mqtt.guard';
+import {
+  RadioMqttContext,
+  RadioMqttGuard,
+} from '~modules/radio/radio.mqtt.guard';
 import AuthGuard from '~modules/user/auth.decorator';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
@@ -78,7 +81,7 @@ export class RadioController {
     @Param('id') id: RadioId,
     @Request() request: UserRequest,
   ): Promise<RadioDetailsDto> {
-    let radio = await this.radioService.find({id});
+    let radio = await this.radioService.find({ id });
     if (radio.userId !== request.user?.id) {
       throw new ForbiddenException();
     }
@@ -116,9 +119,7 @@ export class RadioController {
   @AuthGuard()
   @Post('/:id/send-config')
   @HttpCode(200)
-  public async sendConfig(
-    @Param('id') id: RadioId,
-  ): Promise<void> {
+  public async sendConfig(@Param('id') id: RadioId): Promise<void> {
     await this.radioService.sendConfigToRadio(id);
   }
 
@@ -126,26 +127,23 @@ export class RadioController {
   @AuthGuard()
   @Post('/:id/request-config')
   @HttpCode(200)
-  public async requestConfig(
-    @Param('id') id: RadioId,
-  ): Promise<void> {
+  public async requestConfig(@Param('id') id: RadioId): Promise<void> {
     await this.radioService.requestConfigFromRadio(id);
   }
 
   // accept data from radio
   @MessagePattern('radios/upstream/#')
   @UseGuards(RadioMqttGuard)
-  public async configureRadio(
-    @Ctx() context: RadioMqttContext,
-  ): Promise<void> {
-    const data = context.payload as { type: string, payload: any };
-    console.log(data);
-    switch(data.type) {
+  public async configureRadio(@Ctx() context: RadioMqttContext): Promise<void> {
+    const data = context.payload as { type: string; payload: any };
+    switch (data.type) {
       case 'ping':
         this.radioService.registerPing(context.radio);
         break;
       case 'config':
-        this.radioService.patch(context.radio, { config: JSON.parse(data.payload) });
+        this.radioService.patch(context.radio, {
+          config: JSON.parse(data.payload),
+        });
         break;
     }
   }

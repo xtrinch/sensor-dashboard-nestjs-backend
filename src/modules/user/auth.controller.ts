@@ -1,11 +1,19 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Request,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { Response } from 'express';
 import { AuthService } from '~modules/user/auth.service';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
 import { UserDto } from '~modules/user/dto/user.dto';
 import { UserLoginDto } from '~modules/user/dto/user.login.dto';
-import { GoogleAuthGuard } from '~modules/user/google.guard';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { LocalGuard } from '~modules/user/local.guard';
+import AuthGuard from './auth.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -16,32 +24,20 @@ export class AuthController {
   async login(
     @Body() data: UserLoginDto,
     @Request() req: UserRequest,
-  ): Promise<{
-    accessToken: string;
-    user: UserDto;
-  }> {
-    const { accessToken, user } = await this.authService.login(req.user);
+    @Res() res: Response,
+  ): Promise<void> {
+    const { user } = await this.authService.login(req.user, res);
 
-    return {
-      accessToken,
+    res.send({
       user: UserDto.fromUser(user),
-    };
+    });
   }
 
-  @UseGuards(GoogleAuthGuard)
-  @Post('google-login')
-  async loginWithGoogle(
-    @Request() req: UserRequest,
-  ): Promise<{
-    accessToken: string;
-    user: UserDto;
-  }> {
-    const { accessToken, user } = await this.authService.login(req.user);
-
-    return {
-      accessToken,
-      user: UserDto.fromUser(user),
-    };
+  @AuthGuard()
+  @Post('logout')
+  async logout(@Res() res: Response): Promise<void> {
+    await this.authService.login(null, res);
+    res.send();
   }
 
   @Post('register')

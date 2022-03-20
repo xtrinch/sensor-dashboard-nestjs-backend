@@ -1,0 +1,14 @@
+{
+    "remote.extensionKind": {
+        "ms-vscode-remote.remote-containers": [ "ui" ],
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[typescript]": {
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+      },
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+}
