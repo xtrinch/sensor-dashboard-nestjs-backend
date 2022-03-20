@@ -1,13 +1,12 @@
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AppModule } from '~app.module';
 import {
   CommentFixture,
   CommentFixtureInterface,
 } from '~modules/comment/comment.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
+import { createTestingApp } from '~utils/test-utils';
 
 describe('CommentController (e2e)', () => {
   let app: INestApplication;
@@ -15,11 +14,8 @@ describe('CommentController (e2e)', () => {
   let userAuth: UserAuthInterface;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    app = await createTestingApp();
 
-    app = moduleFixture.createNestApplication();
     initPipes(app);
     await app.init();
     fixture = await CommentFixture(app);
@@ -29,9 +25,9 @@ describe('CommentController (e2e)', () => {
   it('/comments (POST)', () => {
     return request(app.getHttpServer())
       .post('/comments')
-      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .set({ authorization: userAuth.user.id })
       .send({
-        description: "A description",
+        description: 'A description',
         topicId: fixture.topicOne.id,
         categoryId: fixture.categoryOne.id,
         name: 'Re: comment',

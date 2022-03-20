@@ -1,14 +1,13 @@
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AppModule } from '~app.module';
 import {
   RadioFixture,
-  RadioFixtureInterface
+  RadioFixtureInterface,
 } from '~modules/radio/radio.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
 import { BoardTypeEnum } from '~utils/board-types.enum';
+import { createTestingApp } from '~utils/test-utils';
 
 describe('RadioController (e2e)', () => {
   let app: INestApplication;
@@ -16,11 +15,8 @@ describe('RadioController (e2e)', () => {
   let userAuth: UserAuthInterface;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    app = await createTestingApp();
 
-    app = moduleFixture.createNestApplication();
     initPipes(app);
     await app.init();
     fixture = await RadioFixture(app);
@@ -30,7 +26,7 @@ describe('RadioController (e2e)', () => {
   it('/radios (POST)', () => {
     return request(app.getHttpServer())
       .post('/radios')
-      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .set({ authorization: userAuth.user.id })
       .send({
         name: 'Test radio',
         boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
@@ -46,7 +42,7 @@ describe('RadioController (e2e)', () => {
   it('/radios/my (GET)', async () => {
     const response = await request(app.getHttpServer())
       .get('/radios/my')
-      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .set({ authorization: userAuth.user.id })
       .expect(200);
 
     expect(response.body.items.length).toBeGreaterThan(0);

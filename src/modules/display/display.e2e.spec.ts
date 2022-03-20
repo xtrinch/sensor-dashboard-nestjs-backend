@@ -1,7 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AppModule } from '~app.module';
 import {
   DisplayFixture,
   DisplayFixtureInterface,
@@ -11,6 +9,7 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
 import { BoardTypeEnum } from '~utils/board-types.enum';
+import { createTestingApp } from '~utils/test-utils';
 
 describe('DisplayController (e2e)', () => {
   let app: INestApplication;
@@ -18,11 +17,8 @@ describe('DisplayController (e2e)', () => {
   let userAuth: UserAuthInterface;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    app = await createTestingApp();
 
-    app = moduleFixture.createNestApplication();
     initPipes(app);
     await app.init();
     fixture = await DisplayFixture(app);
@@ -32,7 +28,7 @@ describe('DisplayController (e2e)', () => {
   it('/displays (POST)', () => {
     return request(app.getHttpServer())
       .post('/displays')
-      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .set({ authorization: userAuth.user.id })
       .send({
         name: 'Test display',
         displayName: 'Test display',
@@ -52,7 +48,7 @@ describe('DisplayController (e2e)', () => {
   it('/displays/my (GET)', async () => {
     const response = await request(app.getHttpServer())
       .get('/displays/my')
-      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .set({ authorization: userAuth.user.id })
       .expect(200);
 
     expect(response.body.items.length).toBeGreaterThan(0);

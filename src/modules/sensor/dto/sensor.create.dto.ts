@@ -33,8 +33,8 @@ export class SensorCreateDto {
   @Validate(TimezoneValidator)
   public timezone: string;
 
-  @IsBoolean()
   @Type(() => Boolean)
+  @IsBoolean()
   public private: boolean;
 
   @IsArray()

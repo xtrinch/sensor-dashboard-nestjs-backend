@@ -22,7 +22,7 @@ export async function SensorFixture(
   if (dedupe.sensorOne) return dedupe;
   const userFixture = await UserFixture(module, dedupe);
 
-  const sensorService = await module.get<SensorService>(SensorService);
+  const sensorService = module.get<SensorService>(SensorService);
 
   const sensorOne = await sensorService.create(
     userFixture.userRequest,

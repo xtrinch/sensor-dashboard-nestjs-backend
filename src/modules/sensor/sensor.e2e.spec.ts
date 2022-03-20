@@ -1,7 +1,6 @@
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
+import 'reflect-metadata';
 import * as request from 'supertest';
-import { AppModule } from '~app.module';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
 import {
@@ -11,6 +10,7 @@ import {
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
 import { BoardTypeEnum } from '~utils/board-types.enum';
+import { createTestingApp } from '~utils/test-utils';
 
 describe('SensorController (e2e)', () => {
   let app: INestApplication;
@@ -18,11 +18,8 @@ describe('SensorController (e2e)', () => {
   let userAuth: UserAuthInterface;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    app = await createTestingApp();
 
-    app = moduleFixture.createNestApplication();
     initPipes(app);
     await app.init();
     fixture = await SensorFixture(app);
@@ -32,7 +29,7 @@ describe('SensorController (e2e)', () => {
   it('/sensors (POST)', () => {
     return request(app.getHttpServer())
       .post('/sensors')
-      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .set({ authorization: userAuth.user.id })
       .send({
         name: 'Test sensor',
         displayName: 'Test sensor',
@@ -53,7 +50,7 @@ describe('SensorController (e2e)', () => {
   it('/sensors/my (GET)', async () => {
     const response = await request(app.getHttpServer())
       .get('/sensors/my')
-      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .set({ authorization: userAuth.user.id })
       .expect(200);
 
     expect(response.body.items.length).toBeGreaterThan(0);

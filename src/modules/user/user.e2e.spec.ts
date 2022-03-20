@@ -1,13 +1,12 @@
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import { plainToClass } from 'class-transformer';
 import * as request from 'supertest';
-import { AppModule } from '~app.module';
 import { UserUpdateDto } from '~modules/user/dto/user.update.dto';
 import { GroupEnum } from '~modules/user/enum/group.enum';
 import { UserFixture, UserFixtureInterface } from '~modules/user/user.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
+import { createTestingApp } from '~utils/test-utils';
 
 describe('SensorController (e2e)', () => {
   let app: INestApplication;
@@ -15,11 +14,8 @@ describe('SensorController (e2e)', () => {
   let userAuth: UserAuthInterface;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    app = await createTestingApp();
 
-    app = moduleFixture.createNestApplication();
     initPipes(app);
     await app.init();
     fixture = await UserFixture(app);
@@ -37,7 +33,7 @@ describe('SensorController (e2e)', () => {
   it('/users/:id (PUT)', async () => {
     const response = await request(app.getHttpServer())
       .put(`/users/${fixture.userOne.id}`)
-      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .set({ authorization: userAuth.user.id })
       .send(plainToClass(UserUpdateDto, { group: GroupEnum.ADMIN }))
       .expect(200);
 
@@ -47,7 +43,7 @@ describe('SensorController (e2e)', () => {
   it('/users/:id (DELETE)', async () => {
     await request(app.getHttpServer())
       .delete(`/users/${fixture.userOne.id}`)
-      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .set({ authorization: userAuth.user.id })
       .expect(200);
   });
 

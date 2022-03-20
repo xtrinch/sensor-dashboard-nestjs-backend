@@ -1,13 +1,12 @@
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AppModule } from '~app.module';
 import {
   CategoryFixture,
   CategoryFixtureInterface,
 } from '~modules/category/category.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
+import { createTestingApp } from '~utils/test-utils';
 
 describe('CategoryController (e2e)', () => {
   let app: INestApplication;
@@ -15,11 +14,7 @@ describe('CategoryController (e2e)', () => {
   let userAuth: UserAuthInterface;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
+    app = await createTestingApp();
     initPipes(app);
     await app.init();
     fixture = await CategoryFixture(app);
@@ -29,7 +24,7 @@ describe('CategoryController (e2e)', () => {
   it('/categories (POST)', () => {
     return request(app.getHttpServer())
       .post('/categories')
-      .set({ authorization: `Bearer ${userAuth.accessToken}` })
+      .set({ authorization: userAuth.user.id })
       .send({
         name: 'A category',
         protected: false,

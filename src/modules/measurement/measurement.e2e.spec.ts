@@ -1,7 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AppModule } from '~app.module';
 import { DisplayAuthInterface } from '~modules/display/display.interfaces';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import {
@@ -9,6 +7,7 @@ import {
   MeasurementFixtureInterface,
 } from '~modules/measurement/measurement.fixture';
 import { initPipes } from '~utils/app.utils';
+import { createTestingApp } from '~utils/test-utils';
 
 describe('MeasurementController (e2e)', () => {
   let app: INestApplication;
@@ -16,11 +15,7 @@ describe('MeasurementController (e2e)', () => {
   let displayAuth: DisplayAuthInterface;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
+    app = await createTestingApp();
 
     initPipes(app);
 
