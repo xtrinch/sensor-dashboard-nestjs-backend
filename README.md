@@ -94,7 +94,9 @@ $ cp .prod.env.example .env
 # - JWT_SECRET (generate random)
 # - ADMIN_TOKEN (generate random)
 # - GOOGLE_CLIENT_ID
+# - GOOGLE_SECRET
 # - TYPEORM_PASSWORD
+# - PGPASSWORD
 
 # spin up postgres, node and test container
 $ docker-compose up -d
