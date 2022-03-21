@@ -32,10 +32,15 @@ export class BackupService {
     }
 
     const client = new Koofr(this.config.backup.apiBase);
-    await client.authenticate(
-      this.config.backup.email,
-      this.config.backup.password,
-    );
+    try {
+      await client.authenticate(
+        this.config.backup.email,
+        this.config.backup.password,
+      );
+    } catch (e) {
+      console.log(e);
+      this.logger.error('Koofr authentication failed');
+    }
 
     // get the mount point
     const mounts = await client.mounts();
