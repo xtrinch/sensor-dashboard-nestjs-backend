@@ -23,7 +23,7 @@ export class BackupService {
   constructor(@Inject(CONFIG) public config: Config) {}
 
   //@Cron('0 12 * * MON')
-  @Cron('0 16 * * *') // every day at 4pm
+  @Cron('0 14 * * *') // every day at 2pm
   // @Cron('45 * * * * *') // every 45 seconds
   async backupDatabase(): Promise<void> {
     if (!this.config.backup.apiBase) {
