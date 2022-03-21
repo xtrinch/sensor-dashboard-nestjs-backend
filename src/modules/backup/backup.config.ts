@@ -1,5 +1,5 @@
 import { plainToClass } from 'class-transformer';
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class BackupConfig {
   @IsString()
@@ -23,8 +23,8 @@ export class BackupConfig {
   password: string;
 
   @IsOptional()
-  @IsString()
-  removeOlderThan: string;
+  @IsNumber()
+  removeOlderThan: number;
 }
 
 export const backupConfigFactory = () => {
@@ -36,7 +36,7 @@ export const backupConfigFactory = () => {
     filename: env.KOOFR_FILENAME,
     folder: env.KOOFR_FOLDER,
     password: env.KOOFR_PASSWORD,
-    removeOlderThan: env.KOOFR_REMOVE_OLDER_THAN,
+    removeOlderThan: parseInt(env.KOOFR_REMOVE_OLDER_THAN),
   });
 
   return config;

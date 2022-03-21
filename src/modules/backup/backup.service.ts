@@ -81,7 +81,7 @@ export class BackupService {
       const dateModified = fromUnixTime(file.modified / 1000);
       if (
         differenceInMinutes(new Date(), dateModified) >
-          parseInt(this.config.backup.removeOlderThan, 10) &&
+          this.config.backup.removeOlderThan &&
         file.name.includes(process.env.NODE_ENV) // make sure we don't delete production files from development
       ) {
         this.logger.debug('Removing file ' + file.name);
