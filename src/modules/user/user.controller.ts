@@ -25,8 +25,8 @@ export class UserController {
   @AuthGuard()
   @Get('/me')
   public async getMe(@Request() request: UserRequest): Promise<UserDto> {
-    const category = await this.userService.find({ id: request.user.id });
-    return UserDto.fromUser(category);
+    const user = await this.userService.find({ id: request.user.id });
+    return UserDto.fromUser(user);
   }
 
   @Get()
