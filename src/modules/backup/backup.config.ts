@@ -1,28 +1,28 @@
 import { plainToClass } from 'class-transformer';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString, ValidateIf } from 'class-validator';
 
 export class BackupConfig {
   @IsString()
   @IsOptional()
   apiBase: string;
 
-  @IsOptional()
   @IsString()
+  @ValidateIf((o) => !!o.apiBase)
   email: string;
 
-  @IsOptional()
+  @ValidateIf((o) => !!o.apiBase)
   @IsString()
   filename: string;
 
-  @IsOptional()
+  @ValidateIf((o) => !!o.apiBase)
   @IsString()
   folder: string;
 
-  @IsOptional()
+  @ValidateIf((o) => !!o.apiBase)
   @IsString()
   password: string;
 
-  @IsOptional()
+  @ValidateIf((o) => !!o.apiBase)
   @IsNumber()
   removeOlderThan: number;
 }
