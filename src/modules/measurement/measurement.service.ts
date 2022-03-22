@@ -10,6 +10,7 @@ import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.
 import {
   DisplayMeasurementAggregateInterface,
   MeasurementAggregateInterface,
+  MeasurementWhereInterface,
 } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { Sensor } from '~modules/sensor/sensor.entity';
@@ -51,6 +52,13 @@ export class MeasurementService {
     return results;
   }
 
+  public async getLatest(
+    where: MeasurementWhereInterface,
+  ): Promise<DisplayMeasurementAggregateInterface> {
+    const results = await this.measurementRepository.getLatest(where);
+    return results;
+  }
+
   public async create(
     request: SensorRequest,
     data: MeasurementCreateDto,
@@ -89,7 +97,10 @@ export class MeasurementService {
       measurement.measurementType = measurementData.measurementType;
       measurement.sensor = sensor;
       if (measurementData.timeAgo) {
-        measurement.createdAt = addSeconds(new Date(), -measurementData.timeAgo);
+        measurement.createdAt = addSeconds(
+          new Date(),
+          -measurementData.timeAgo,
+        );
       }
       measurements.push(measurement);
       idx++;

@@ -32,7 +32,7 @@ export class SensorController {
       {
         private: false,
       },
-      pagination,
+      { pagination },
     );
 
     return PaginationDto.fromPagination<Sensor, SensorDto>(
@@ -51,7 +51,7 @@ export class SensorController {
       {
         userId: request.user?.id,
       },
-      pagination,
+      { pagination, fetchLatestMeasurements: true },
     );
 
     return PaginationDto.fromPagination<Sensor, SensorDetailsDto>(

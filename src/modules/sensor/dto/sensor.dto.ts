@@ -1,4 +1,5 @@
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import { Measurement } from '~modules/measurement/measurement.entity';
 import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { UserDto } from '~modules/user/dto/user.dto';
@@ -18,6 +19,9 @@ export class SensorDto {
   public lastSeenAt: Date;
   public private: boolean;
   public sensorTypes: SensorTypeEnum[];
+  public lastMeasurements?: {
+    [MeasurementTypeEnum: string]: Measurement;
+  };
 
   public static fromSensor(sensor: Sensor): SensorDto {
     return {
@@ -33,6 +37,7 @@ export class SensorDto {
       lastSeenAt: sensor.lastSeenAt,
       private: sensor.private,
       sensorTypes: sensor.sensorTypes,
+      lastMeasurements: sensor.lastMeasurements,
     };
   }
 }

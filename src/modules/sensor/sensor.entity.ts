@@ -57,6 +57,10 @@ export class Sensor extends AbstractIOTDeviceEntity {
   @Column('text', { nullable: true })
   public testSquash: string;
 
+  public lastMeasurements?: {
+    [MeasurementTypeEnum: string]: Measurement;
+  };
+
   public toString(): string {
     return this.name;
   }

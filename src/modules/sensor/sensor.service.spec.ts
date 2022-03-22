@@ -3,20 +3,20 @@ import { plainToClass } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
 import { AppModule } from '~app.module';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
+import {
+  MeasurementFixture,
+  MeasurementFixtureInterface,
+} from '~modules/measurement/measurement.fixture';
 import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
 import { SensorUpdateDto } from '~modules/sensor/dto/sensor.update.dto';
 import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
-import {
-  SensorFixture,
-  SensorFixtureInterface,
-} from '~modules/sensor/sensor.fixture';
 import { SensorService } from '~modules/sensor/sensor.service';
 import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('SensorService', () => {
   let sensorService: SensorService;
   let module: TestingModule = null;
-  let fixture: SensorFixtureInterface;
+  let fixture: MeasurementFixtureInterface;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -24,7 +24,7 @@ describe('SensorService', () => {
     }).compile();
 
     sensorService = module.get<SensorService>(SensorService);
-    fixture = await SensorFixture(module);
+    fixture = await MeasurementFixture(module);
   }, 20000);
 
   it('should create a sensor', async () => {
@@ -66,12 +66,30 @@ describe('SensorService', () => {
     const sensors = await sensorService.findAll(
       {},
       {
-        limit: 20,
-        page: 1,
+        pagination: {
+          limit: 20,
+          page: 1,
+        },
       },
     );
 
     expect(sensors.items.length).not.toBe(0);
+  });
+
+  it('should list sensors with latest measurements', async () => {
+    const sensors = await sensorService.findAll(
+      {},
+      {
+        pagination: {
+          limit: 20,
+          page: 1,
+        },
+        fetchLatestMeasurements: true,
+      },
+    );
+
+    expect(sensors.items.length).not.toBe(0);
+    expect(Object.keys(sensors.items[0].lastMeasurements).length).not.toBe(0);
   });
 
   it('should delete a sensor', async () => {

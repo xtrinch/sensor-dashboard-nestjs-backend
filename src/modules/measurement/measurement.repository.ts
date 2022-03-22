@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { compact } from 'lodash';
 import { EntityRepository, Repository } from 'typeorm';
 import { Measurement } from '~modules/measurement/measurement.entity';
 import {
@@ -26,14 +27,16 @@ export class MeasurementRepository extends Repository<Measurement> {
         last_value("location") OVER w as "location"
         FROM "measurement"
         LEFT JOIN "sensor" on "sensor".id = "measurement"."sensorId"
-        WHERE "measurementType" = ANY ($2) AND "sensorId" = ANY ($1) AND
+        WHERE ${
+          where.measurementTypes ? `"measurementType" = ANY ($2) AND` : ''
+        } "sensorId" = ANY ($1) AND
         "measurement"."createdAt" > NOW() - INTERVAL '1 days'
         WINDOW w AS (
           PARTITION BY "sensorId", "measurementType" ORDER BY "measurement"."createdAt"::timestamptz ASC
           ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
         );
     `,
-      [where.sensorIds, where.measurementTypes],
+      compact([where.sensorIds, where.measurementTypes]),
     );
 
     const res = r.reduce(

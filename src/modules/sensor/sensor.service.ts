@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
+import { MeasurementService } from '~modules/measurement/measurement.service';
 import { SensorCreateDto } from '~modules/sensor/dto/sensor.create.dto';
 import { SensorUpdateDto } from '~modules/sensor/dto/sensor.update.dto';
 import { UserRequest } from '~modules/user/jwt.guard';
@@ -17,15 +18,33 @@ export class SensorService {
   constructor(
     @InjectRepository(Sensor)
     private sensorRepository: Repository<Sensor>,
+    private measurementService: MeasurementService,
   ) {}
 
   public async findAll(
     where: SensorWhereInterface,
-    pagination: PaginationQueryDto,
+    options: {
+      pagination?: PaginationQueryDto;
+      fetchLatestMeasurements?: boolean;
+    } = {},
   ): Promise<Pagination<Sensor>> {
-    const results = await paginate<Sensor>(this.sensorRepository, pagination, {
-      where,
-    });
+    const results = await paginate<Sensor>(
+      this.sensorRepository,
+      options.pagination,
+      {
+        where,
+      },
+    );
+
+    if (options.fetchLatestMeasurements) {
+      const measurements = await this.measurementService.getLatest({
+        sensorIds: results.items.map((s) => s.id),
+      });
+
+      results.items.map((res) => {
+        res.lastMeasurements = measurements[res.id]?.measurements || {};
+      });
+    }
 
     return results;
   }

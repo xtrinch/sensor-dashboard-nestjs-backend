@@ -8,7 +8,7 @@ import { RangeGroupByEnum } from '~utils/date.range';
 export interface MeasurementWhereInterface {
   from?: Date;
   to?: Date;
-  measurementTypes: MeasurementTypeEnum[];
+  measurementTypes?: MeasurementTypeEnum[];
   groupBy?: RangeGroupByEnum;
   sensorIds: SensorId[];
 }
