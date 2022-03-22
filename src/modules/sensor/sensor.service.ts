@@ -1,5 +1,7 @@
 import {
   ForbiddenException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -18,6 +20,7 @@ export class SensorService {
   constructor(
     @InjectRepository(Sensor)
     private sensorRepository: Repository<Sensor>,
+    @Inject(forwardRef(() => MeasurementService))
     private measurementService: MeasurementService,
   ) {}
 
