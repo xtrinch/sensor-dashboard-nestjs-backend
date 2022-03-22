@@ -32,8 +32,6 @@ For detailed API documentation (swagger docs) see `http://localhost:3000/swagger
  `/measurements/display`| POST   | Yes - Display token |                                              | Get latest measurements configured for a display
  `/displays/my`         | GET    | Yes - User token    |                                              | List all displays for user
  `/displays`            | POST   | Yes - User token    |                                              | Create a display entry
- `/forwarders/my`       | GET    | Yes - User token    |                                              | List all forwarders for user
- `/forwarders`          | POST   | Yes - User token    |                                              | Create a forwarder entry
 
 ## MQTT
 
