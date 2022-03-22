@@ -42,7 +42,9 @@ export class SensorService {
       });
 
       results.items.map((res) => {
-        res.lastMeasurements = measurements[res.id]?.measurements || {};
+        res.lastMeasurements = Object.values(
+          measurements[res.id]?.measurements || {},
+        );
       });
     }
 

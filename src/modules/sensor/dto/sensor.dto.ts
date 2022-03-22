@@ -19,9 +19,7 @@ export class SensorDto {
   public lastSeenAt: Date;
   public private: boolean;
   public sensorTypes: SensorTypeEnum[];
-  public lastMeasurements?: {
-    [MeasurementTypeEnum: string]: Measurement;
-  };
+  public lastMeasurements?: Measurement[];
 
   public static fromSensor(sensor: Sensor): SensorDto {
     return {

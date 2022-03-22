@@ -89,7 +89,7 @@ describe('SensorService', () => {
     );
 
     expect(sensors.items.length).not.toBe(0);
-    expect(Object.keys(sensors.items[0].lastMeasurements).length).not.toBe(0);
+    expect(sensors.items[0].lastMeasurements.length).not.toBe(0);
   });
 
   it('should delete a sensor', async () => {
