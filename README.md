@@ -69,6 +69,8 @@ Migrations are run automagically upon server start.
 
 ## Test
 
+If running tests locally, make sure to add `127.0.0.1 postgrestest` to /etc/hosts.
+
 ```bash
 # unit tests
 $ yarn run test
@@ -78,6 +80,9 @@ $ yarn run test:e2e
 
 # test coverage
 $ yarn run test:cov
+
+# run via docker-compose
+$  docker-compose --env-file .env.test --profile testing up --exit-code-from backendtest 
 ```
 
 ## Production setup
@@ -97,7 +102,7 @@ $ cp .prod.env.example .env
 # - PGPASSWORD
 
 # spin up postgres, node and test container
-$ docker-compose up -d
+$ docker-compose --profile run up -d
 
 # restore database, winscp the backup into your server first
 $ sudo docker inspect iotfreezer-postgres | grep "IPAddress"
