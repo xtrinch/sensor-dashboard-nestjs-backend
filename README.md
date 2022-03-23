@@ -13,7 +13,6 @@ See also [frontend](https://github.com/xtrinch/sensor-dashboard-react-frontend) 
 ```bash
 $ yarn install
 $ cp .env.example .env
-$ cp .env.test.example .env.test
 ```
 Fill out database credentials in newly created .env files.
 
