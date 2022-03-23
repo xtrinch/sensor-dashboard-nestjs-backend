@@ -35,6 +35,6 @@ lerna-debug.log*
 
 .env
 .env*
-!.env.test
 !*.example
+!.env.test
 *.dump
