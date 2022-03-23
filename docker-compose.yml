@@ -11,7 +11,7 @@ services:
       - "127.0.0.1:${DOCKER_MAPPED_PORT}:${SERVER_PORT}"
     command: yarn run start
     env_file:
-      - .env
+      - ${ENV_FILE}
     networks:
       - webnet
     depends_on:
@@ -64,7 +64,7 @@ services:
       - "127.0.0.1:${DOCKER_MAPPED_PORT_TEST}:${SERVER_PORT}"
     command: bash -c 'while !</dev/tcp/postgrestest/${TYPEORM_PORT}; do sleep 1; done; yarn run test'
     env_file:
-      - .env.test
+      - ${ENV_FILE}
     networks:
       - webnet
     depends_on:
