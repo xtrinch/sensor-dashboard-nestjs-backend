@@ -24,14 +24,14 @@ For detailed API documentation (swagger docs) see `http://localhost:3000/swagger
  Endpoint               | Method | Auth?               | Query params                                 | Description
  ---------------------- | ------ | ------------------- | -------------------------------------------- | ------------------------------------------------
  `/sensors`             | GET    | No                  |                                              | List all sensor boards
- `/sensors/my`          | GET    | Yes - User token    |                                              | List all sensors for user
- `/sensors`             | POST   | Yes - User token    |                                              | Create a sensor for user
+ `/sensors/my`          | GET    | Yes - User cookies  |                                              | List all sensors for user
+ `/sensors`             | POST   | Yes - User cookies  |                                              | Create a sensor for user
  `/measurements`        | GET    | No                  | createdAtRange, measurementTypes, sensorIds  | List all measurements
  `/measurements`        | POST   | Yes - Sensor token  |                                              | Post one measurement for a sensor board
  `/measurements/multi`  | POST   | Yes - Sensor token  |                                              | Post multiple measurements for a sensor board
  `/measurements/display`| POST   | Yes - Display token |                                              | Get latest measurements configured for a display
- `/displays/my`         | GET    | Yes - User token    |                                              | List all displays for user
- `/displays`            | POST   | Yes - User token    |                                              | Create a display entry
+ `/displays/my`         | GET    | Yes - User cookies  |                                              | List all displays for user
+ `/displays`            | POST   | Yes - User cookies  |                                              | Create a display entry
 
 ## MQTT
 
