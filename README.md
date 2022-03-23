@@ -107,18 +107,11 @@ $ docker-compose --profile run up -d
 $ sudo docker inspect iotfreezer-postgres | grep "IPAddress"
 # if you need to do some maintenance in the db first
 $ psql -h 172.25.0.2 -p 5433 -U postgres --dbname=sensor-dashboard
+# data only restore, migration inserts will fail but the rest should succeed
 $ pg_restore --host "172.24.0.3" --port "5433" --username "postgres" --dbname "sensor-dashboard" --verbose --schema "public" backup-production-28-02-2022.dump --disable-triggers --exit-on-error
 
 # use the nginx.default.conf and voila
 
 # backup database in production
 $ docker exec -t postgres pg_dump --no-owner -U postgres sensor-dashboard > ../sensor-dashboard-database-backups/backup
-```
-
-## Restore from dump on windows
-
-Data only restore, migration inserts will fail but the rest should succeed.
-
-```bash
-$ pg_restore --host "localhost" --port "5433" --username "postgres" --dbname "sensor-dashboard" --verbose --schema "public" "C:\Users\xtrinch\Downloads\backup-production-21-12-2020.dump"
 ```
