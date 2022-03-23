@@ -11,6 +11,7 @@ import {
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorTypeEnum } from '~modules/sensor/enum/sensor-types.enum';
 import { BoardTypeEnum } from '~utils/board-types.enum';
+import { IsValidCSSColor } from '~utils/css-color.validator';
 import { TimezoneValidator } from '~utils/timezone.validator';
 
 export class SensorCreateDto {
@@ -46,4 +47,7 @@ export class SensorCreateDto {
   @IsEnum(SensorTypeEnum, { each: true })
   @ArrayMinSize(1)
   public sensorTypes: SensorTypeEnum[];
+
+  @IsValidCSSColor()
+  public color: string;
 }

@@ -27,6 +27,10 @@ export class Sensor extends AbstractIOTDeviceEntity {
   @Column({ type: 'varchar' })
   public displayName: string;
 
+  // e.g. #ffffff
+  @Column({ type: 'varchar', length: 7, default: '#ffffff' })
+  public color: string;
+
   @OneToMany(() => Measurement, (measurement) => measurement.sensor)
   public measurements: Measurement[];
 

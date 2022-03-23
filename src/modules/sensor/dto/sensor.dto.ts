@@ -20,6 +20,7 @@ export class SensorDto {
   public private: boolean;
   public sensorTypes: SensorTypeEnum[];
   public lastMeasurements?: MeasurementDto[];
+  public color: string;
 
   public static fromSensor(sensor: Sensor): SensorDto {
     return {
@@ -38,6 +39,7 @@ export class SensorDto {
       lastMeasurements: (sensor.lastMeasurements || []).map((m) =>
         MeasurementDto.fromMeasurement(m),
       ),
+      color: sensor.color,
     };
   }
 }

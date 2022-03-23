@@ -92,8 +92,9 @@ export class SensorService {
     sensor.user = request.user;
     sensor.private = data.private;
     sensor.sensorTypes = data.sensorTypes;
+    sensor.color = data.color;
 
-    await Sensor.save(sensor);
+    await this.sensorRepository.save(sensor);
 
     return sensor;
   }
@@ -132,8 +133,11 @@ export class SensorService {
     if ('private' in data) {
       sensor.private = data.private;
     }
+    if (data.color) {
+      sensor.color = data.color;
+    }
 
-    await Sensor.save(sensor);
+    await this.sensorRepository.save(sensor);
 
     return sensor;
   }
