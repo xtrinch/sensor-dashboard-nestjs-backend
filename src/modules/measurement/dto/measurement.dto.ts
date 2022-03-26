@@ -1,3 +1,4 @@
+import { round } from 'lodash';
 import { MeasurementTypeUnitEnum } from '~modules/measurement/enum/measurement-type-unit.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Measurement } from '~modules/measurement/measurement.entity';
@@ -14,7 +15,7 @@ export class MeasurementDto {
   public static fromMeasurement(measurement: Measurement): MeasurementDto {
     return {
       id: measurement.id,
-      measurement: measurement.measurement,
+      measurement: round(measurement.measurement, 2),
       measurementType: measurement.measurementType,
       measurementTypeUnit: MeasurementTypeUnitEnum[measurement.measurementType],
       sensor: measurement.sensor

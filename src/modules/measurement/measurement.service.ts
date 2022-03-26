@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { addSeconds } from 'date-fns';
+import { round } from 'lodash';
 import { Display } from '~modules/display/display.entity';
 import { DisplayRequest } from '~modules/display/display.interfaces';
 import { Forwarder } from '~modules/forwarder/forwarder.entity';
@@ -64,7 +65,7 @@ export class MeasurementService {
     data: MeasurementCreateDto,
   ): Promise<Measurement> {
     const measurement = new Measurement();
-    measurement.measurement = data.measurement;
+    measurement.measurement = round(data.measurement, 2);
     measurement.measurementType = data.measurementType;
     measurement.sensor = request.sensor;
     measurement.sensorId = request.sensor.id;
