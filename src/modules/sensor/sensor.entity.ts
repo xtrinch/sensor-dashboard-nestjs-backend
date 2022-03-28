@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  FindOperator,
   JoinColumn,
   ManyToMany,
   ManyToOne,
@@ -16,7 +17,7 @@ import { AbstractIOTDeviceEntity } from '~utils/abstract.iot-device.entity';
 export type SensorId = string;
 
 export interface SensorWhereInterface {
-  id?: string;
+  id?: FindOperator<string> | string;
   accessToken?: string;
   userId?: UserId;
   private?: boolean;

@@ -33,7 +33,7 @@ export class SensorService {
   ): Promise<Pagination<Sensor>> {
     const results = await paginate<Sensor>(
       this.sensorRepository,
-      options.pagination,
+      options.pagination || { page: 1, limit: 1000 },
       {
         where,
       },

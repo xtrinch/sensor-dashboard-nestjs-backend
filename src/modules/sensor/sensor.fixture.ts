@@ -34,6 +34,7 @@ export async function SensorFixture(
       private: false,
       sensorTypes: [SensorTypeEnum.BME680],
       measurementTypes: [MeasurementTypeEnum.GAS],
+      color: '#ffffff',
     }),
   );
 

@@ -37,6 +37,7 @@ describe('SensorService', () => {
       timezone: 'Europe/Vienna',
       private: false,
       sensorTypes: [SensorTypeEnum.BME680],
+      color: '#ffffff',
     });
 
     await validateOrReject(data);

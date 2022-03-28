@@ -39,6 +39,7 @@ describe('SensorController (e2e)', () => {
         timezone: 'Europe/Vienna',
         sensorTypes: [SensorTypeEnum.BME280],
         private: true,
+        color: '#ffffff',
       })
       .expect(201);
   });

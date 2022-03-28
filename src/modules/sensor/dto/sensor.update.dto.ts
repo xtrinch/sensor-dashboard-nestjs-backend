@@ -50,6 +50,7 @@ export class SensorUpdateDto {
   @Type(() => Boolean)
   public private: boolean;
 
+  @IsOptional()
   @IsValidCSSColor()
   public color: string;
 }

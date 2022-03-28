@@ -5,6 +5,7 @@ import { MeasurementModule } from '~/modules/measurement/measurement.module';
 import { SensorModule } from '~/modules/sensor/sensor.module';
 import { UserModule } from '~/modules/user/user.module';
 import { BackupModule } from '~modules/backup/backup.module';
+import { BoardModule } from '~modules/board/board.module';
 import { CategoryModule } from '~modules/category/category.module';
 import { CommentModule } from '~modules/comment/comment.module';
 import { ConfigModule } from '~modules/config/config.module';
@@ -35,6 +36,7 @@ import { AppService } from './app.service';
     TopicModule,
     CommentModule,
     RadioModule,
+    BoardModule,
   ],
   controllers: [],
   providers: [AppService],
