@@ -4,7 +4,6 @@ import { BoardDetailsDto } from '~modules/board/dto/board.details.dto';
 import { BoardUpdateDto } from '~modules/board/dto/board.update.dto';
 import AuthGuard from '~modules/user/auth.decorator';
 import { UserRequest } from '~modules/user/jwt.guard';
-import { PaginationDto } from '~utils/pagination.dto';
 
 @Controller('boards')
 export class BoardController {
@@ -14,7 +13,7 @@ export class BoardController {
   @Get('my')
   public async getMyBoard(
     @Request() request: UserRequest,
-  ): Promise<PaginationDto<BoardDetailsDto>> {
+  ): Promise<BoardDetailsDto> {
     const board = await this.boardService.getBoard(
       {
         id: request.user?.boardId,
