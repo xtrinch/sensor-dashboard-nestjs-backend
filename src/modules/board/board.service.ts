@@ -26,9 +26,14 @@ export class BoardService {
     if (board) {
       if (options?.relations?.includes('sensors')) {
         const sensorIds = Object.keys(board.state);
-        const sensors = await this.sensorService.findAll({
-          id: Any(sensorIds),
-        });
+        const sensors = await this.sensorService.findAll(
+          {
+            id: Any(sensorIds),
+          },
+          {
+            fetchLatestMeasurements: true,
+          },
+        );
 
         Object.values(board.state).forEach((s) => {
           s.sensor = sensors.items.find((ss) => ss.id === s.id);
