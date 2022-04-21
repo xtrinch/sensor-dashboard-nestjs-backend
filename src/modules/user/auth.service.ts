@@ -48,9 +48,9 @@ export class AuthService {
     // TODO: actual refresh token
     res?.cookie('refresh-token', accessToken, {
       secure: !this.config.isLocal,
+      httpOnly: true,
       expires: new Date(8640000000000000),
       // expires: new Date(Date.now() + 3600000 * 24 * 180),
-      httpOnly: true,
       domain: this.config.domain,
     });
 
