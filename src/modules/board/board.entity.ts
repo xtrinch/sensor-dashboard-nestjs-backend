@@ -21,7 +21,7 @@ export interface BoardState {
 @Entity()
 export class Board extends AbstractEntity {
   @Column({ type: 'jsonb', default: '{}' })
-  state: BoardState;
+  state: BoardState | string;
 
   @Column({ type: 'float4', default: 1.0 })
   scale: number;

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Any, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import {
   Board,
   BoardId,
@@ -24,21 +24,21 @@ export class BoardService {
   ): Promise<Board> {
     const board = await this.boardRepository.findOne(where);
     if (board) {
-      if (options?.relations?.includes('sensors')) {
-        const sensorIds = Object.keys(board.state);
-        const sensors = await this.sensorService.findAll(
-          {
-            id: Any(sensorIds),
-          },
-          {
-            fetchLatestMeasurements: true,
-          },
-        );
+      // if (options?.relations?.includes('sensors')) {
+      //   const sensorIds = Object.keys(board.state);
+      //   const sensors = await this.sensorService.findAll(
+      //     {
+      //       id: Any(sensorIds),
+      //     },
+      //     {
+      //       fetchLatestMeasurements: true,
+      //     },
+      //   );
 
-        Object.values(board.state).forEach((s) => {
-          s.sensor = sensors.items.find((ss) => ss.id === s.id);
-        });
-      }
+      //   Object.values(board.state).forEach((s) => {
+      //     s.sensor = sensors.items.find((ss) => ss.id === s.id);
+      //   });
+      // }
       return board;
     }
 
@@ -58,11 +58,11 @@ export class BoardService {
   async update(id: BoardId, data: BoardUpdateDto): Promise<Board> {
     const board = await this.boardRepository.findOne({ id });
 
-    board.state = data.state ?? board.state;
-    Object.values(board.state).forEach((ss) => {
-      // make sure we don't save sensors in db even if we receive them
-      ss.sensor = undefined;
-    });
+    board.state = data.state ?? JSON.stringify(board.state);
+    // Object.values(board.state).forEach((ss) => {
+    //   // make sure we don't save sensors in db even if we receive them
+    //   ss.sensor = undefined;
+    // });
     board.scale = data.scale ?? board.scale;
     board.boardX = data.boardX ?? board.scale;
     board.boardY = data.boardY ?? board.scale;

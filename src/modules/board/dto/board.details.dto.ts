@@ -20,7 +20,9 @@ export class BoardDetailsDto {
   public static fromBoard(board: Board): BoardDetailsDto {
     const dtoState = board.state as unknown as BoardStateDto;
     Object.values(dtoState).forEach((i) => {
-      i.sensor = SensorDetailsDto.fromSensor(i.sensor as unknown as Sensor);
+      if (i.sensor) {
+        i.sensor = SensorDetailsDto.fromSensor(i.sensor as unknown as Sensor);
+      }
     });
     return {
       state: dtoState,
