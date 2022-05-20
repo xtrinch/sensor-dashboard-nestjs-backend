@@ -58,15 +58,7 @@ export class BoardService {
   async update(id: BoardId, data: BoardUpdateDto): Promise<Board> {
     const board = await this.boardRepository.findOne({ id });
 
-    board.state = data.state ?? JSON.stringify(board.state);
-    // Object.values(board.state).forEach((ss) => {
-    //   // make sure we don't save sensors in db even if we receive them
-    //   ss.sensor = undefined;
-    // });
-    board.scale = data.scale ?? board.scale;
-    board.boardX = data.boardX ?? board.scale;
-    board.boardY = data.boardY ?? board.scale;
-
+    board.state = data.state ?? board.state;
     await this.boardRepository.save(board);
 
     return board;
