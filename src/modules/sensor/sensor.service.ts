@@ -82,7 +82,6 @@ export class SensorService {
     data: SensorCreateDto,
   ): Promise<Sensor> {
     const sensor = new Sensor();
-    sensor.boardType = data.boardType;
     sensor.location = data.location;
     sensor.name = data.name;
     sensor.displayName = data.displayName;
