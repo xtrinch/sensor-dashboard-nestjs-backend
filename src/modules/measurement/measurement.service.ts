@@ -91,7 +91,6 @@ export class MeasurementService {
   ): Promise<Measurement[]> {
     const measurements: Measurement[] = [];
 
-    let idx = 0;
     for (const measurementData of data.measurements.reverse()) {
       const measurement = new Measurement();
       measurement.measurement = measurementData.measurement;
@@ -104,7 +103,6 @@ export class MeasurementService {
         );
       }
       measurements.push(measurement);
-      idx++;
     }
 
     sensor.lastSeenAt = new Date();

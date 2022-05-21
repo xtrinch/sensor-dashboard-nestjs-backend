@@ -35,10 +35,10 @@ export class Sensor extends AbstractIOTDeviceEntity {
   @OneToMany(() => Measurement, (measurement) => measurement.sensor)
   public measurements: Measurement[];
 
-  @Column('text', { array: true })
+  @Column('text', { array: true, default: [] })
   public measurementTypes: MeasurementTypeEnum[];
 
-  @Column('text', { array: true })
+  @Column('text', { array: true, default: [] })
   public sensorTypes: SensorTypeEnum[];
 
   @Column({
@@ -58,9 +58,6 @@ export class Sensor extends AbstractIOTDeviceEntity {
 
   @Column('boolean', { default: false })
   public private: boolean;
-
-  @Column('text', { nullable: true })
-  public testSquash: string;
 
   // measurement array with all latest measurements (one for each type)
   public lastMeasurements?: Measurement[];

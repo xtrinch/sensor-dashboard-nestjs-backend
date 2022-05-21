@@ -73,10 +73,8 @@ export class DisplayService {
     display.userId = request.user?.id;
     display.user = request.user;
     display.name = data.name;
-    display.boardType = data.boardType;
     display.sensors = data.sensorIds.map((id) => ({ id } as Sensor));
     display.measurementTypes = data.measurementTypes;
-    display.displayType = data.displayType;
 
     await Display.save(display);
 
@@ -99,17 +97,11 @@ export class DisplayService {
     if (data.name) {
       display.name = data.name;
     }
-    if (data.boardType) {
-      display.boardType = data.boardType;
-    }
     if (data.sensorIds) {
       display.sensors = data.sensorIds.map((id) => ({ id } as Sensor));
     }
     if (data.measurementTypes) {
       display.measurementTypes = data.measurementTypes;
-    }
-    if (data.displayType) {
-      display.displayType = data.displayType;
     }
 
     await Display.save(display);

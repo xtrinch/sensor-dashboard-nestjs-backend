@@ -4,11 +4,9 @@ import {
   DisplayFixture,
   DisplayFixtureInterface,
 } from '~modules/display/display.fixture';
-import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
-import { BoardTypeEnum } from '~utils/board-types.enum';
 import { createTestingApp } from '~utils/test-utils';
 
 describe('DisplayController (e2e)', () => {
@@ -32,11 +30,9 @@ describe('DisplayController (e2e)', () => {
       .send({
         name: 'Test display',
         displayName: 'Test display',
-        boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
         location: 'Living room',
         measurementTypes: [MeasurementTypeEnum.GAS],
         sensorIds: [fixture.sensorOne.id],
-        displayType: DisplayTypeEnum.NOKIA_PCD8544,
       })
       .expect(201);
   });

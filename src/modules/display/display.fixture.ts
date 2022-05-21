@@ -14,7 +14,6 @@ import {
   SensorFixture,
   SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
-import { BoardTypeEnum } from '~utils/board-types.enum';
 
 export interface DisplayFixtureInterface extends SensorFixtureInterface {
   displayOne: Display;
@@ -36,7 +35,6 @@ export async function DisplayFixture(
     plainToClass(DisplayCreateDto, {
       name: 'Test display',
       location: 'Living room',
-      boardType: BoardTypeEnum.NODEMCU_ESP8266,
       sensorIds: [fixture.sensorOne.id],
       measurementTypes: Object.values(MeasurementTypeEnum),
       displayType: DisplayTypeEnum.NOKIA_PCD8544,

@@ -11,7 +11,6 @@ import { DisplayCreateDto } from '~modules/display/dto/display.create.dto';
 import { DisplayUpdateDto } from '~modules/display/dto/display.update.dto';
 import { DisplayTypeEnum } from '~modules/display/enum/display-types.enum';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import { BoardTypeEnum } from '~utils/board-types.enum';
 
 describe('DisplayService', () => {
   let displayService: DisplayService;
@@ -31,7 +30,6 @@ describe('DisplayService', () => {
     const data = plainToClass(DisplayCreateDto, {
       name: 'A display name',
       location: 'A location',
-      boardType: BoardTypeEnum.DOIT_ESP32_DEVKIT_V1,
       sensorIds: [fixture.sensorOne.id],
       measurementTypes: Object.values(MeasurementTypeEnum),
       displayType: DisplayTypeEnum.NOKIA_PCD8544,
