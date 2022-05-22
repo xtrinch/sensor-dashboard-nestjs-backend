@@ -75,6 +75,7 @@ export class DisplayService {
     display.name = data.name;
     display.sensors = data.sensorIds.map((id) => ({ id } as Sensor));
     display.measurementTypes = data.measurementTypes;
+    display.type = data.type;
 
     await Display.save(display);
 
@@ -102,6 +103,9 @@ export class DisplayService {
     }
     if (data.measurementTypes) {
       display.measurementTypes = data.measurementTypes;
+    }
+    if (data.type) {
+      display.type = data.type;
     }
 
     await Display.save(display);

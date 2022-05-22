@@ -32,7 +32,7 @@ describe('DisplayService', () => {
       location: 'A location',
       sensorIds: [fixture.sensorOne.id],
       measurementTypes: Object.values(MeasurementTypeEnum),
-      displayType: DisplayTypeEnum.NOKIA_PCD8544,
+      displayType: DisplayTypeEnum.CUSTOM,
     });
 
     await validateOrReject(data);

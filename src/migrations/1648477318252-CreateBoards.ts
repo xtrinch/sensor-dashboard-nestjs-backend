@@ -7,7 +7,6 @@ export class CreateBoards1648477318252 implements MigrationInterface {
       'SELECT id from "user" where "boardId" IS NULL',
     );
     userIds = userIds.map((i) => i.id);
-    console.log(userIds);
 
     for (let id of userIds) {
       const boardId = v4();

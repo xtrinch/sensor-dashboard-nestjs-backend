@@ -44,7 +44,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         if (!user) {
           user = await this.userService.create({
             email,
-            username: email,
+            username: email.split('@')[0],
             name: profile.name?.givenName || 'Unknown',
             password: undefined,
             surname: profile.name?.familyName || 'Unknown',

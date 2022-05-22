@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorId } from '~modules/sensor/sensor.entity';
+import { DisplayTypeEnum } from '../enum/display-types.enum';
 
 export class DisplayUpdateDto {
   @IsOptional()
@@ -30,4 +31,8 @@ export class DisplayUpdateDto {
   @IsEnum(MeasurementTypeEnum, { each: true })
   @ArrayMinSize(1)
   public measurementTypes: MeasurementTypeEnum[];
+
+  @IsOptional()
+  @IsEnum(DisplayTypeEnum)
+  public type: DisplayTypeEnum;
 }

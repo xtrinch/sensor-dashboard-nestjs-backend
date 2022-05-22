@@ -37,7 +37,7 @@ export async function DisplayFixture(
       location: 'Living room',
       sensorIds: [fixture.sensorOne.id],
       measurementTypes: Object.values(MeasurementTypeEnum),
-      displayType: DisplayTypeEnum.NOKIA_PCD8544,
+      displayType: DisplayTypeEnum.CUSTOM,
     }),
   );
 
