@@ -26,6 +26,9 @@ export class AuthService {
     user: User,
     data: ChangePasswordDto,
   ): Promise<void> {
+    if (data.newPassword !== data.repeatNewPassword) {
+      throw new BadRequestException('Passwords do not match');
+    }
     const hashedPassword = await bcrypt.hash(data.newPassword, 10);
 
     user.password = hashedPassword;
