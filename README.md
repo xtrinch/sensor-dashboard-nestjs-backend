@@ -115,3 +115,7 @@ $ pg_restore --host "172.24.0.3" --port "5433" --username "postgres" --dbname "s
 # backup database in production
 $ docker exec -t postgres pg_dump --no-owner -U postgres sensor-dashboard > ../sensor-dashboard-database-backups/backup
 ```
+
+# TODOs
+- change password
+- reset password

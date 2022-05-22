@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 import { BoardService } from '~modules/board/board.service';
@@ -48,11 +49,16 @@ export class UserService {
   }
 
   async create(data: UserCreateDto): Promise<User> {
+    let hashedPassword: string;
+    if (data.password) {
+      hashedPassword = await bcrypt.hash(data.password, 10);
+    }
+
     const board = await this.boardService.createBoard();
 
     const user = new User();
     user.username = data.username;
-    user.password = data.password;
+    user.password = hashedPassword;
     user.email = data.email;
     user.name = data.name;
     user.surname = data.surname;

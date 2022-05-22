@@ -7,6 +7,7 @@ import { UserFixture, UserFixtureInterface } from '~modules/user/user.fixture';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
 import { createTestingApp } from '~utils/test-utils';
+import { ChangePasswordDto } from './dto/change.password.dto';
 
 describe('SensorController (e2e)', () => {
   let app: INestApplication;
@@ -20,6 +21,21 @@ describe('SensorController (e2e)', () => {
     await app.init();
     fixture = await UserFixture(app);
     userAuth = await fixture.userAuth();
+  });
+
+  it('/auth/login (POST)', async () => {
+    const response = await request(app.getHttpServer())
+      .post(`/auth/login`)
+      .send(
+        plainToClass(ChangePasswordDto, {
+          username: fixture.userOne.email,
+          password: 'Test password',
+        }),
+      );
+
+    console.log(response.body);
+    expect(response.statusCode).toEqual(201);
+    expect(response.body.user.username).toEqual(fixture.userOne.username);
   });
 
   it('/users (GET)', async () => {
@@ -38,6 +54,19 @@ describe('SensorController (e2e)', () => {
       .expect(200);
 
     expect(response.body.group).toEqual(GroupEnum.ADMIN);
+  });
+
+  it('/auth/change-password (POST)', async () => {
+    await request(app.getHttpServer())
+      .post(`/auth/change-password`)
+      .set({ authorization: userAuth.user.id })
+      .send(
+        plainToClass(ChangePasswordDto, {
+          newPassword: 'test123123',
+          repeatNewPassword: 'test123123',
+        }),
+      )
+      .expect(201);
   });
 
   it('/users/:id (DELETE)', async () => {

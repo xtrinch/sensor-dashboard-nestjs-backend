@@ -9,6 +9,7 @@ import { UserCreateDto } from '~modules/user/dto/user.create.dto';
 import { User } from '~modules/user/user.entity';
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { PostgresErrorCode } from '~utils/postgres-error-codes.enum';
+import { ChangePasswordDto } from './dto/change.password.dto';
 import { UserService } from './user.service';
 
 @Injectable()
@@ -20,6 +21,16 @@ export class AuthService {
     private jwtService: JwtService,
     @Inject(CONFIG) private config: Config,
   ) {}
+
+  public async changePassword(
+    user: User,
+    data: ChangePasswordDto,
+  ): Promise<void> {
+    const hashedPassword = await bcrypt.hash(data.newPassword, 10);
+
+    user.password = hashedPassword;
+    await this.userRepository.save(user);
+  }
 
   public async login(user: User, res: Response): Promise<UserAuthInterface> {
     if (!user) {
@@ -66,11 +77,9 @@ export class AuthService {
   }
 
   public async register(userCreateDto: UserCreateDto): Promise<User> {
-    const hashedPassword = await bcrypt.hash(userCreateDto.password, 10);
     try {
       const createdUser = await this.usersService.create({
         ...userCreateDto,
-        password: hashedPassword,
       });
       createdUser.password = undefined;
       return createdUser;
