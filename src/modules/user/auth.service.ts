@@ -38,11 +38,11 @@ export class AuthService {
   public async login(user: User, res: Response): Promise<UserAuthInterface> {
     if (!user) {
       res?.cookie('access-token', 'none', {
-        maxAge: -1,
+        maxAge: 0,
         domain: this.config.domain,
       });
       res?.cookie('refresh-token', 'none', {
-        maxAge: -1,
+        maxAge: 0,
         domain: this.config.domain,
       });
 
@@ -58,7 +58,7 @@ export class AuthService {
     res?.cookie('access-token', accessToken, {
       secure: !this.config.isLocal,
       httpOnly: true,
-      maxAge: 8640000000000000,
+      maxAge: 2147483647 * 1000,
       domain: this.config.domain,
     });
 
@@ -66,7 +66,7 @@ export class AuthService {
     res?.cookie('refresh-token', accessToken, {
       secure: !this.config.isLocal,
       httpOnly: true,
-      maxAge: 8640000000000000,
+      maxAge: 2147483647 * 1000,
       domain: this.config.domain,
     });
 
