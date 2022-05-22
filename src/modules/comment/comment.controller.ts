@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request
+  Request,
 } from '@nestjs/common';
 import { Comment, CommentId } from '~/modules/comment/comment.entity';
 import { CommentService } from '~/modules/comment/comment.service';

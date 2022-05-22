@@ -2,8 +2,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
-
-  NotFoundException
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -59,13 +58,13 @@ export class TopicService {
 
     try {
       topic = await Topic.save(topic);
-    } catch(e) {
+    } catch (e) {
       if (e.code === '23505') {
         throw new ForbiddenException('Tag already exists');
       }
       return;
     }
-    
+
     await this.categoryRepository.update(
       { id: topic.categoryId },
       { lastTopicId: topic.id },
@@ -86,7 +85,7 @@ export class TopicService {
 
     try {
       topic = await Topic.save(topic);
-    } catch(e) {
+    } catch (e) {
       if (e.code === '23505') {
         throw new ForbiddenException('Tag already exists');
       }

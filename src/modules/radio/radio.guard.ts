@@ -2,7 +2,7 @@ import {
   CanActivate,
   ExecutionContext,
   Inject,
-  Injectable
+  Injectable,
 } from '@nestjs/common';
 import validator from 'validator';
 import { RadioRequest } from '~modules/radio/radio.interfaces';

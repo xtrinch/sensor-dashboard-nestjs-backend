@@ -21,7 +21,7 @@ export class Comment extends AbstractEntity {
 
   @Column({ type: 'uuid' })
   public topicId: TopicId;
-  
+
   @ManyToOne(() => Category, (category) => category.comments, {
     onDelete: 'CASCADE',
   })

@@ -1,10 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  IsUUID
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
 import { CategoryId } from '~modules/category/category.entity';
 import { TopicId } from '~modules/topic/topic.entity';
 

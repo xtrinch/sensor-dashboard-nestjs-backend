@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   Query,
-  Request
+  Request,
 } from '@nestjs/common';
 import { Topic, TopicId } from '~/modules/topic/topic.entity';
 import { TopicService } from '~/modules/topic/topic.service';
@@ -50,7 +50,10 @@ export class TopicController {
 
   @Get('/tag/:tag')
   public async getTopicByTag(@Param('tag') tag: string): Promise<TopicDto> {
-    const topic = await this.topicService.find({ tag }, { relations: ['user'] });
+    const topic = await this.topicService.find(
+      { tag },
+      { relations: ['user'] },
+    );
     return TopicDto.fromTopic(topic);
   }
 

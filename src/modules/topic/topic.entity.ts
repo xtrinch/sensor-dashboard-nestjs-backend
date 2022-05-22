@@ -21,7 +21,7 @@ export class Topic extends AbstractEntity {
   @JoinColumn({ name: 'categoryId' })
   public category: Category;
 
-  @Column({type: 'uuid'})
+  @Column({ type: 'uuid' })
   public categoryId: CategoryId;
 
   @OneToMany(() => Comment, (comment) => comment.topic)
@@ -33,7 +33,7 @@ export class Topic extends AbstractEntity {
   @JoinColumn({ name: 'userId' })
   public user: User;
 
-  @Column({type: 'uuid'})
+  @Column({ type: 'uuid' })
   public userId: UserId;
 
   @Column({ type: 'varchar' })

@@ -60,7 +60,8 @@ export const DATE_REGEX = 'MMMM d, yyyy'; // August 31, 2020
 export const MONTH_YEAR_REGEX = 'MMMM yyyy'; // August 31, 2020
 
 export class DateRange {
-  public static regex = /^(?<year>[0-9]{4})(\/((?<month>[0-9]{1,2})|(w(?<week>[0-9]{1,2})))(\/(?<day>[0-9]{1,2})( (?<hour>[0-9]{1,2})(:(?<minute>[0-9]{1,2}))?)?)?)?$/;
+  public static regex =
+    /^(?<year>[0-9]{4})(\/((?<month>[0-9]{1,2})|(w(?<week>[0-9]{1,2})))(\/(?<day>[0-9]{1,2})( (?<hour>[0-9]{1,2})(:(?<minute>[0-9]{1,2}))?)?)?)?$/;
 
   public static parse(input: string): DateRangeInterface {
     const ranges = this.getRegexGroups(input);
@@ -108,9 +109,7 @@ export class DateRange {
     return groupBy;
   }
 
-  public static getFromTo(
-    range: DateRegexGroupsInterface,
-  ): {
+  public static getFromTo(range: DateRegexGroupsInterface): {
     from: Date;
     to: Date;
   } {

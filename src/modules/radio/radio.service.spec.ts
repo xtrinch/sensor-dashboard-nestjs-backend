@@ -6,7 +6,7 @@ import { RadioCreateDto } from '~modules/radio/dto/radio.create.dto';
 import { RadioUpdateDto } from '~modules/radio/dto/radio.update.dto';
 import {
   RadioFixture,
-  RadioFixtureInterface
+  RadioFixtureInterface,
 } from '~modules/radio/radio.fixture';
 import { RadioService } from '~modules/radio/radio.service';
 import { BoardTypeEnum } from '~utils/board-types.enum';
@@ -18,9 +18,7 @@ describe('RadioService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      imports: [
-        AppModule
-      ],
+      imports: [AppModule],
     }).compile();
 
     radioService = module.get<RadioService>(RadioService);
@@ -46,10 +44,7 @@ describe('RadioService', () => {
     });
 
     await validateOrReject(data);
-    const radio = await radioService.update(
-      fixture.radioOne,
-      data,
-    );
+    const radio = await radioService.update(fixture.radioOne, data);
     expect(radio).toBeDefined();
     expect(radio.location).toEqual('A new location');
   });
@@ -76,9 +71,7 @@ describe('RadioService', () => {
   });
 
   it('should ping as a radio', async () => {
-    const success = await radioService.registerPing(
-      fixture.radioOne,
-    );
+    const success = await radioService.registerPing(fixture.radioOne);
 
     expect(success).toEqual(true);
   });

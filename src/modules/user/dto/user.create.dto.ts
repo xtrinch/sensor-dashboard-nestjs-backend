@@ -1,8 +1,6 @@
-import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
-  IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
@@ -23,15 +21,16 @@ export class UserCreateDto {
   public password: string;
 
   @IsString()
-  @IsNotEmpty()
+  @MinLength(2)
   public name: string;
 
   @IsString()
-  @IsNotEmpty()
+  @MinLength(2)
   public surname: string;
 
-  @Type(() => Boolean)
   @IsBoolean()
+  // TODO: for some reason this throws a TypeError: Reflect.getMetadata is not a function
+  // @Type(() => Boolean)
   @IsOptional()
   public isGoogle: boolean;
 }

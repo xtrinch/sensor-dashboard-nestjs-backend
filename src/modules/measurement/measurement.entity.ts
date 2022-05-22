@@ -20,7 +20,7 @@ export class Measurement extends AbstractSmallEntity {
   public sensor: Sensor;
 
   @Column({ type: 'uuid' })
-  public sensorId: string;;
+  public sensorId: string;
 
   public toString(): string {
     return this.measurementType;

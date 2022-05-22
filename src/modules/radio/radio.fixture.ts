@@ -5,12 +5,12 @@ import { RadioCreateDto } from '~modules/radio/dto/radio.create.dto';
 import { Radio } from '~modules/radio/radio.entity';
 import {
   RadioAuthInterface,
-  RadioRequest
+  RadioRequest,
 } from '~modules/radio/radio.interfaces';
 import { RadioService } from '~modules/radio/radio.service';
 import {
   SensorFixture,
-  SensorFixtureInterface
+  SensorFixtureInterface,
 } from '~modules/sensor/sensor.fixture';
 import { BoardTypeEnum } from '~utils/board-types.enum';
 

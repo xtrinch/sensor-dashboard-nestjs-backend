@@ -3,7 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   Inject,
-  Injectable
+  Injectable,
 } from '@nestjs/common';
 import { MqttContext } from '@nestjs/microservices';
 import validator from 'validator';

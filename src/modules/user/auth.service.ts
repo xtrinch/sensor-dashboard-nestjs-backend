@@ -1,7 +1,9 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
+import { Repository } from 'typeorm';
 import { CONFIG, Config } from '~modules/config/config.factory';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
 import { User } from '~modules/user/user.entity';
@@ -12,6 +14,8 @@ import { UserService } from './user.service';
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
     private usersService: UserService,
     private jwtService: JwtService,
     @Inject(CONFIG) private config: Config,
@@ -81,10 +85,12 @@ export class AuthService {
   }
 
   public async validateUser(
-    email: string,
+    emailOrUsername: string,
     plaintextPass: string,
   ): Promise<User> {
-    const user = await this.usersService.find({ email });
+    const user = await this.userRepository.findOne({
+      where: [{ email: emailOrUsername }, { username: emailOrUsername }],
+    });
 
     const isPasswordMatching = await bcrypt.compare(
       plaintextPass,
