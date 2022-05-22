@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SentryModule } from '@ntegral/nestjs-sentry';
 import { MeasurementModule } from '~/modules/measurement/measurement.module';
 import { SensorModule } from '~/modules/sensor/sensor.module';
 import { UserModule } from '~/modules/user/user.module';
@@ -37,6 +38,13 @@ import { AppService } from './app.service';
     CommentModule,
     RadioModule,
     BoardModule,
+    SentryModule.forRoot({
+      dsn: process.env.SENTRY_DSN,
+      debug: false,
+      environment: 'dev',
+      release: null, // must create a release in sentry.io dashboard
+      logLevels: ['error'],
+    }),
   ],
   controllers: [],
   providers: [AppService],

@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SentryService } from '@ntegral/nestjs-sentry';
 import * as cookieParser from 'cookie-parser';
 import 'reflect-metadata';
 import { initPipes } from '~utils/app.utils';
@@ -19,6 +20,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   initPipes(app);
+  app.useLogger(SentryService.SentryServiceInstance());
 
   const options = new DocumentBuilder()
     .setTitle('Sensor dashboard backend')
