@@ -12,6 +12,7 @@ export class UserDto {
   public lastSeenAt: Date;
   public group: GroupEnum;
   public permissions: PermissionsEnum[];
+  public isGoogle: boolean;
 
   public static fromUser(user: User): UserDto {
     return {
@@ -24,6 +25,7 @@ export class UserDto {
       lastSeenAt: user.lastSeenAt,
       group: user.group,
       permissions: GroupPermissions[user.group],
+      isGoogle: user.isGoogle,
     };
   }
 }

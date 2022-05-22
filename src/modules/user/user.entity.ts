@@ -75,4 +75,7 @@ export class User extends AbstractEntity {
   @ManyToOne(() => Board, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'boardId' })
   public board: Board;
+
+  @Column('boolean', { default: false })
+  public isGoogle: boolean;
 }

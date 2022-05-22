@@ -1,4 +1,12 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class UserCreateDto {
   @IsString()
@@ -21,4 +29,9 @@ export class UserCreateDto {
   @IsString()
   @IsNotEmpty()
   public surname: string;
+
+  @Type(() => Boolean)
+  @IsBoolean()
+  @IsOptional()
+  public isGoogle: boolean;
 }

@@ -48,6 +48,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
             name: profile.name?.givenName || 'Unknown',
             password: undefined,
             surname: profile.name?.familyName || 'Unknown',
+            isGoogle: true,
           });
         }
         done(null, user, { idToken: params.id_token, refreshToken });

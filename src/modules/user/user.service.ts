@@ -56,6 +56,7 @@ export class UserService {
     user.email = data.email;
     user.name = data.name;
     user.surname = data.surname;
+    user.isGoogle = data.isGoogle;
     user.boardId = board.id;
 
     await this.userRepository.save(user);
