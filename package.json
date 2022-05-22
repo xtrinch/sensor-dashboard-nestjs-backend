@@ -59,7 +59,7 @@
     "koofr": "^0.2.0",
     "lodash": "^4.17.21",
     "mqtt": "^4.3.7",
-    "nestjs-typeorm-paginate": "^4.0.1",
+    "nestjs-typeorm-paginate": "^3.2.0",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
