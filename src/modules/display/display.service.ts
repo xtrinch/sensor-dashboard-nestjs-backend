@@ -107,6 +107,9 @@ export class DisplayService {
     if (data.type) {
       display.type = data.type;
     }
+    if (data.state) {
+      display.state = data.state;
+    }
 
     await Display.save(display);
 

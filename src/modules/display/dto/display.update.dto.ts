@@ -3,11 +3,13 @@ import {
   IsArray,
   IsEnum,
   IsNotEmpty,
+  IsObject,
   IsOptional,
   IsString,
 } from 'class-validator';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorId } from '~modules/sensor/sensor.entity';
+import { BoardState } from '../display.entity';
 import { DisplayTypeEnum } from '../enum/display-types.enum';
 
 export class DisplayUpdateDto {
@@ -35,4 +37,8 @@ export class DisplayUpdateDto {
   @IsOptional()
   @IsEnum(DisplayTypeEnum)
   public type: DisplayTypeEnum;
+
+  @IsOptional()
+  @IsObject()
+  state: BoardState;
 }
