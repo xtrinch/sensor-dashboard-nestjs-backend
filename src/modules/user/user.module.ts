@@ -1,8 +1,7 @@
-import { forwardRef, Global, Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BoardModule } from '~modules/board/board.module';
 import { AuthController } from '~modules/user/auth.controller';
 import { AuthService } from '~modules/user/auth.service';
 import { JwtStrategy } from '~modules/user/jwt.strategy';
@@ -27,7 +26,6 @@ import { UserService } from './user.service';
       secret: process.env.JWT_SECRET,
       // signOptions: { expiresIn: '60s' },
     }),
-    forwardRef(() => BoardModule),
   ],
   controllers: [UserController, AuthController],
 })

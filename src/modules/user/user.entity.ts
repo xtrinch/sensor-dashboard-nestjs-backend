@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { Board, BoardId } from '~modules/board/board.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { Comment } from '~modules/comment/comment.entity';
 import { Display } from '~modules/display/display.entity';
 import { Forwarder } from '~modules/forwarder/forwarder.entity';
@@ -68,13 +67,6 @@ export class User extends AbstractEntity {
 
   @OneToMany(() => Comment, (comment) => comment.user)
   public comments: Comment[];
-
-  @Column({ type: 'uuid', nullable: true })
-  public boardId: BoardId;
-
-  @ManyToOne(() => Board, { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'boardId' })
-  public board: Board;
 
   @Column('boolean', { default: false })
   public isGoogle: boolean;

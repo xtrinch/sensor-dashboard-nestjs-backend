@@ -1,14 +1,8 @@
-import {
-  forwardRef,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
-import { BoardService } from '~modules/board/board.service';
 import { UserCreateDto } from '~modules/user/dto/user.create.dto';
 import { UserUpdateDto } from '~modules/user/dto/user.update.dto';
 import { User, UserId, UserWhereInterface } from '~modules/user/user.entity';
@@ -19,8 +13,6 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    @Inject(forwardRef(() => BoardService))
-    private boardService: BoardService,
   ) {}
 
   public async findAll(
@@ -54,8 +46,6 @@ export class UserService {
       hashedPassword = await bcrypt.hash(data.password, 10);
     }
 
-    const board = await this.boardService.createBoard();
-
     const user = new User();
     user.username = data.username;
     user.password = hashedPassword;
@@ -63,7 +53,6 @@ export class UserService {
     user.name = data.name;
     user.surname = data.surname;
     user.isGoogle = data.isGoogle;
-    user.boardId = board.id;
 
     await this.userRepository.save(user);
 
