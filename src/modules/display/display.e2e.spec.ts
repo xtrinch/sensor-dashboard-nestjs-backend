@@ -8,11 +8,13 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { UserAuthInterface } from '~modules/user/user.interfaces';
 import { initPipes } from '~utils/app.utils';
 import { createTestingApp } from '~utils/test-utils';
+import { DisplayAuthInterface } from './display.interfaces';
 
 describe('DisplayController (e2e)', () => {
   let app: INestApplication;
   let fixture: DisplayFixtureInterface;
   let userAuth: UserAuthInterface;
+  let displayAuth: DisplayAuthInterface;
 
   beforeAll(async () => {
     app = await createTestingApp();
@@ -21,6 +23,7 @@ describe('DisplayController (e2e)', () => {
     await app.init();
     fixture = await DisplayFixture(app);
     userAuth = await fixture.userAuth();
+    displayAuth = await fixture.displayAuth();
   });
 
   it('/displays (POST)', () => {

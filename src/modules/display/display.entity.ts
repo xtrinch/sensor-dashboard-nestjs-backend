@@ -10,6 +10,7 @@ import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { User, UserId } from '~modules/user/user.entity';
 import { AbstractIOTDeviceEntity } from '~utils/abstract.iot-device.entity';
+import { BoardState } from './display.interfaces';
 import { DisplayTypeEnum } from './enum/display-types.enum';
 
 export type DisplayId = string;
@@ -18,13 +19,6 @@ export interface DisplayWhereInterface {
   id?: string;
   accessToken?: string;
   userId?: UserId;
-}
-
-export interface BoardState {
-  objects: any[];
-  snapAngle: number;
-  version: string;
-  hoverCursor: 'string';
 }
 
 @Entity()

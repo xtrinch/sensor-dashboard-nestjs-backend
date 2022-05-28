@@ -8,6 +8,7 @@ import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 import { DisplayCreateDto } from '~modules/display/dto/display.create.dto';
 import { DisplayUpdateDto } from '~modules/display/dto/display.update.dto';
+import { MeasurementService } from '~modules/measurement/measurement.service';
 import { Sensor } from '~modules/sensor/sensor.entity';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
@@ -18,6 +19,7 @@ export class DisplayService {
   constructor(
     @InjectRepository(Display)
     private displayRepository: Repository<Display>,
+    private measurementService: MeasurementService,
   ) {}
 
   public async findAll(
@@ -76,6 +78,7 @@ export class DisplayService {
     display.sensors = data.sensorIds.map((id) => ({ id } as Sensor));
     display.measurementTypes = data.measurementTypes;
     display.type = data.type;
+    display.state = data.state;
 
     await Display.save(display);
 

@@ -1,10 +1,11 @@
-import { BoardState, Display } from '~modules/display/display.entity';
+import { Display } from '~modules/display/display.entity';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { SensorDto } from '~modules/sensor/dto/sensor.dto';
 import { SensorId } from '~modules/sensor/sensor.entity';
 import { UserDto } from '~modules/user/dto/user.dto';
 import { UserId } from '~modules/user/user.entity';
 import { AbstractDto } from '~utils/abstract.dto';
+import { BoardState } from '../display.interfaces';
 import { DisplayTypeEnum } from '../enum/display-types.enum';
 
 export class DisplayDto implements AbstractDto {

@@ -31,7 +31,7 @@ describe('MeasurementController (e2e)', () => {
   it('/measurements/display (GET)', async () => {
     const response = await request(app.getHttpServer())
       .get('/measurements/display')
-      .set({ authorization: `${displayAuth.accessToken}` })
+      .set({ authorization: `${displayAuth.accessToken1}` })
       .expect(200);
 
     expect(response.body[fixture.sensorOne.id]).toBeDefined();
@@ -39,6 +39,25 @@ describe('MeasurementController (e2e)', () => {
     expect(
       response.body[fixture.sensorOne.id].measurements[MeasurementTypeEnum.GAS],
     ).toBeDefined();
+  });
+
+  it('/measurements/canvas-data (GET)', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/measurements/canvas-data')
+      .set({ authorization: `${displayAuth.accessToken2}` })
+      .expect(200);
+
+    expect(response.body.measurements[fixture.sensorOne.id]).toBeDefined();
+    expect(
+      response.body.measurements[fixture.sensorOne.id].measurements,
+    ).toBeDefined();
+    expect(
+      response.body.measurements[fixture.sensorOne.id].measurements[
+        MeasurementTypeEnum.GAS
+      ],
+    ).toBeDefined();
+    expect(response.body.objects.length).toEqual(1);
+    expect(response.body.objects[0].top).toEqual(3);
   });
 
   afterAll(async () => {

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { addSeconds } from 'date-fns';
 import { round } from 'lodash';
 import { Display } from '~modules/display/display.entity';
-import { DisplayRequest } from '~modules/display/display.interfaces';
+import { BoardObjectInterface } from '~modules/display/display.interfaces';
 import { Forwarder } from '~modules/forwarder/forwarder.entity';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
 import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.list.create.dto';
@@ -40,14 +40,14 @@ export class MeasurementService {
   }
 
   public async getLatestMeasurements(
-    request: DisplayRequest,
+    display: Display,
   ): Promise<DisplayMeasurementAggregateInterface> {
-    request.display.lastSeenAt = new Date();
-    await Display.save(request.display);
+    display.lastSeenAt = new Date();
+    await Display.save(display);
 
     const results = await this.measurementRepository.getLatest({
-      measurementTypes: request.display.measurementTypes || [],
-      sensorIds: (request.display.sensors || []).map((s) => s.id),
+      measurementTypes: display.measurementTypes || [],
+      sensorIds: (display.sensors || []).map((s) => s.id),
     });
 
     return results;
@@ -117,5 +117,19 @@ export class MeasurementService {
     await Sensor.save(sensor);
 
     return measurements;
+  }
+
+  public async getCanvasData(display: Display): Promise<{
+    measurements: DisplayMeasurementAggregateInterface;
+    objects: BoardObjectInterface[];
+  }> {
+    const measurements = await this.getLatestMeasurements(display);
+
+    const objects = display.state.objects || [];
+
+    return {
+      measurements,
+      objects,
+    };
   }
 }

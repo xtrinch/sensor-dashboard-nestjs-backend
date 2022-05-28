@@ -1,4 +1,3 @@
-import { MeasurementDisplayDto } from '~modules/measurement/dto/measurement.display.dto';
 import { MeasurementDto } from '~modules/measurement/dto/measurement.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
 import { Measurement } from '~modules/measurement/measurement.entity';
@@ -31,17 +30,6 @@ export interface DisplayMeasurementAggregateInterface {
     };
     measurements: {
       [MeasurementTypeEnum: string]: Measurement;
-    };
-  };
-}
-
-export interface DisplayMeasurementAggregateDto {
-  [SensorId: string]: {
-    info: {
-      displayName: string;
-    };
-    measurements: {
-      [MeasurementTypeEnum: string]: MeasurementDisplayDto;
     };
   };
 }

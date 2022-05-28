@@ -8,7 +8,6 @@ import {
   Put,
   Query,
   Request,
-  UseGuards,
 } from '@nestjs/common';
 import { Display, DisplayId } from '~/modules/display/display.entity';
 import { DisplayService } from '~/modules/display/display.service';
@@ -20,8 +19,6 @@ import AuthGuard from '~modules/user/auth.decorator';
 import { UserRequest } from '~modules/user/jwt.guard';
 import { PaginationDto } from '~utils/pagination.dto';
 import { PaginationQueryDto } from '~utils/pagination.query.dto';
-import { DisplayGuard } from './display.guard';
-import { DisplayRequest } from './display.interfaces';
 
 @Controller('displays')
 export class DisplayController {
@@ -106,14 +103,5 @@ export class DisplayController {
     return {
       status: '200',
     };
-  }
-
-  @UseGuards(DisplayGuard)
-  @Get('data')
-  public async getLatestMeasurements(
-    @Request() request: DisplayRequest,
-  ): Promise<any> {
-    // todo
-    return null;
   }
 }

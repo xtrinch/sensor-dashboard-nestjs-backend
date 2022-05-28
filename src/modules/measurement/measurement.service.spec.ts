@@ -125,7 +125,9 @@ describe('MeasurementService', () => {
 
   it('should list latest measurements for display device', async () => {
     const resp: DisplayMeasurementAggregateInterface =
-      await measurementService.getLatestMeasurements(fixture.displayRequest);
+      await measurementService.getLatestMeasurements(
+        fixture.displayRequest.display,
+      );
 
     expect(
       resp[fixture.sensorOne.id].measurements[MeasurementTypeEnum.GAS],

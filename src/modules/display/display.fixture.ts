@@ -17,6 +17,7 @@ import {
 
 export interface DisplayFixtureInterface extends SensorFixtureInterface {
   displayOne: Display;
+  displayTwo: Display;
   displayRequest: DisplayRequest;
   displayAuth: () => Promise<DisplayAuthInterface>;
 }
@@ -41,15 +42,35 @@ export async function DisplayFixture(
     }),
   );
 
+  const displayTwo = await displayService.create(
+    fixture.userRequest,
+    plainToClass(DisplayCreateDto, {
+      name: 'Test display1',
+      location: 'Living room',
+      sensorIds: [fixture.sensorOne.id],
+      measurementTypes: Object.values(MeasurementTypeEnum),
+      displayType: DisplayTypeEnum.CANVAS,
+      state: {
+        objects: [
+          {
+            left: 3,
+            top: 3,
+          },
+        ],
+      },
+    }),
+  );
+
   const displayRequest = {
     display: displayOne,
   } as DisplayRequest;
 
   const displayAuth = async () => {
     return {
-      accessToken: displayOne.accessToken,
+      accessToken1: displayOne.accessToken,
+      accessToken2: displayTwo.accessToken,
     };
   };
 
-  return { ...fixture, displayOne, displayRequest, displayAuth };
+  return { ...fixture, displayOne, displayTwo, displayRequest, displayAuth };
 }

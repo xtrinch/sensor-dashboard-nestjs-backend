@@ -12,21 +12,19 @@ import { Ctx, MessagePattern } from '@nestjs/microservices';
 import { MeasurementService } from '~/modules/measurement/measurement.service';
 import { DisplayGuard } from '~modules/display/display.guard';
 import { DisplayRequest } from '~modules/display/display.interfaces';
+import { DisplayCanvasDto } from '~modules/display/dto/display.canvas.dto';
 import { MeasurementCreateDto } from '~modules/measurement/dto/measurement.create.dto';
-import { MeasurementDisplayDto } from '~modules/measurement/dto/measurement.display.dto';
 import { MeasurementDto } from '~modules/measurement/dto/measurement.dto';
 import { MeasurementListCreateDto } from '~modules/measurement/dto/measurement.list.create.dto';
 import { MeasurementQueryDto } from '~modules/measurement/dto/measurement.query.dto';
 import { MeasurementTypeEnum } from '~modules/measurement/enum/measurement-type.enum';
-import {
-  DisplayMeasurementAggregateDto,
-  MeasurementAggregateDto,
-} from '~modules/measurement/measurement.interfaces';
+import { MeasurementAggregateDto } from '~modules/measurement/measurement.interfaces';
 import { SensorGuard, SensorRequest } from '~modules/sensor/sensor.guard';
 import {
   SensorMqttContext,
   SensorMqttGuard,
 } from '~modules/sensor/sensor.mqtt.guard';
+import { DisplayMeasurementAggregateDto } from './dto/display.measurement.aggregate.dto';
 
 @Controller('measurements')
 export class MeasurementController {
@@ -80,26 +78,31 @@ export class MeasurementController {
   }
 
   @UseGuards(DisplayGuard)
+  @Get('canvas-data')
+  public async getCanvasData(@Request() request: DisplayRequest): Promise<any> {
+    const response = await this.measurementService.getCanvasData(
+      request.display,
+    );
+
+    return DisplayCanvasDto.fromStateAndMeasurements(
+      response.objects,
+      response.measurements,
+    );
+  }
+
+  @UseGuards(DisplayGuard)
   @Get('display')
   public async getLatestMeasurements(
     @Request() request: DisplayRequest,
   ): Promise<DisplayMeasurementAggregateDto> {
-    const items = await this.measurementService.getLatestMeasurements(request);
+    const items = await this.measurementService.getLatestMeasurements(
+      request.display,
+    );
 
-    const response: DisplayMeasurementAggregateDto = {};
-    Object.assign(response, items);
-
-    // map the measurements to a DTO
-    Object.keys(items).map((sensorIdKey) => {
-      const measurementTypes = items[sensorIdKey].measurements;
-
-      Object.keys(measurementTypes).map((measurementTypeKey) => {
-        response[sensorIdKey].measurements[measurementTypeKey] =
-          MeasurementDisplayDto.fromMeasurement(
-            measurementTypes[measurementTypeKey],
-          );
-      });
-    });
+    const response =
+      DisplayMeasurementAggregateDto.fromDisplayMeasurementAggregateInterface(
+        items,
+      );
 
     return response;
   }
