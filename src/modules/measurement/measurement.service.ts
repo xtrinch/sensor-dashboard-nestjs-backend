@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { addSeconds } from 'date-fns';
 import { round } from 'lodash';
@@ -15,9 +15,10 @@ import {
 } from '~modules/measurement/measurement.interfaces';
 import { MeasurementRepository } from '~modules/measurement/measurement.repository';
 import { Sensor } from '~modules/sensor/sensor.entity';
-import { SensorRequest } from '~modules/sensor/sensor.guard';
 import { DateRange } from '~utils/date.range';
+import { MeasurementTypeEnum } from './enum/measurement-type.enum';
 import { Measurement } from './measurement.entity';
+import { measurementTypeProperties } from './measurement.types';
 
 @Injectable()
 export class MeasurementService {
@@ -60,26 +61,45 @@ export class MeasurementService {
     return results;
   }
 
+  public checkMeasurementBounds(
+    actualMeasurement: number,
+    measurementType: MeasurementTypeEnum,
+  ): void {
+    const cfg = measurementTypeProperties[measurementType];
+    if (
+      cfg.domain[0] > actualMeasurement ||
+      cfg.domain[1] < actualMeasurement
+    ) {
+      throw new BadRequestException('Measurement out of bounds');
+    }
+  }
+
   public async create(
-    request: SensorRequest,
+    sensor: Sensor,
     data: MeasurementCreateDto,
+    forwarder?: Forwarder,
   ): Promise<Measurement> {
+    const measurementType = data.measurementType;
+    const actualMeasurement = round(data.measurement, 2);
+
+    this.checkMeasurementBounds(actualMeasurement, measurementType);
+
     const measurement = new Measurement();
-    measurement.measurement = round(data.measurement, 2);
-    measurement.measurementType = data.measurementType;
-    measurement.sensor = request.sensor;
-    measurement.sensorId = request.sensor.id;
+    measurement.measurement = actualMeasurement;
+    measurement.measurementType = measurementType;
+    measurement.sensor = sensor;
+    measurement.sensorId = sensor.id;
 
-    request.sensor.lastSeenAt = new Date();
+    sensor.lastSeenAt = new Date();
 
-    if (request.forwarder) {
-      request.forwarder.lastSeenAt = new Date();
-      request.forwarder.numForwarded += 1;
-      await Forwarder.save(request.forwarder);
+    if (forwarder) {
+      forwarder.lastSeenAt = new Date();
+      forwarder.numForwarded += 1;
+      await Forwarder.save(forwarder);
     }
 
     await Measurement.save(measurement);
-    await Sensor.save(request.sensor);
+    await Sensor.save(sensor);
 
     return measurement;
   }
@@ -92,9 +112,20 @@ export class MeasurementService {
     const measurements: Measurement[] = [];
 
     for (const measurementData of data.measurements.reverse()) {
+      const measurementType = measurementData.measurementType;
+      const actualMeasurement = round(measurementData.measurement, 2);
+
+      // we'll allow for at least some measurements to be input and not
+      // throw if one of them doesn't fit the criteria
+      try {
+        this.checkMeasurementBounds(actualMeasurement, measurementType);
+      } catch (e) {
+        continue;
+      }
+
       const measurement = new Measurement();
-      measurement.measurement = measurementData.measurement;
-      measurement.measurementType = measurementData.measurementType;
+      measurement.measurement = actualMeasurement;
+      measurement.measurementType = measurementType;
       measurement.sensor = sensor;
       if (measurementData.timeAgo) {
         measurement.createdAt = addSeconds(

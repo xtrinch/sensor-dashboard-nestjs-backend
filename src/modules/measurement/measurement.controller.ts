@@ -49,7 +49,11 @@ export class MeasurementController {
     @Body() data: MeasurementCreateDto,
     @Request() request: SensorRequest,
   ): Promise<MeasurementDto> {
-    const measurement = await this.measurementService.create(request, data);
+    const measurement = await this.measurementService.create(
+      request.sensor,
+      data,
+      request.forwarder,
+    );
     return MeasurementDto.fromMeasurement(measurement);
   }
 

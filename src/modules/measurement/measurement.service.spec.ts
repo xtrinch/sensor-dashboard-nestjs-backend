@@ -39,8 +39,9 @@ describe('MeasurementService', () => {
 
     await validateOrReject(data);
     const measurement = await measurementService.create(
-      fixture.sensorRequest,
+      fixture.sensorRequest.sensor,
       data,
+      fixture.sensorRequest.forwarder,
     );
     expect(measurement).toBeDefined();
   });

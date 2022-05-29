@@ -39,11 +39,12 @@ export async function MeasurementFixture(
   );
 
   const measurementOne = await measurementService.create(
-    sensorFixture.sensorRequest,
+    sensorFixture.sensorRequest.sensor,
     plainToClass(MeasurementCreateDto, {
       measurement: 12.2,
       measurementType: MeasurementTypeEnum.GAS,
     }),
+    sensorFixture.sensorRequest.forwarder,
   );
 
   return {
